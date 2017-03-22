@@ -88,9 +88,12 @@ public class ST {
         }
 		else {
 			for(int i = 0; i < n; i++) {
-				if (key == keys[i])
+				if (key.equals(keys[i])) {
+					StdOut.println("Achou aqui dentro");
 					return values[i];
+				}
 			}
+			StdOut.println("Se fodeeeer");
 			return -1;
 		}
     }
@@ -103,24 +106,20 @@ public class ST {
             throw new java.lang.NullPointerException("ST.put(): key is null");
         }
 		else {
-			StdOut.println("Aqui ");
 			if (contains(key) == true){
-				StdOut.println("Ta dizendo que contem");
+				StdOut.println("Ta aqui sa merda");
 				for(i = 0; i < n; i++)
-					if(key == keys[i])
+					if(key.equals(keys[i]))
 						values[i]++;
 			}
 			else {
-				StdOut.println("Aqui carai");
 				if (n == keys.length) {
-					StdOut.println("Tamanho");
 					resize(2 * keys.length); 
 					
 				}
 				keys[n] = key;
 				values[n++] = 1;
 			}
-			StdOut.println("Olha: " + i);
 		}
     }
     
@@ -132,17 +131,20 @@ public class ST {
             throw new java.lang.NullPointerException("ST.delete(): key is null");
         }
         else {
-			if (contains(key)) {
-				for (i = 0; i < n && keys[i] != key; i++)
-					if (keys[i] == key)
-						k = i;
-				for (k = i+1; k < n; k++) {
-					keys[i++] = keys[k];
-					values[i++] = values[k];
+			if (!isEmpty()) {
+				if (contains(key)) {
+					for (i = 0; i < n && keys[i] != key; i++)
+						if (keys[i] == key)
+							k = i;
+					for (k = i+1; k < n; k++) {
+						keys[i] = keys[k];
+						values[i++] = values[k];
+					}
 				}
+				keys[n-1] = null;
+				values[n-1] = null;
+				n--;
 			}
-			keys[n] = null;
-			values[n--] = null;
 		}
     }
 
@@ -153,18 +155,13 @@ public class ST {
             throw new java.lang.NullPointerException("ST.contains(): key is null");
         }
         else {
-			StdOut.println("Caçando ça porra");
 			for (int i = 0; i < n; i++)
-				if (key == keys[i]){
-					StdOut.println("Entrou");
+				if (key.equals(keys[i])){
 					StdOut.println(keys[i]);
-					StdOut.println("Truuuuuuue");
+					StdOut.println("Achouuuuuu");
 					return true;
 				}
-			
-			
 		}
-		StdOut.println("Falseee");
 		return false;
     }
 
@@ -184,10 +181,10 @@ public class ST {
     public String max() {
         int maior;
         if (!isEmpty()) {
-			maior = values[0];
+			maior = 0;
 			for (int i = 1; i < n; i++) {
 				if (values[i] > maior)
-					maior = values[i];
+					maior = i;
 			}
 			return keys[maior];
 		} 
@@ -205,7 +202,7 @@ public class ST {
 			for (i=0; i < n-1; i++) {
 				str += "'" + keys[i] + "': " + values[i] + " , ";
 			}
-			str += "'" + keys[n-1] + "': " + values[n-1] + "}";
+			str += "'" + keys[n-1] + "': " + values[n-1];
 		}
 		str += "}";
 		return str;
@@ -213,12 +210,15 @@ public class ST {
 
     // move the symbol table to one of size k
     private void resize(int k) {
-		String[] temp = new String[n-1];
-		for (int i = 0; i < n; i++)
-			temp[i] = keys[i];
-		keys = temp;
+		String[] tempStr = new String[k];
+		Integer[] tempInt = new Integer[k];
+		for (int i = 0; i < n; i++){
+			tempStr[i] = keys[i];
+			tempInt[i] = values[i];
+		}
+		keys = tempStr;
+		values = tempInt;
     }
-
 
     //-----------------------------------------------------------------
     // Exemplo de unit test para a ST
@@ -335,9 +335,9 @@ public class ST {
                 StdOut.println("'" + st2.max() + "'");
             }
             else if (s.equals(KEYS)) {
-                for (String key: st2.keys) {
+                /*for (String key: st2.keys()) {
                     StdOut.println(key);
-                }
+                }*/
             }
             else {
                 // consulte o número de ocorrências de s no arquivo
