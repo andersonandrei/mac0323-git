@@ -66,16 +66,16 @@ import edu.princeton.cs.algs4.Stopwatch; // arquivo
 // http://codereview.stackexchange.com/questions/48109/simple-example-of-an-iterable-and-an-iterator-in-java
 
 
-public class ST <Item> {
+public class ST {
 	
-	private Item[] keys;
-	private Item[] values;
+	private String[] keys;
+	private Integer[] values;
 	private int n;
     
     // cria um dicionário vazio
     public ST() {
-		keys = (Item[]) new Object[2];
-		values = (Item[]) new Object[2];
+		keys = new String[2];
+		values = new Integer[2];
 		n = 0;
     }
 
@@ -98,21 +98,29 @@ public class ST <Item> {
     // Insert the key into the symbol table and increase its value
     // Throws java.lang.NullPointerException - if key is null
     public void put(String key) {
+		int i = 0;
         if (key == null) {
             throw new java.lang.NullPointerException("ST.put(): key is null");
         }
 		else {
-			if (key.contains())
-				for(int i = 0; i < n; i++)
+			StdOut.println("Aqui ");
+			if (contains(key) == true){
+				StdOut.println("Ta dizendo que contem");
+				for(i = 0; i < n; i++)
 					if(key == keys[i])
 						values[i]++;
-			else {
-				if (n == keys.length) {
-					resize(2 * keys.length); 
-					keys[n] = key;
-					values[n++] = 1;
-				}
 			}
+			else {
+				StdOut.println("Aqui carai");
+				if (n == keys.length) {
+					StdOut.println("Tamanho");
+					resize(2 * keys.length); 
+					
+				}
+				keys[n] = key;
+				values[n++] = 1;
+			}
+			StdOut.println("Olha: " + i);
 		}
     }
     
@@ -124,14 +132,17 @@ public class ST <Item> {
             throw new java.lang.NullPointerException("ST.delete(): key is null");
         }
         else {
-			if (key.contains()) {
+			if (contains(key)) {
 				for (i = 0; i < n && keys[i] != key; i++)
 					if (keys[i] == key)
 						k = i;
-				for (k = i+1; k < n; k++)
+				for (k = i+1; k < n; k++) {
 					keys[i++] = keys[k];
+					values[i++] = values[k];
+				}
 			}
-			keys[n--] = null;
+			keys[n] = null;
+			values[n--] = null;
 		}
     }
 
@@ -142,19 +153,24 @@ public class ST <Item> {
             throw new java.lang.NullPointerException("ST.contains(): key is null");
         }
         else {
+			StdOut.println("Caçando ça porra");
 			for (int i = 0; i < n; i++)
-				if (key == keys[i])
+				if (key == keys[i]){
+					StdOut.println("Entrou");
+					StdOut.println(keys[i]);
+					StdOut.println("Truuuuuuue");
 					return true;
-			return false;
+				}
+			
+			
 		}
+		StdOut.println("Falseee");
+		return false;
     }
 
     // Returns the number of key-value pairs in this symbol table
     public int size() {
-		for (int i = 0; i < n; i++) {
-			if (keys[i] == null)
-				return i+1;
-		}
+		return n;
     }
 
     // Is this symbol table empty?
@@ -182,12 +198,22 @@ public class ST <Item> {
     // Este string é usado quando utilizamos StdOut.print*() para exibir a tabela
     // Veja como um cliente utiliza este método no main()
     public String toString() {
-        // escreva seu método toString() aqui
+		String str = "{";
+		int i, k;
+		
+		if (!isEmpty()) {
+			for (i=0; i < n-1; i++) {
+				str += "'" + keys[i] + "': " + values[i] + " , ";
+			}
+			str += "'" + keys[n-1] + "': " + values[n-1] + "}";
+		}
+		str += "}";
+		return str;
     }
 
     // move the symbol table to one of size k
     private void resize(int k) {
-		Item[] temp = (Item[]) new Object[max];
+		String[] temp = new String[n-1];
 		for (int i = 0; i < n; i++)
 			temp[i] = keys[i];
 		keys = temp;
@@ -309,7 +335,7 @@ public class ST <Item> {
                 StdOut.println("'" + st2.max() + "'");
             }
             else if (s.equals(KEYS)) {
-                for (String key: st2.keys()) {
+                for (String key: st2.keys) {
                     StdOut.println(key);
                 }
             }
