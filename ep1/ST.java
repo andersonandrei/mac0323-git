@@ -66,12 +66,16 @@ import edu.princeton.cs.algs4.Stopwatch; // arquivo
 // http://codereview.stackexchange.com/questions/48109/simple-example-of-an-iterable-and-an-iterator-in-java
 
 
-public class ST {
+public class ST <Item> {
+	
+	private Item[] keys;
+	private Item[] values;
+	private int n;
     
     // cria um dicionário vazio
     public ST() {
 		keys = (Item[]) new Object[2];
-		values = (Item[]) new Object[2]
+		values = (Item[]) new Object[2];
 		n = 0;
     }
 
