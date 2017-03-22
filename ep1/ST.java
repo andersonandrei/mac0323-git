@@ -70,6 +70,9 @@ public class ST {
     
     // cria um dicionário vazio
     public ST() {
+		keys = (Item[]) new Object[2];
+		values = (Item[]) new Object[2]
+		n = 0;
     }
 
     // Returns the value associated with the given key if the key is in the symbol table
@@ -79,7 +82,13 @@ public class ST {
         if (key == null) {
             throw new java.lang.NullPointerException("ST.get(): key is null");
         }
-        // escreva seu método get() aqui
+		else {
+			for(int i = 0; i < n; i++) {
+				if (key == keys[i])
+					return values[i];
+			}
+			return -1;
+		}
     }
 
     // Insert the key into the symbol table and increase its value
@@ -88,17 +97,38 @@ public class ST {
         if (key == null) {
             throw new java.lang.NullPointerException("ST.put(): key is null");
         }
-        // escreva seu métod put() aqui
+		else {
+			if (key.contains())
+				for(int i = 0; i < n; i++)
+					if(key == keys[i])
+						values[i]++;
+			else {
+				if (n == keys.length) {
+					resize(2 * keys.length); 
+					keys[n] = key;
+					values[n++] = 1;
+				}
+			}
+		}
     }
-
     
     // Removes the key and associated value from the symbol table (if the key is in the symbol table).
     // Throws java.lang.NullPointerException - if key is null
     public void delete(String key) {
+		int i, k;
         if (key == null) {
             throw new java.lang.NullPointerException("ST.delete(): key is null");
         }
-        // escreva seu método delete() aqui
+        else {
+			if (key.contains()) {
+				for (i = 0; i < n && keys[i] != key; i++)
+					if (keys[i] == key)
+						k = i;
+				for (k = i+1; k < n; k++)
+					keys[i++] = keys[k];
+			}
+			keys[n--] = null;
+		}
     }
 
     // Does this symbol table contain the given key?
@@ -107,24 +137,41 @@ public class ST {
         if (key == null) {
             throw new java.lang.NullPointerException("ST.contains(): key is null");
         }
-        // escreva seu método contains() aqui
+        else {
+			for (int i = 0; i < n; i++)
+				if (key == keys[i])
+					return true;
+			return false;
+		}
     }
 
     // Returns the number of key-value pairs in this symbol table
     public int size() {
-        // escreva seu métod size aqui
+		for (int i = 0; i < n; i++) {
+			if (keys[i] == null)
+				return i+1;
+		}
     }
 
     // Is this symbol table empty?
     // Returns: true if this symbol table is empty and false otherwise
     public boolean isEmpty() {
-        // escreva seu métod isEmpty() aqui
+        return n == 0;
     }
 
     // Returns the largest (= maior frequência) key in the symbol table
     // Throws java.util.NoSuchElementException - if the symbol table is empty
     public String max() {
-        // escreva seu métod max() aqui
+        int maior;
+        if (!isEmpty()) {
+			maior = values[0];
+			for (int i = 1; i < n; i++) {
+				if (values[i] > maior)
+					maior = values[i];
+			}
+			return keys[maior];
+		} 
+        throw new java.lang.NullPointerException("ST.contains(): key is null");
     }
 
     // Returns a string representing the symbol table
@@ -134,10 +181,12 @@ public class ST {
         // escreva seu método toString() aqui
     }
 
-
     // move the symbol table to one of size k
     private void resize(int k) {
-        // escreva seu método resize() aqui
+		Item[] temp = (Item[]) new Object[max];
+		for (int i = 0; i < n; i++)
+			temp[i] = keys[i];
+		keys = temp;
     }
 
 

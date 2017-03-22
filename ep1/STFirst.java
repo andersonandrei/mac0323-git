@@ -42,27 +42,11 @@ public class STFirst<Item> {
          temp[i] = keys[i];
       keys = temp;
 	}
-	
-	/*
-	public static void main(String[] args) {
-	  StackOfString pilha;
-	  pilha = new StackOfString(20);
-	
-	  while (!StdIn.isEmpty()) {
-		 String str = StdIn.readString();
-		 if (!str.equals("-"))
-			pilha.push(str);
-		 else if (!pilha.isEmpty()) 
-				 StdOut.println(pilha.pop() + " ");
-	  }
-	  StdOut.println("(" + pilha.size() + " left on stack)");
-    }
-    
-    */
-    
+
     // unit test
     public static void main(String[] args) {
       STFirst<String> keys;
+      STFirst<
       keys = new STFirst<String>();
       int i = 0;
 		StdOut.println("Para encerrar, ctrl+d");
