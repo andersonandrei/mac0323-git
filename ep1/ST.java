@@ -135,7 +135,7 @@ public class ST {
 			if (!isEmpty()) {
 				if (contains(key)) {
 					for (i = 0; i < n && !(key.equals(keys[i])); i++)
-						if (keys[i] == key)
+						if (key.equals(keys[i]))
 							k = i;
 					for (k = i+1; k < n; k++) {
 						keys[i] = keys[k];
