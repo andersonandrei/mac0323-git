@@ -66,6 +66,10 @@ import edu.princeton.cs.algs4.Stopwatch; // arquivo
 // http://codereview.stackexchange.com/questions/48109/simple-example-of-an-iterable-and-an-iterator-in-java
 
 
+//Pra usar StringBuilder
+import java.lang;
+
+
 public class ST {
 	
 	private String[] keys;
@@ -89,11 +93,9 @@ public class ST {
 		else {
 			for(int i = 0; i < n; i++) {
 				if (key.equals(keys[i])) {
-					StdOut.println("Achou aqui dentro");
 					return values[i];
 				}
 			}
-			StdOut.println("Se fodeeeer");
 			return -1;
 		}
     }
@@ -107,7 +109,6 @@ public class ST {
         }
 		else {
 			if (contains(key) == true){
-				StdOut.println("Ta aqui sa merda");
 				for(i = 0; i < n; i++)
 					if(key.equals(keys[i]))
 						values[i]++;
@@ -133,7 +134,7 @@ public class ST {
         else {
 			if (!isEmpty()) {
 				if (contains(key)) {
-					for (i = 0; i < n && keys[i] != key; i++)
+					for (i = 0; i < n && !(key.equals(keys[i])); i++)
 						if (keys[i] == key)
 							k = i;
 					for (k = i+1; k < n; k++) {
@@ -157,8 +158,6 @@ public class ST {
         else {
 			for (int i = 0; i < n; i++)
 				if (key.equals(keys[i])){
-					StdOut.println(keys[i]);
-					StdOut.println("Achouuuuuu");
 					return true;
 				}
 		}
@@ -183,7 +182,7 @@ public class ST {
         if (!isEmpty()) {
 			maior = 0;
 			for (int i = 1; i < n; i++) {
-				if (values[i] > maior)
+				if (values[i] > values[maior])
 					maior = i;
 			}
 			return keys[maior];
@@ -195,16 +194,17 @@ public class ST {
     // Este string é usado quando utilizamos StdOut.print*() para exibir a tabela
     // Veja como um cliente utiliza este método no main()
     public String toString() {
-		String str = "{";
+		StringBuilder str = new StringBuilder("{");
 		int i, k;
 		
 		if (!isEmpty()) {
 			for (i=0; i < n-1; i++) {
-				str += "'" + keys[i] + "': " + values[i] + " , ";
+				str.append("'" + keys[i] + "': " + values[i] + " , ");
+				//str += "'" + keys[i] + "': " + values[i] + " , ";
 			}
 			str += "'" + keys[n-1] + "': " + values[n-1];
 		}
-		str += "}";
+		str.append("}");
 		return str;
     }
 
