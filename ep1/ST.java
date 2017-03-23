@@ -67,7 +67,7 @@ import edu.princeton.cs.algs4.Stopwatch; // arquivo
 
 
 //Pra usar StringBuilder
-import java.lang;
+//import java.lang;
 
 
 public class ST {
@@ -202,10 +202,10 @@ public class ST {
 				str.append("'" + keys[i] + "': " + values[i] + " , ");
 				//str += "'" + keys[i] + "': " + values[i] + " , ";
 			}
-			str += "'" + keys[n-1] + "': " + values[n-1];
+			str.append("'" + keys[n-1] + "': " + values[n-1]);
 		}
 		str.append("}");
-		return str;
+		return str.toString();
     }
 
     // move the symbol table to one of size k
