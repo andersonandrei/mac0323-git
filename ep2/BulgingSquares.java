@@ -50,8 +50,12 @@ public class BulgingSquares {
         StdDraw.clear(StdDraw.WHITE);
 
         // Escreva sua solução a seguir
+			StdDraw.circle(0,0,14*RADIUS_MAX);
 			StdDraw.filledSquare(XMIN+5,YMIN+5,RADIUS_MAX);
 			StdDraw.filledSquare(XMAX-5,YMAX-5,RADIUS_MAX);
+			
+			StdDraw.square(XMIN+17.5,-2.5,RADIUS_MIN);
+			
 			m = XMIN+5;
 			for (i = 0; i < 15; i++) {
 				if (i%2 == 0) {
@@ -74,13 +78,26 @@ public class BulgingSquares {
 						StdDraw.filledSquare(m,n,RADIUS_MAX);						
 						n-=10;
 					}
-					StdDraw.square(m,n,RADIUS_MAX);	
+					StdDraw.square(m,n,7*RADIUS_MAX);	
 				}
 				m += 10;
 			}
+			
+			//Pintando os mini quadradinhos
+			StdDraw.filledSquare(XMIN+27.5,2.5,RADIUS_MIN);
+			
+			//Mudando pincel de cor pra pintar no preto
+			StdDraw.setPenColor(Color.white);
+			StdDraw.filledSquare(XMIN+17.5,2.5,RADIUS_MIN);
+			//Se o centro do quadrado tiver dentro do circulo, então
+			//temos que desenhar os quadradinhos.
+			
+			
         
         // copy offscreen buffer to onscreen
         StdDraw.show();
+        
+        
     }
 
 } 
