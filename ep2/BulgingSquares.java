@@ -50,18 +50,20 @@ public class BulgingSquares {
         StdDraw.clear(StdDraw.WHITE);
 
         // Escreva sua solução a seguir
-			StdDraw.circle(0,0,14*RADIUS_MAX);
-			StdDraw.filledSquare(XMIN+5,YMIN+5,RADIUS_MAX);
-			StdDraw.filledSquare(XMAX-5,YMAX-5,RADIUS_MAX);
+			StdDraw.circle(0,0,13*RADIUS_MAX); //circulo principal
+			 
+			//StdDraw.filledSquare(XMIN+5,YMIN+5,RADIUS_MAX);
+			//StdDraw.filledSquare(XMAX-5,YMAX-5,RADIUS_MAX);
 			
-			StdDraw.square(XMIN+17.5,-2.5,RADIUS_MIN);
+			//StdDraw.square(XMIN+17.5,-2.5,RADIUS_MIN);
 			
+			//Fazendo o tabuleiro
 			m = XMIN+5;
 			for (i = 0; i < 15; i++) {
 				if (i%2 == 0) {
 					n = YMAX-5;
 					for (j = 0; j < 7; j++) {
-						StdOut.println("Desenhando comc preto em" + m + n);
+						//StdOut.println("Desenhando comc preto em" + m + n);
 						StdDraw.filledSquare(m,n,RADIUS_MAX);
 						n-=10;
 						StdDraw.square(m,n,RADIUS_MAX);
@@ -72,7 +74,7 @@ public class BulgingSquares {
 				else {
 					n = YMAX-5;
 					for (j = 0; j < 7; j++) {
-						StdOut.println("Desenhando comc branco em" + m + n);
+						//StdOut.println("Desenhando comc branco em" + m + n);
 						StdDraw.square(m,n,RADIUS_MAX);
 						n-=10;
 						StdDraw.filledSquare(m,n,RADIUS_MAX);						
@@ -83,12 +85,54 @@ public class BulgingSquares {
 				m += 10;
 			}
 			
-			//Pintando os mini quadradinhos
-			StdDraw.filledSquare(XMIN+27.5,2.5,RADIUS_MIN);
+			//Pintando os mini quadradinhos preto no eixo x
+			for (m = XMIN+MARGIN+25.5 ; m < 0; m += 20) {
+				StdDraw.filledSquare(m,2.5,RADIUS_MIN);
+				StdDraw.filledSquare(m,-2.5,RADIUS_MIN);
+			}
+			for (m = 7.5 ; m < 65; m += 20) {
+				StdDraw.filledSquare(m,2.5,RADIUS_MIN);
+				StdDraw.filledSquare(m,-2.5,RADIUS_MIN);
+			}
+				
+			for (n = YMAX-MARGIN-25.5; n > 0; n -= 20) {
+				StdDraw.filledSquare(-2.5,n,RADIUS_MIN);
+				StdDraw.filledSquare(2.5,n,RADIUS_MIN);
+			}
+			for (n = -7.5; n > -65; n -= 20) {
+				StdDraw.filledSquare(-2.5,n,RADIUS_MIN);
+				StdDraw.filledSquare(2.5,n,RADIUS_MIN);
+			}
+			
+		
+			
+			//Pintando os mini quadradinhos brancos no eixo x
+			StdDraw.setPenColor(Color.white);
+			for (m = XMIN+MARGIN+15.5 ; m < 0; m += 20) {
+				StdDraw.filledSquare(m,2.5,RADIUS_MIN);
+				StdDraw.filledSquare(m,-2.5,RADIUS_MIN);
+			}
+			
+			for (m = 17.5 ; m < 65; m += 20) {
+				StdDraw.filledSquare(m,2.5,RADIUS_MIN);
+				StdDraw.filledSquare(m,-2.5,RADIUS_MIN);
+			}
+			
+			for (n = YMAX-MARGIN-15.5; n > 0; n -= 20) {
+				StdDraw.filledSquare(-2.5,n,RADIUS_MIN);
+				StdDraw.filledSquare(2.5,n,RADIUS_MIN);
+			}
+			for (n = -17.5; n > -65; n -= 20) {
+				StdDraw.filledSquare(-2.5,n,RADIUS_MIN);
+				StdDraw.filledSquare(2.5,n,RADIUS_MIN);
+			}
+			
+			
 			
 			//Mudando pincel de cor pra pintar no preto
+			
 			StdDraw.setPenColor(Color.white);
-			StdDraw.filledSquare(XMIN+17.5,2.5,RADIUS_MIN);
+
 			//Se o centro do quadrado tiver dentro do circulo, então
 			//temos que desenhar os quadradinhos.
 			
