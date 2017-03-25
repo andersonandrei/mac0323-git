@@ -21,180 +21,189 @@
 // http://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html
 import edu.princeton.cs.algs4.StdDraw; // StdDraw.setXscale, StdDraw.setYscale, ...
 
-import edu.princeton.cs.algs4.StdOut; //meeeeu
-
 import java.awt.Color; // StdDraw.WHITE, StdDraw.BLACK
 
 public class BulgingSquares {
-    // constantes... vixe! use se desejar
-    private static final double XMIN   = -75;
-    private static final double XMAX   =  75;
-    private static final double YMIN   = -75;
-    private static final double YMAX   =  75;
-    private static final double MARGIN =   2;
-    private static final double RADIUS_MAX =   5;
-    private static final double DIAM_MAX   = 2*RADIUS_MAX;
-    private static final double RADIUS_MIN = 1.5;
-    private static final double DIAM_MIN   = 2*RADIUS_MIN;
+	// constantes... vixe! use se desejar
+	private static final double XMIN   = -75;
+	private static final double XMAX   =  75;
+	private static final double YMIN   = -75;
+	private static final double YMAX   =  75;
+	private static final double MARGIN =   2;
+	private static final double RADIUS_MAX =   5;
+	private static final double DIAM_MAX   = 2*RADIUS_MAX;
+	private static final double RADIUS_MIN = 1.5;
+	private static final double DIAM_MIN   = 2*RADIUS_MIN;
     
    
-	public static void mudaPincel (int x, int y) {
-		if (x % 2 == 0) {
-			if (y % 2 == 0) //pretos nos y pares => quadradinhos brancos
-				StdDraw.setPenColor(Color.white);
-			else 
-				StdDraw.setPenColor(Color.black);
+	public static void mudaPincel (int x, int y, int tipo) {
+		/* Recebe inteiros x e y representando posições em uma matriz 15x15
+		 * e um inteiro tipo, que identifica qual quadrado será desenhado,
+		 * se for 0 é o quadrado de tamanho normal (RADIUS_MAX), caso contrário
+		 * o pequeno (RADIUS_MIN), e então muda a cor do pincel dependendo da 
+		 * posição na matriz e do tipo de quadrado a ser desenhado. */
+		
+		if (tipo == 0) {
+			if (x % 2 == 0) {
+				if (y % 2 == 0)
+					StdDraw.setPenColor(Color.black);
+				else 
+					StdDraw.setPenColor(Color.white);
+			}
+			else {
+				if (y % 2 != 0)
+					StdDraw.setPenColor(Color.black);
+				else 
+					StdDraw.setPenColor(Color.white);
+			}
 		}
-		else {//x é impar
-			if (y % 2 != 0)
-				StdDraw.setPenColor(Color.white);
-			else 
-				StdDraw.setPenColor(Color.black);
+		else {
+			if (x % 2 == 0) {
+				if (y % 2 == 0)
+					StdDraw.setPenColor(Color.white);
+				else 
+					StdDraw.setPenColor(Color.black);
+			}
+			else {
+				if (y % 2 != 0)
+					StdDraw.setPenColor(Color.white);
+				else 
+					StdDraw.setPenColor(Color.black);
+			}
 		}
 	}
    
+	public static void pintaQuadrado (double m, double n, int x, int y) {
+		/* Recebe doubles m e n representando um ponto e inteiros x e y
+		 * representando uma posição em uma matriz 15x15, e pinta um quadrado de 
+		 * tamanho normal (RADIUS_MAX) de centro m,n. */
+		mudaPincel(x, y, 0);
+		StdDraw.filledSquare(m, n, RADIUS_MAX);
+	}
+	
+	/* Foi definido que a posição dos quadradinhos será +- 2.75 do centro, 
+	 * escolhido a partir de sucessivos testes. */
+	 
 	public static void pintaQuadradinhoA(double m, double n, int x, int y) {
-		mudaPincel(x,y);
-		StdDraw.filledSquare(m+2.75,n+2.75,RADIUS_MIN);
-		StdOut.println("Pintou A com" +(m+2.25) + (n+2.25) + " " + x + y);
-		StdDraw.filledSquare(m-2.75,n-2.75,RADIUS_MIN);
-		StdOut.println("Pintou A com" +(m-2.25) + (n-2.25));
+		/* Recebe doubles m e n representando um ponto e inteiros x e y
+		 * representando uma posição em uma matriz 15x15, e pinta um quadrado de 
+		 * tamanho pequeno (RADIUS_MIN) de centro m,n 
+		 * posicionado nos 1º e 3º quadrante */
+		mudaPincel(x, y, 1);
+		StdDraw.filledSquare(m + 2.75, n + 2.75, RADIUS_MIN);
+		StdDraw.filledSquare(m - 2.75, n - 2.75, RADIUS_MIN);
 	}
 	
 	public static void pintaQuadradinhoB (double m, double n, int x, int y) {
-		mudaPincel(x,y);
-		StdDraw.filledSquare(m-2.75,n+2.75,RADIUS_MIN);
-		StdDraw.filledSquare(m+2.75,n-2.75,RADIUS_MIN);
+		/* Recebe doubles m e n representando um ponto e inteiros x e y
+		 * representando uma posição em uma matriz 15x15, e pinta um quadrado de 
+		 * tamanho pequeno (RADIUS_MIN) de centro m,n 
+		 * posicionado nos 2º e 4º quadrante */
+		mudaPincel(x, y, 1);
+		StdDraw.filledSquare(m - 2.75, n + 2.75, RADIUS_MIN);
+		StdDraw.filledSquare(m + 2.75, n - 2.75, RADIUS_MIN);
 	}
 	
 	public static void pintaQuadradinhoC (double m, double n, int x, int y) {
-		mudaPincel(x,y);
-		StdDraw.filledSquare(m+2.75,n+2.75,RADIUS_MIN);
-		StdDraw.filledSquare(m+2.75,n-2.75,RADIUS_MIN);
+		/* Recebe doubles m e n representando um ponto e inteiros x e y
+		 * representando uma posição em uma matriz 15x15, e pinta um quadrado de 
+		 * tamanho pequeno (RADIUS_MIN) de centro m,n 
+		 * posicionado no eixo x à esquerda do centro */
+		mudaPincel(x, y, 1);
+		StdDraw.filledSquare(m + 2.75, n + 2.75, RADIUS_MIN);
+		StdDraw.filledSquare(m + 2.75, n - 2.75, RADIUS_MIN);
 	}
 	
 	public static void pintaQuadradinhoD (double m, double n, int x, int y) {
-		mudaPincel(x,y);
-		StdDraw.filledSquare(m-2.75,n+2.75,RADIUS_MIN);
-		StdDraw.filledSquare(m-2.75,n-2.75,RADIUS_MIN);
+		/* Recebe doubles m e n representando um ponto e inteiros x e y
+		 * representando uma posição em uma matriz 15x15, e pinta um quadrado de 
+		 * tamanho pequeno (RADIUS_MIN) de centro m,n 
+		 * posicionado no eixo x à direta do centro */
+		mudaPincel(x, y, 1);
+		StdDraw.filledSquare(m - 2.75, n + 2.75, RADIUS_MIN);
+		StdDraw.filledSquare(m - 2.75, n - 2.75, RADIUS_MIN);
 	}
 	
 	public static void pintaQuadradinhoE (double m, double n, int x, int y) {
-		mudaPincel(x,y);
-		StdDraw.filledSquare(m-2.75,n-2.75,RADIUS_MIN);
-		StdDraw.filledSquare(m+2.75,n-2.75,RADIUS_MIN);
+		/* Recebe doubles m e n representando um ponto e inteiros x e y
+		 * representando uma posição em uma matriz 15x15, e pinta um quadrado de 
+		 * tamanho pequeno (RADIUS_MIN) de centro m,n 
+		 * posicionado no eixo y à cima do centro */
+		mudaPincel(x, y, 1);
+		StdDraw.filledSquare(m - 2.75, n - 2.75, RADIUS_MIN);
+		StdDraw.filledSquare(m + 2.75, n-2.75, RADIUS_MIN);
 	}
 	
 	public static void pintaQuadradinhoF (double m, double n, int x, int y) {
-		mudaPincel(x,y);
-		StdDraw.filledSquare(m+2.75,n+2.75,RADIUS_MIN);
-		StdDraw.filledSquare(m-2.75,n+2.75,RADIUS_MIN);
+		/* Recebe doubles m e n representando um ponto e inteiros x e y
+		 * representando uma posição em uma matriz 15x15, e pinta um quadrado de 
+		 * tamanho pequeno (RADIUS_MIN) de centro m,n 
+		 * posicionado no eixo y à baixo do centro */
+		mudaPincel(x, y, 1);
+		StdDraw.filledSquare(m + 2.75, n + 2.75, RADIUS_MIN);
+		StdDraw.filledSquare(m - 2.75, n + 2.75, RADIUS_MIN);
 	}
 	
     public static void main(String[] args) {
-        int i, j, k ;
-        double m, n;
+		int i, j;
+		double m, n;
         
-        // set the scale of the coordinate system
-        //StdDraw.setXscale(XMIN-MARGIN, XMAX+MARGIN);
-        //StdDraw.setYscale(YMIN-MARGIN, YMAX+MARGIN);
-        
-        StdDraw.setXscale(XMIN, XMAX);
-        StdDraw.setYscale(YMIN, YMAX);
-        StdDraw.enableDoubleBuffering();
-        
-        // clear the background
-        StdDraw.clear(StdDraw.WHITE);
-
-        // Escreva sua solução a seguir
-			//StdDraw.circle(0,0,13*RADIUS_MAX); //circulo principal
-			 
-			//StdDraw.filledSquare(XMIN+5,YMIN+5,RADIUS_MAX);
-			//StdDraw.filledSquare(XMAX-5,YMAX-5,RADIUS_MAX);
+      // set the scale of the coordinate system
+      StdDraw.setXscale(XMIN, XMAX);
+      StdDraw.setYscale(YMIN, YMAX);
+      StdDraw.enableDoubleBuffering();
+       
+      // clear the background
+      StdDraw.clear(StdDraw.WHITE);
+		
+		/*Vamos definir um raio de 62 para o circulo da figura, 
+		* escolhido a partir de sucessivos testes. */
 			
-			//StdDraw.square(XMIN+17.5,-2.5,RADIUS_MIN);
-			
-			//Fazendo o tabuleiro
-			m = XMIN+5;
-			for (i = 0; i < 15; i++) {
-				if (i%2 == 0) {
-					n = YMAX-5;
-					for (j = 0; j < 7; j++) {
-						//StdOut.println("Desenhando comc preto em" + m + n);
-						StdDraw.filledSquare(m,n,RADIUS_MAX);
-						n-=10;
-						StdDraw.square(m,n,RADIUS_MAX);
-						n-=10;
+		m = XMIN+5;
+		for (i = 0; i < 15; i++) {
+			n = YMAX -5 ;
+			for (j = 0; j < 15; j++) {
+				if (m*m + n*n <= 3844) {
+					if ((m < 0 && n > 0) || (m > 0 && n < 0)) {
+						pintaQuadrado(m, n, i, j);
+						pintaQuadradinhoA (m, n, i, j);
 					}
-					StdDraw.filledSquare(m,n,RADIUS_MAX);
-				}
-				else {
-					n = YMAX-5;
-					for (j = 0; j < 7; j++) {
-						//StdOut.println("Desenhando comc branco em" + m + n);
-						StdDraw.square(m,n,RADIUS_MAX);
-						n-=10;
-						StdDraw.filledSquare(m,n,RADIUS_MAX);						
-						n-=10;
+					else if ((m < 0 && n < 0) || (m > 0 && n > 0)) {
+						pintaQuadrado(m, n, i, j);
+						pintaQuadradinhoB (m, n, i, j);
 					}
-					StdDraw.square(m,n,7*RADIUS_MAX);	
+					
+					else if (n == 0 && m < 0) {
+						pintaQuadrado(m, n, i, j);
+						pintaQuadradinhoC (m, n, i, j);
+					}
+					
+					else if (n == 0 && m > 0) {
+						pintaQuadrado(m, n, i, j);
+						pintaQuadradinhoD (m, n, i, j);
+					}
+					
+					else if (n > 0 && m == 0) {
+						pintaQuadrado(m, n, i, j);
+						pintaQuadradinhoE (m, n, i, j);
+					}
+					
+					else if(n < 0 && m == 0) {
+						pintaQuadrado(m, n, i, j);
+						pintaQuadradinhoF (m, n, i, j);
+					}
+					else
+						pintaQuadrado(m, n, i, j);
 				}
-				m += 10;
+				else
+					pintaQuadrado(m, n, i, j);
+				n -= 10;
 			}
-			
-			//Vamos definir um raio de 62 para o circulo da figura
-			//Parametro definido a partir de sucessivos testes
-			
-			m = XMIN+5;
-			for (i = 0; i < 15; i++) {
-				n = YMAX -5 ;
-				for (j = 0; j < 15; j++) {
-					StdOut.println("Olhando pra "+ m + n);
-					if (m*m + n*n <= 3844) {
-						//casos
-						//1º e 3º quadrante
-						StdOut.println("entrou "+ m + n);
-						if ((m < 0 && n > 0) || (m > 0 && n < 0)) {
-							pintaQuadradinhoA (m, n, i, j);
-						}
-						else if ((m < 0 && n < 0) || (m > 0 && n > 0)) {
-							pintaQuadradinhoB (m, n, i, j);
-						}
-						
-						else if (n == 0 && m < 0) {
-							pintaQuadradinhoC (m, n, i, j);
-						}
-						
-						else if (n == 0 && m > 0) {
-							pintaQuadradinhoD (m, n, i, j);
-						}
-						
-						else if (n > 0 && m == 0) {
-							pintaQuadradinhoE (m, n, i, j);
-						}
-						
-						else if(n < 0 && m == 0) {
-							pintaQuadradinhoF (m, n, i, j);
-						}
-					}
-					n-=10;
-				}
-				m+=10;
-			}
+			m += 10;
+		}
 
-			//Mudando pincel de cor pra pintar no preto
-			
-			//StdDraw.setPenColor(Color.white);
-
-			//Se o centro do quadrado tiver dentro do circulo, então
-			//temos que desenhar os quadradinhos.
-			
-			
-        
-        // copy offscreen buffer to onscreen
-        StdDraw.show();
-        
-        
-    }
+	   // copy offscreen buffer to onscreen
+	   StdDraw.show();
+   }
 
 } 
