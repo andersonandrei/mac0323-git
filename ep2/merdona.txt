@@ -1,0 +1,562 @@
+Olhando pra -70.070.0
+Olhando pra -70.060.0
+Olhando pra -70.050.0
+Olhando pra -70.040.0
+Olhando pra -70.030.0
+Olhando pra -70.020.0
+Olhando pra -70.010.0
+Olhando pra -70.00.0
+Olhando pra -70.0-10.0
+Olhando pra -70.0-20.0
+Olhando pra -70.0-30.0
+Olhando pra -70.0-40.0
+Olhando pra -70.0-50.0
+Olhando pra -70.0-60.0
+Olhando pra -70.0-70.0
+Olhando pra -60.070.0
+Olhando pra -60.060.0
+Olhando pra -60.050.0
+Olhando pra -60.040.0
+Olhando pra -60.030.0
+Olhando pra -60.020.0
+Olhando pra -60.010.0
+entrou -60.010.0
+A -60.010.0
+Pintou A com-57.7512.25 16
+Pintou A com-62.257.75
+Olhando pra -60.00.0
+entrou -60.00.0
+Eita porra -60.00.0
+Olhando pra -60.0-10.0
+entrou -60.0-10.0
+B -60.0-10.0
+Olhando pra -60.0-20.0
+Olhando pra -60.0-30.0
+Olhando pra -60.0-40.0
+Olhando pra -60.0-50.0
+Olhando pra -60.0-60.0
+Olhando pra -60.0-70.0
+Olhando pra -50.070.0
+Olhando pra -50.060.0
+Olhando pra -50.050.0
+Olhando pra -50.040.0
+Olhando pra -50.030.0
+entrou -50.030.0
+A -50.030.0
+Pintou A com-47.7532.25 24
+Pintou A com-52.2527.75
+Olhando pra -50.020.0
+entrou -50.020.0
+A -50.020.0
+Pintou A com-47.7522.25 25
+Pintou A com-52.2517.75
+Olhando pra -50.010.0
+entrou -50.010.0
+A -50.010.0
+Pintou A com-47.7512.25 26
+Pintou A com-52.257.75
+Olhando pra -50.00.0
+entrou -50.00.0
+Eita porra -50.00.0
+Olhando pra -50.0-10.0
+entrou -50.0-10.0
+B -50.0-10.0
+Olhando pra -50.0-20.0
+entrou -50.0-20.0
+B -50.0-20.0
+Olhando pra -50.0-30.0
+entrou -50.0-30.0
+B -50.0-30.0
+Olhando pra -50.0-40.0
+Olhando pra -50.0-50.0
+Olhando pra -50.0-60.0
+Olhando pra -50.0-70.0
+Olhando pra -40.070.0
+Olhando pra -40.060.0
+Olhando pra -40.050.0
+Olhando pra -40.040.0
+entrou -40.040.0
+A -40.040.0
+Pintou A com-37.7542.25 33
+Pintou A com-42.2537.75
+Olhando pra -40.030.0
+entrou -40.030.0
+A -40.030.0
+Pintou A com-37.7532.25 34
+Pintou A com-42.2527.75
+Olhando pra -40.020.0
+entrou -40.020.0
+A -40.020.0
+Pintou A com-37.7522.25 35
+Pintou A com-42.2517.75
+Olhando pra -40.010.0
+entrou -40.010.0
+A -40.010.0
+Pintou A com-37.7512.25 36
+Pintou A com-42.257.75
+Olhando pra -40.00.0
+entrou -40.00.0
+Eita porra -40.00.0
+Olhando pra -40.0-10.0
+entrou -40.0-10.0
+B -40.0-10.0
+Olhando pra -40.0-20.0
+entrou -40.0-20.0
+B -40.0-20.0
+Olhando pra -40.0-30.0
+entrou -40.0-30.0
+B -40.0-30.0
+Olhando pra -40.0-40.0
+entrou -40.0-40.0
+B -40.0-40.0
+Olhando pra -40.0-50.0
+Olhando pra -40.0-60.0
+Olhando pra -40.0-70.0
+Olhando pra -30.070.0
+Olhando pra -30.060.0
+Olhando pra -30.050.0
+entrou -30.050.0
+A -30.050.0
+Pintou A com-27.7552.25 42
+Pintou A com-32.2547.75
+Olhando pra -30.040.0
+entrou -30.040.0
+A -30.040.0
+Pintou A com-27.7542.25 43
+Pintou A com-32.2537.75
+Olhando pra -30.030.0
+entrou -30.030.0
+A -30.030.0
+Pintou A com-27.7532.25 44
+Pintou A com-32.2527.75
+Olhando pra -30.020.0
+entrou -30.020.0
+A -30.020.0
+Pintou A com-27.7522.25 45
+Pintou A com-32.2517.75
+Olhando pra -30.010.0
+entrou -30.010.0
+A -30.010.0
+Pintou A com-27.7512.25 46
+Pintou A com-32.257.75
+Olhando pra -30.00.0
+entrou -30.00.0
+Eita porra -30.00.0
+Olhando pra -30.0-10.0
+entrou -30.0-10.0
+B -30.0-10.0
+Olhando pra -30.0-20.0
+entrou -30.0-20.0
+B -30.0-20.0
+Olhando pra -30.0-30.0
+entrou -30.0-30.0
+B -30.0-30.0
+Olhando pra -30.0-40.0
+entrou -30.0-40.0
+B -30.0-40.0
+Olhando pra -30.0-50.0
+entrou -30.0-50.0
+B -30.0-50.0
+Olhando pra -30.0-60.0
+Olhando pra -30.0-70.0
+Olhando pra -20.070.0
+Olhando pra -20.060.0
+Olhando pra -20.050.0
+entrou -20.050.0
+A -20.050.0
+Pintou A com-17.7552.25 52
+Pintou A com-22.2547.75
+Olhando pra -20.040.0
+entrou -20.040.0
+A -20.040.0
+Pintou A com-17.7542.25 53
+Pintou A com-22.2537.75
+Olhando pra -20.030.0
+entrou -20.030.0
+A -20.030.0
+Pintou A com-17.7532.25 54
+Pintou A com-22.2527.75
+Olhando pra -20.020.0
+entrou -20.020.0
+A -20.020.0
+Pintou A com-17.7522.25 55
+Pintou A com-22.2517.75
+Olhando pra -20.010.0
+entrou -20.010.0
+A -20.010.0
+Pintou A com-17.7512.25 56
+Pintou A com-22.257.75
+Olhando pra -20.00.0
+entrou -20.00.0
+Eita porra -20.00.0
+Olhando pra -20.0-10.0
+entrou -20.0-10.0
+B -20.0-10.0
+Olhando pra -20.0-20.0
+entrou -20.0-20.0
+B -20.0-20.0
+Olhando pra -20.0-30.0
+entrou -20.0-30.0
+B -20.0-30.0
+Olhando pra -20.0-40.0
+entrou -20.0-40.0
+B -20.0-40.0
+Olhando pra -20.0-50.0
+entrou -20.0-50.0
+B -20.0-50.0
+Olhando pra -20.0-60.0
+Olhando pra -20.0-70.0
+Olhando pra -10.070.0
+Olhando pra -10.060.0
+entrou -10.060.0
+A -10.060.0
+Pintou A com-7.7562.25 61
+Pintou A com-12.2557.75
+Olhando pra -10.050.0
+entrou -10.050.0
+A -10.050.0
+Pintou A com-7.7552.25 62
+Pintou A com-12.2547.75
+Olhando pra -10.040.0
+entrou -10.040.0
+A -10.040.0
+Pintou A com-7.7542.25 63
+Pintou A com-12.2537.75
+Olhando pra -10.030.0
+entrou -10.030.0
+A -10.030.0
+Pintou A com-7.7532.25 64
+Pintou A com-12.2527.75
+Olhando pra -10.020.0
+entrou -10.020.0
+A -10.020.0
+Pintou A com-7.7522.25 65
+Pintou A com-12.2517.75
+Olhando pra -10.010.0
+entrou -10.010.0
+A -10.010.0
+Pintou A com-7.7512.25 66
+Pintou A com-12.257.75
+Olhando pra -10.00.0
+entrou -10.00.0
+Eita porra -10.00.0
+Olhando pra -10.0-10.0
+entrou -10.0-10.0
+B -10.0-10.0
+Olhando pra -10.0-20.0
+entrou -10.0-20.0
+B -10.0-20.0
+Olhando pra -10.0-30.0
+entrou -10.0-30.0
+B -10.0-30.0
+Olhando pra -10.0-40.0
+entrou -10.0-40.0
+B -10.0-40.0
+Olhando pra -10.0-50.0
+entrou -10.0-50.0
+B -10.0-50.0
+Olhando pra -10.0-60.0
+entrou -10.0-60.0
+B -10.0-60.0
+Olhando pra -10.0-70.0
+Olhando pra 0.070.0
+Olhando pra 0.060.0
+entrou 0.060.0
+D 0.060.0
+Olhando pra 0.050.0
+entrou 0.050.0
+D 0.050.0
+Olhando pra 0.040.0
+entrou 0.040.0
+D 0.040.0
+Olhando pra 0.030.0
+entrou 0.030.0
+D 0.030.0
+Olhando pra 0.020.0
+entrou 0.020.0
+D 0.020.0
+Olhando pra 0.010.0
+entrou 0.010.0
+D 0.010.0
+Olhando pra 0.00.0
+entrou 0.00.0
+Olhando pra 0.0-10.0
+entrou 0.0-10.0
+C 0.0-10.0
+Olhando pra 0.0-20.0
+entrou 0.0-20.0
+C 0.0-20.0
+Olhando pra 0.0-30.0
+entrou 0.0-30.0
+C 0.0-30.0
+Olhando pra 0.0-40.0
+entrou 0.0-40.0
+C 0.0-40.0
+Olhando pra 0.0-50.0
+entrou 0.0-50.0
+C 0.0-50.0
+Olhando pra 0.0-60.0
+entrou 0.0-60.0
+C 0.0-60.0
+Olhando pra 0.0-70.0
+Olhando pra 10.070.0
+Olhando pra 10.060.0
+entrou 10.060.0
+B 10.060.0
+Olhando pra 10.050.0
+entrou 10.050.0
+B 10.050.0
+Olhando pra 10.040.0
+entrou 10.040.0
+B 10.040.0
+Olhando pra 10.030.0
+entrou 10.030.0
+B 10.030.0
+Olhando pra 10.020.0
+entrou 10.020.0
+B 10.020.0
+Olhando pra 10.010.0
+entrou 10.010.0
+B 10.010.0
+Olhando pra 10.00.0
+entrou 10.00.0
+F 10.00.0
+Olhando pra 10.0-10.0
+entrou 10.0-10.0
+A 10.0-10.0
+Pintou A com12.25-7.75 88
+Pintou A com7.75-12.25
+Olhando pra 10.0-20.0
+entrou 10.0-20.0
+A 10.0-20.0
+Pintou A com12.25-17.75 89
+Pintou A com7.75-22.25
+Olhando pra 10.0-30.0
+entrou 10.0-30.0
+A 10.0-30.0
+Pintou A com12.25-27.75 810
+Pintou A com7.75-32.25
+Olhando pra 10.0-40.0
+entrou 10.0-40.0
+A 10.0-40.0
+Pintou A com12.25-37.75 811
+Pintou A com7.75-42.25
+Olhando pra 10.0-50.0
+entrou 10.0-50.0
+A 10.0-50.0
+Pintou A com12.25-47.75 812
+Pintou A com7.75-52.25
+Olhando pra 10.0-60.0
+entrou 10.0-60.0
+A 10.0-60.0
+Pintou A com12.25-57.75 813
+Pintou A com7.75-62.25
+Olhando pra 10.0-70.0
+Olhando pra 20.070.0
+Olhando pra 20.060.0
+Olhando pra 20.050.0
+entrou 20.050.0
+B 20.050.0
+Olhando pra 20.040.0
+entrou 20.040.0
+B 20.040.0
+Olhando pra 20.030.0
+entrou 20.030.0
+B 20.030.0
+Olhando pra 20.020.0
+entrou 20.020.0
+B 20.020.0
+Olhando pra 20.010.0
+entrou 20.010.0
+B 20.010.0
+Olhando pra 20.00.0
+entrou 20.00.0
+F 20.00.0
+Olhando pra 20.0-10.0
+entrou 20.0-10.0
+A 20.0-10.0
+Pintou A com22.25-7.75 98
+Pintou A com17.75-12.25
+Olhando pra 20.0-20.0
+entrou 20.0-20.0
+A 20.0-20.0
+Pintou A com22.25-17.75 99
+Pintou A com17.75-22.25
+Olhando pra 20.0-30.0
+entrou 20.0-30.0
+A 20.0-30.0
+Pintou A com22.25-27.75 910
+Pintou A com17.75-32.25
+Olhando pra 20.0-40.0
+entrou 20.0-40.0
+A 20.0-40.0
+Pintou A com22.25-37.75 911
+Pintou A com17.75-42.25
+Olhando pra 20.0-50.0
+entrou 20.0-50.0
+A 20.0-50.0
+Pintou A com22.25-47.75 912
+Pintou A com17.75-52.25
+Olhando pra 20.0-60.0
+Olhando pra 20.0-70.0
+Olhando pra 30.070.0
+Olhando pra 30.060.0
+Olhando pra 30.050.0
+entrou 30.050.0
+B 30.050.0
+Olhando pra 30.040.0
+entrou 30.040.0
+B 30.040.0
+Olhando pra 30.030.0
+entrou 30.030.0
+B 30.030.0
+Olhando pra 30.020.0
+entrou 30.020.0
+B 30.020.0
+Olhando pra 30.010.0
+entrou 30.010.0
+B 30.010.0
+Olhando pra 30.00.0
+entrou 30.00.0
+F 30.00.0
+Olhando pra 30.0-10.0
+entrou 30.0-10.0
+A 30.0-10.0
+Pintou A com32.25-7.75 108
+Pintou A com27.75-12.25
+Olhando pra 30.0-20.0
+entrou 30.0-20.0
+A 30.0-20.0
+Pintou A com32.25-17.75 109
+Pintou A com27.75-22.25
+Olhando pra 30.0-30.0
+entrou 30.0-30.0
+A 30.0-30.0
+Pintou A com32.25-27.75 1010
+Pintou A com27.75-32.25
+Olhando pra 30.0-40.0
+entrou 30.0-40.0
+A 30.0-40.0
+Pintou A com32.25-37.75 1011
+Pintou A com27.75-42.25
+Olhando pra 30.0-50.0
+entrou 30.0-50.0
+A 30.0-50.0
+Pintou A com32.25-47.75 1012
+Pintou A com27.75-52.25
+Olhando pra 30.0-60.0
+Olhando pra 30.0-70.0
+Olhando pra 40.070.0
+Olhando pra 40.060.0
+Olhando pra 40.050.0
+Olhando pra 40.040.0
+entrou 40.040.0
+B 40.040.0
+Olhando pra 40.030.0
+entrou 40.030.0
+B 40.030.0
+Olhando pra 40.020.0
+entrou 40.020.0
+B 40.020.0
+Olhando pra 40.010.0
+entrou 40.010.0
+B 40.010.0
+Olhando pra 40.00.0
+entrou 40.00.0
+F 40.00.0
+Olhando pra 40.0-10.0
+entrou 40.0-10.0
+A 40.0-10.0
+Pintou A com42.25-7.75 118
+Pintou A com37.75-12.25
+Olhando pra 40.0-20.0
+entrou 40.0-20.0
+A 40.0-20.0
+Pintou A com42.25-17.75 119
+Pintou A com37.75-22.25
+Olhando pra 40.0-30.0
+entrou 40.0-30.0
+A 40.0-30.0
+Pintou A com42.25-27.75 1110
+Pintou A com37.75-32.25
+Olhando pra 40.0-40.0
+entrou 40.0-40.0
+A 40.0-40.0
+Pintou A com42.25-37.75 1111
+Pintou A com37.75-42.25
+Olhando pra 40.0-50.0
+Olhando pra 40.0-60.0
+Olhando pra 40.0-70.0
+Olhando pra 50.070.0
+Olhando pra 50.060.0
+Olhando pra 50.050.0
+Olhando pra 50.040.0
+Olhando pra 50.030.0
+entrou 50.030.0
+B 50.030.0
+Olhando pra 50.020.0
+entrou 50.020.0
+B 50.020.0
+Olhando pra 50.010.0
+entrou 50.010.0
+B 50.010.0
+Olhando pra 50.00.0
+entrou 50.00.0
+F 50.00.0
+Olhando pra 50.0-10.0
+entrou 50.0-10.0
+A 50.0-10.0
+Pintou A com52.25-7.75 128
+Pintou A com47.75-12.25
+Olhando pra 50.0-20.0
+entrou 50.0-20.0
+A 50.0-20.0
+Pintou A com52.25-17.75 129
+Pintou A com47.75-22.25
+Olhando pra 50.0-30.0
+entrou 50.0-30.0
+A 50.0-30.0
+Pintou A com52.25-27.75 1210
+Pintou A com47.75-32.25
+Olhando pra 50.0-40.0
+Olhando pra 50.0-50.0
+Olhando pra 50.0-60.0
+Olhando pra 50.0-70.0
+Olhando pra 60.070.0
+Olhando pra 60.060.0
+Olhando pra 60.050.0
+Olhando pra 60.040.0
+Olhando pra 60.030.0
+Olhando pra 60.020.0
+Olhando pra 60.010.0
+entrou 60.010.0
+B 60.010.0
+Olhando pra 60.00.0
+entrou 60.00.0
+F 60.00.0
+Olhando pra 60.0-10.0
+entrou 60.0-10.0
+A 60.0-10.0
+Pintou A com62.25-7.75 138
+Pintou A com57.75-12.25
+Olhando pra 60.0-20.0
+Olhando pra 60.0-30.0
+Olhando pra 60.0-40.0
+Olhando pra 60.0-50.0
+Olhando pra 60.0-60.0
+Olhando pra 60.0-70.0
+Olhando pra 70.070.0
+Olhando pra 70.060.0
+Olhando pra 70.050.0
+Olhando pra 70.040.0
+Olhando pra 70.030.0
+Olhando pra 70.020.0
+Olhando pra 70.010.0
+Olhando pra 70.00.0
+Olhando pra 70.0-10.0
+Olhando pra 70.0-20.0
+Olhando pra 70.0-30.0
+Olhando pra 70.0-40.0
+Olhando pra 70.0-50.0
+Olhando pra 70.0-60.0
+Olhando pra 70.0-70.0

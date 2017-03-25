@@ -37,69 +37,70 @@ public class BulgingSquares {
     private static final double RADIUS_MIN = 1.5;
     private static final double DIAM_MIN   = 2*RADIUS_MIN;
     
-	public static void pintaQuadradinhoA(double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m+7.25,n+7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m-7.25,n-7.25,RADIUS_MIN);
+   
+	public static void mudaPincel (int x, int y) {
+		if (x % 2 == 0) {
+			if (y % 2 == 0) //pretos nos y pares => quadradinhos brancos
+				StdDraw.setPenColor(Color.white);
+			else 
+				StdDraw.setPenColor(Color.black);
+		}
+		else {//x é impar
+			if (y % 2 != 0)
+				StdDraw.setPenColor(Color.white);
+			else 
+				StdDraw.setPenColor(Color.black);
+		}
+	}
+   
+	public static void pintaQuadradinhoA(double m, double n, int x, int y) {
+		mudaPincel(x,y);
+		StdDraw.filledSquare(m+2.75,n+2.75,RADIUS_MIN);
+		StdOut.println("Pintou A com" +(m+2.25) + (n+2.25) + " " + x + y);
+		StdDraw.filledSquare(m-2.75,n-2.75,RADIUS_MIN);
+		StdOut.println("Pintou A com" +(m-2.25) + (n-2.25));
 	}
 	
-	public static void pintaQuadradinhoB (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m-7.25,n+7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m+7.25,n-7.25,RADIUS_MIN);
+	public static void pintaQuadradinhoB (double m, double n, int x, int y) {
+		mudaPincel(x,y);
+		StdDraw.filledSquare(m-2.75,n+2.75,RADIUS_MIN);
+		StdDraw.filledSquare(m+2.75,n-2.75,RADIUS_MIN);
 	}
 	
-	public static void pintaQuadradinhoC (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m+7.25,n+7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m-7.25,n-7.25,RADIUS_MIN);
+	public static void pintaQuadradinhoC (double m, double n, int x, int y) {
+		mudaPincel(x,y);
+		StdDraw.filledSquare(m+2.75,n+2.75,RADIUS_MIN);
+		StdDraw.filledSquare(m+2.75,n-2.75,RADIUS_MIN);
 	}
 	
-	public static void pintaQuadradinhoD (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m-7.25,n+7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m-7.25,n-7.25,RADIUS_MIN);
+	public static void pintaQuadradinhoD (double m, double n, int x, int y) {
+		mudaPincel(x,y);
+		StdDraw.filledSquare(m-2.75,n+2.75,RADIUS_MIN);
+		StdDraw.filledSquare(m-2.75,n-2.75,RADIUS_MIN);
 	}
 	
-	public static void pintaQuadradinhoE (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m-7.25,n-7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m+7.25,n-7.25,RADIUS_MIN);
+	public static void pintaQuadradinhoE (double m, double n, int x, int y) {
+		mudaPincel(x,y);
+		StdDraw.filledSquare(m-2.75,n-2.75,RADIUS_MIN);
+		StdDraw.filledSquare(m+2.75,n-2.75,RADIUS_MIN);
 	}
 	
-	public static void pintaQuadradinhoF (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m+7.25,n-7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m+7.25,n+7.25,RADIUS_MIN);
+	public static void pintaQuadradinhoF (double m, double n, int x, int y) {
+		mudaPincel(x,y);
+		StdDraw.filledSquare(m+2.75,n+2.75,RADIUS_MIN);
+		StdDraw.filledSquare(m-2.75,n+2.75,RADIUS_MIN);
 	}
-	
-	
 	
     public static void main(String[] args) {
         int i, j, k ;
         double m, n;
         
         // set the scale of the coordinate system
-        StdDraw.setXscale(XMIN-MARGIN, XMAX+MARGIN);
-        StdDraw.setYscale(YMIN-MARGIN, YMAX+MARGIN);
+        //StdDraw.setXscale(XMIN-MARGIN, XMAX+MARGIN);
+        //StdDraw.setYscale(YMIN-MARGIN, YMAX+MARGIN);
+        
+        StdDraw.setXscale(XMIN, XMAX);
+        StdDraw.setYscale(YMIN, YMAX);
         StdDraw.enableDoubleBuffering();
         
         // clear the background
@@ -144,43 +145,41 @@ public class BulgingSquares {
 			//Vamos definir um raio de 62 para o circulo da figura
 			//Parametro definido a partir de sucessivos testes
 			
-			for (m = XMIN+5; m < 75; m += 10) {
-				for (n = YMAX-5; n > -75; n-=10) {
+			m = XMIN+5;
+			for (i = 0; i < 15; i++) {
+				n = YMAX -5 ;
+				for (j = 0; j < 15; j++) {
 					StdOut.println("Olhando pra "+ m + n);
 					if (m*m + n*n <= 3844) {
 						//casos
 						//1º e 3º quadrante
 						StdOut.println("entrou "+ m + n);
 						if ((m < 0 && n > 0) || (m > 0 && n < 0)) {
-							StdOut.println("A "+ m + n);
-							pintaQuadradinhoA (m, n);
+							pintaQuadradinhoA (m, n, i, j);
 						}
 						else if ((m < 0 && n < 0) || (m > 0 && n > 0)) {
-							StdOut.println("B "+ m + n);
-							pintaQuadradinhoB (m, n);
+							pintaQuadradinhoB (m, n, i, j);
 						}
 						
-						else if (m == 0 && n < 0) {
-							StdOut.println("C "+ m + n);
-							pintaQuadradinhoC (m, n);
+						else if (n == 0 && m < 0) {
+							pintaQuadradinhoC (m, n, i, j);
 						}
 						
-						else if (m == 0 && n > 0) {
-							StdOut.println("D "+ m + n);
-							pintaQuadradinhoD (m, n);
+						else if (n == 0 && m > 0) {
+							pintaQuadradinhoD (m, n, i, j);
 						}
 						
-						else if (m < 0 && n == 0) {
-							StdOut.println("E "+ m + n);
-							pintaQuadradinhoE (m, n);
+						else if (n > 0 && m == 0) {
+							pintaQuadradinhoE (m, n, i, j);
 						}
 						
-						else { // (x > 0 && y == 0)
-							StdOut.println("F "+ m + n);
-							pintaQuadradinhoF (m, n);
+						else if(n < 0 && m == 0) {
+							pintaQuadradinhoF (m, n, i, j);
 						}
 					}
+					n-=10;
 				}
+				m+=10;
 			}
 
 			//Mudando pincel de cor pra pintar no preto
