@@ -37,62 +37,6 @@ public class BulgingSquares {
     private static final double RADIUS_MIN = 1.5;
     private static final double DIAM_MIN   = 2*RADIUS_MIN;
     
-	public static void pintaQuadradinhoA(double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m+7.25,n+7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m-7.25,n-7.25,RADIUS_MIN);
-	}
-	
-	public static void pintaQuadradinhoB (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m-7.25,n+7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m+7.25,n-7.25,RADIUS_MIN);
-	}
-	
-	public static void pintaQuadradinhoC (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m+7.25,n+7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m-7.25,n-7.25,RADIUS_MIN);
-	}
-	
-	public static void pintaQuadradinhoD (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m-7.25,n+7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m-7.25,n-7.25,RADIUS_MIN);
-	}
-	
-	public static void pintaQuadradinhoE (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m-7.25,n-7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m+7.25,n-7.25,RADIUS_MIN);
-	}
-	
-	public static void pintaQuadradinhoF (double m, double n) {
-		if (m % 2 == 0) //pretos nos y pares => quadradinhos brancos
-			StdDraw.setPenColor(Color.white);
-		else 
-			StdDraw.setPenColor(Color.black);
-		StdDraw.filledSquare(m+7.25,n-7.25,RADIUS_MIN);
-		StdDraw.filledSquare(m+7.25,n+7.25,RADIUS_MIN);
-	}
-	
-	
-	
     public static void main(String[] args) {
         int i, j, k ;
         double m, n;
@@ -106,7 +50,7 @@ public class BulgingSquares {
         StdDraw.clear(StdDraw.WHITE);
 
         // Escreva sua solução a seguir
-			//StdDraw.circle(0,0,13*RADIUS_MAX); //circulo principal
+			StdDraw.circle(0,0,13*RADIUS_MAX); //circulo principal
 			 
 			//StdDraw.filledSquare(XMIN+5,YMIN+5,RADIUS_MAX);
 			//StdDraw.filledSquare(XMAX-5,YMAX-5,RADIUS_MAX);
@@ -141,51 +85,53 @@ public class BulgingSquares {
 				m += 10;
 			}
 			
-			//Vamos definir um raio de 62 para o circulo da figura
-			//Parametro definido a partir de sucessivos testes
-			
-			for (m = XMIN+5; m < 75; m += 10) {
-				for (n = YMAX-5; n > -75; n-=10) {
-					StdOut.println("Olhando pra "+ m + n);
-					if (m*m + n*n <= 3844) {
-						//casos
-						//1º e 3º quadrante
-						StdOut.println("entrou "+ m + n);
-						if ((m < 0 && n > 0) || (m > 0 && n < 0)) {
-							StdOut.println("A "+ m + n);
-							pintaQuadradinhoA (m, n);
-						}
-						else if ((m < 0 && n < 0) || (m > 0 && n > 0)) {
-							StdOut.println("B "+ m + n);
-							pintaQuadradinhoB (m, n);
-						}
-						
-						else if (m == 0 && n < 0) {
-							StdOut.println("C "+ m + n);
-							pintaQuadradinhoC (m, n);
-						}
-						
-						else if (m == 0 && n > 0) {
-							StdOut.println("D "+ m + n);
-							pintaQuadradinhoD (m, n);
-						}
-						
-						else if (m < 0 && n == 0) {
-							StdOut.println("E "+ m + n);
-							pintaQuadradinhoE (m, n);
-						}
-						
-						else { // (x > 0 && y == 0)
-							StdOut.println("F "+ m + n);
-							pintaQuadradinhoF (m, n);
-						}
-					}
-				}
+			//Pintando os mini quadradinhos preto no eixo x
+			for (m = XMIN+MARGIN+25.5 ; m < 0; m += 20) {
+				StdDraw.filledSquare(m,2.5,RADIUS_MIN);
+				StdDraw.filledSquare(m,-2.5,RADIUS_MIN);
 			}
-
+			for (m = 7.5 ; m < 65; m += 20) {
+				StdDraw.filledSquare(m,2.5,RADIUS_MIN);
+				StdDraw.filledSquare(m,-2.5,RADIUS_MIN);
+			}
+				
+			for (n = YMAX-MARGIN-25.5; n > 0; n -= 20) {
+				StdDraw.filledSquare(-2.5,n,RADIUS_MIN);
+				StdDraw.filledSquare(2.5,n,RADIUS_MIN);
+			}
+			for (n = -7.5; n > -65; n -= 20) {
+				StdDraw.filledSquare(-2.5,n,RADIUS_MIN);
+				StdDraw.filledSquare(2.5,n,RADIUS_MIN);
+			}
+			
+		
+			
+			//Pintando os mini quadradinhos brancos no eixo x
+			StdDraw.setPenColor(Color.white);
+			for (m = XMIN+MARGIN+15.5 ; m < 0; m += 20) {
+				StdDraw.filledSquare(m,2.5,RADIUS_MIN);
+				StdDraw.filledSquare(m,-2.5,RADIUS_MIN);
+			}
+			
+			for (m = 17.5 ; m < 65; m += 20) {
+				StdDraw.filledSquare(m,2.5,RADIUS_MIN);
+				StdDraw.filledSquare(m,-2.5,RADIUS_MIN);
+			}
+			
+			for (n = YMAX-MARGIN-15.5; n > 0; n -= 20) {
+				StdDraw.filledSquare(-2.5,n,RADIUS_MIN);
+				StdDraw.filledSquare(2.5,n,RADIUS_MIN);
+			}
+			for (n = -17.5; n > -65; n -= 20) {
+				StdDraw.filledSquare(-2.5,n,RADIUS_MIN);
+				StdDraw.filledSquare(2.5,n,RADIUS_MIN);
+			}
+			
+			
+			
 			//Mudando pincel de cor pra pintar no preto
 			
-			//StdDraw.setPenColor(Color.white);
+			StdDraw.setPenColor(Color.white);
 
 			//Se o centro do quadrado tiver dentro do circulo, então
 			//temos que desenhar os quadradinhos.
