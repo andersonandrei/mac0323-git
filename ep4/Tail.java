@@ -67,12 +67,12 @@ public class Tail {
     private Node first;
     private int n;
     
-    private class Node () {
+    private class Node {
 		private String value = "";
 		private Node next = null;
 	}
     
-    private add (String s, Node first) {
+    private void add (String s, Node first) {
 		Node oldfirst = first;
 		first = new Node();
 		first.value = s;
@@ -97,7 +97,15 @@ public class Tail {
     // do arquivo fileName. O valor 10 é o default.
     public Tail(String fileName) {
         // escreva seu método a seguir
-		
+        
+        //criar um Tail
+        Tail t;
+        
+        while (fileName.readLine() != null) {
+			// Read and return the next line.
+            String linha = fileName.readLine();
+            add(linha, t);
+        }
     }   
 
     // Construtor que prepara para que o método lines()
