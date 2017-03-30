@@ -64,15 +64,17 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class Tail {
     // atributos de estado 
+    
     private Node first;
     private int n;
+    In file;
     
     private class Node {
 		private String value = "";
 		private Node next = null;
 	}
     
-    private void add (String s, Node first) {
+    private void add (String s) {
 		Node oldfirst = first;
 		first = new Node();
 		first.value = s;
@@ -84,35 +86,41 @@ public class Tail {
 		return n;
 	}
 	
-	private boolean isEmpty(){
+	private boolean isStackEmpty(){
 		return n == 0;
 	}
 	
-    /** Construtores.
-     * 
-     */
-     
+	private void removeUltimo (Node first) {
+		Node aux = new Node();
+		while (first.next != null) {
+			aux = first;
+			first = first.next;
+		}
+		first = null;
+		n--;
+	}
+
     // Construtor que prepara para que o método lines()
     // retorne um objeto iterável com as 10 últimas linhas
     // do arquivo fileName. O valor 10 é o default.
     public Tail(String fileName) {
         // escreva seu método a seguir
-        
-        //criar um Tail
-        Tail t;
-        
-        while (fileName.readLine() != null) {
-			// Read and return the next line.
-            String linha = fileName.readLine();
-            add(linha, t);
-        }
+		Tail t = new Tail(fileName, 10);
     }   
 
     // Construtor que prepara para que o método lines()
     // retorne um objeto iterável com as k últimas linhas
     // do arquivo fileName.
     public Tail(String fileName, int k) {
-        // escreva seu método a seguir
+        file =  new In(fileName);
+		first = new Node();
+        while (!file.isEmpty()) {
+			// Read and return the next line.
+            String linha = file.readLine();
+            add(linha);
+            if (size() == k)
+				removeUltimo(first);
+        }
     }
 
     /** Returns an iterable object containing the last k lines. 
@@ -120,6 +128,7 @@ public class Tail {
      */
     public Iterable<String> lines() {
         // escreva seu método a seguir
+        return first;
     }
 
    /***************************************************************************
