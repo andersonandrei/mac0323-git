@@ -66,23 +66,30 @@ import java.util.LinkedList;
 
 public class Tail {
     // atributos de estado 
-    
-    private Tail t;
     In file;
-    LinkedList first;
+    LinkedList<String> first;
     
     // Construtor que prepara para que o método lines()
     // retorne um objeto iterável com as 10 últimas linhas
     // do arquivo fileName. O valor 10 é o default.
     public Tail(String fileName) {
         // escreva seu método a seguir
-		Tail t = new Tail(fileName, 10);
+		first = new LinkedList<String>();
+		file =  new In(fileName);
+        while (!file.isEmpty()) {
+			// Read and return the next line.
+            String linha = file.readLine();
+            first.add(linha);
+            if (first.size() > 10)
+				first.removeFirst();
+        }
     }   
 
     // Construtor que prepara para que o método lines()
     // retorne um objeto iterável com as k últimas linhas
     // do arquivo fileName.
     public Tail(String fileName, int k) {
+        first = new LinkedList<String>();
         file =  new In(fileName);
         while (!file.isEmpty()) {
 			// Read and return the next line.
@@ -98,7 +105,7 @@ public class Tail {
      */
     public Iterable<String> lines() {
         // escreva seu método a seguir
-        return new LinkedList();
+        return first;
     }
 
    /***************************************************************************
@@ -144,51 +151,5 @@ public class Tail {
             }
         }
     }
-    
-    /* ROubando do ep1
-     * 
-     * StdOut.println("Criando a ST2 com as palavras do arquivo '" + args[0] + "' ...");
-        while (!in.isEmpty()) {
-            // Read and return the next line.
-            String linha = in.readLine();
-            String[] chaves = linha.split("\\W+");
-            for (int i = 0; i < chaves.length; i++) {
-                // StdOut.print("'" + chaves[i] + "' ");
-                st2.put(chaves[i]);
-            }
-        }
-        // sw.elapsedTime(): returns elapsed time (in seconds) since this object was created.
-        StdOut.println("ST2 criada em " + sw.elapsedTime() + " segundos");
-        
-        StdOut.println("ST2 contém " + st2.size() + " pares key-val");
-        
-        StdOut.println("Início da consulta interativa. Tecle ctrl+D encerrar");
-        StdOut.print(PROMPT);
-        // consultas à ST criada
-        while (!StdIn.isEmpty()) {
-            s = StdIn.readString();
-            if (s.equals(SHOW)) {
-                StdOut.println(st2);
-            }
-            else if (s.equals(SIZE)) {
-                StdOut.println(st2.size());
-            }
-            else if (s.equals(MAX)) {
-                StdOut.println("'" + st2.max() + "'");
-            }
-            else if (s.equals(KEYS)) {
-                /*for (String key: st2.keys()) {
-                    StdOut.println(key);
-                }
-            }
-            else {
-                // consulte o número de ocorrências de s no arquivo
-                StdOut.println(st2.get(s));
-            }
-            StdOut.print(PROMPT);
-         }
-    }
-     * 
-     * */
 }
 
