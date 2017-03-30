@@ -47,7 +47,9 @@ import edu.princeton.cs.algs4.In;
 // This class provides methods for printing strings and numbers to standard output.
 // https://www.ime.usp.br/~pf/sedgewick-wayne/stdlib/documentation/index.html
 // http://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdOut.html
-import edu.princeton.cs.algs4.StdOut; 
+import edu.princeton.cs.algs4.StdOut;
+
+import java.util.LinkedList;
 
 
 /** Está é classe é inspirada no Tarefa 04 do Paulo Felofiloff para 
@@ -65,41 +67,10 @@ import edu.princeton.cs.algs4.StdOut;
 public class Tail {
     // atributos de estado 
     
-    private Node first;
-    private int n;
+    private Tail t;
     In file;
+    LinkedList first;
     
-    private class Node {
-		private String value = "";
-		private Node next = null;
-	}
-    
-    private void add (String s) {
-		Node oldfirst = first;
-		first = new Node();
-		first.value = s;
-		first.next = first;
-		n++;
-	}
-	
-	private int size() {
-		return n;
-	}
-	
-	private boolean isStackEmpty(){
-		return n == 0;
-	}
-	
-	private void removeUltimo (Node first) {
-		Node aux = new Node();
-		while (first.next != null) {
-			aux = first;
-			first = first.next;
-		}
-		first = null;
-		n--;
-	}
-
     // Construtor que prepara para que o método lines()
     // retorne um objeto iterável com as 10 últimas linhas
     // do arquivo fileName. O valor 10 é o default.
@@ -113,13 +84,12 @@ public class Tail {
     // do arquivo fileName.
     public Tail(String fileName, int k) {
         file =  new In(fileName);
-		first = new Node();
         while (!file.isEmpty()) {
 			// Read and return the next line.
             String linha = file.readLine();
-            add(linha);
-            if (size() == k)
-				removeUltimo(first);
+            first.add(linha);
+            if (first.size() > k)
+				first.removeFirst();
         }
     }
 
@@ -128,7 +98,7 @@ public class Tail {
      */
     public Iterable<String> lines() {
         // escreva seu método a seguir
-        return first;
+        return new LinkedList();
     }
 
    /***************************************************************************
