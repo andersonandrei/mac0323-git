@@ -9,18 +9,6 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut; 
 
 
-/** Está é classe é inspirada no Tarefa 04 do Paulo Felofiloff para 
- * a edição de 2014 de MAC0323: 
- *
- *     https://www.ime.usp.br/~pf/mac0323-2014/tarefas/T04.html
- *
- * Como diz a tarefa 
- *
- *    "Resolva o problema sem desperdiçar memória. 
- *     Use uma (ou mais) das ADTs que já estudamos." 
- *
- */
-
 public class LinkedList {
     
     private Node first;
