@@ -50,23 +50,23 @@ import java.util.Iterator;
  */
 
 public class LinkedListST<Key extends Comparable<Key>, Value> {
-    // atributos de estado 
+    // atributos de estado
     private Node first;
     private Node last;
     private int n;
     
     private class Node {
-		public String key;
-		public int value;
+		public Key key;
+		public Value value;
 		public Node next;
 		
 		private Node () {
 			key = null;
-			value = 0;
+			value = null;
 			next = null;
 		}
 		
-		private Node (String str, int qnt) {
+		private Node (Key str, Value qnt) {
 			key = str;
 			value = qnt;
 			next = null;
@@ -79,7 +79,7 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
     public LinkedListST() {
         // escreva seu método a seguir
         n = 0;
-        first = null;
+        first = new Node();
         last = first;
     }   
 
@@ -87,14 +87,20 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      */
     public boolean contains(Key key) {
         // escreva seu método a seguir
+        Node aux;
         if (key == null) {
             throw new java.lang.NullPointerException("ST.contains(): key is null");
         }
         else {
-			for (Node aux : first){
-				if ((aux.key).compareTo(aux.next.key) == 0){
+			if (first == null || first.key == null)
+				return false;
+			aux = first;
+			while(aux != null) {
+				if(aux.key == null) return false;
+				if ((aux.key).compareTo(key) == 0){
 					return true;
 				}
+				aux = aux.next;
 			}
 		}
 		return false;
@@ -117,16 +123,19 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      *  Argument key must be nonnull.
      */
     public Value get(Key key) {
+        Node aux;
         if (key == null) 
 			throw new IllegalArgumentException("argument to get() is null");
-		else {
-			for (Node aux : first) {
-				if ((aux.key).compareTo(aux.next.key) == 0) {
+		if (contains(key)) {
+			aux = first;
+			while(aux != null) {
+				if ((aux.key).compareTo(key) == 0) {
 					return aux.value;
 				}
+				aux = aux.next;
 			}
-			return -1;
 		}
+		return null;
     } 
     
     /** Returns the number of keys in the table 
@@ -134,12 +143,17 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      *  Argument key must be nonnull.
      */
     public int rank(Key key) {
+		Node aux;
 		int n = 0;
         if (key == null) throw new IllegalArgumentException("argument to rank() is null");
 		if (!isEmpty()) {
-			for (Node aux : first) {
+			if (first == null || first.key == null)
+				return n;
+			aux = first;
+			while(aux != null) {
 				if ((aux.key).compareTo(key) < 0)
 					n++;
+				aux = aux.next;
 			}
 		}
 		return n;
@@ -152,7 +166,7 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      * If argument val is null, the key must be deleted from the table.
      */
     public void put(Key key, Value val)  {
-		Node novo;
+		Node novo, aux, oldaux;
         if (key == null) throw new IllegalArgumentException("argument to put() is null");
         if (val == null) { 
             delete(key); 
@@ -160,17 +174,36 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
         }
         else {
 			if (contains(key) == true){
-				for (Node aux : first) {
-					if ((aux.key).compareTo(key) == 0)
-						aux.value++;
+				aux = first;
+				while(aux != null) {
+					if ((aux.key).compareTo(key) == 0){
+						aux.value = val;
+					}
+					aux = aux.next;
 				}
 			}
 			else {
-				for (Node aux : first) {
-					if ((aux.key).compareTo(key) < 0) {
-						novo = new Node(key, val);
-						Key.next = aux.next;
-						aux.next = novo;
+				novo = new Node(key, val);
+				if (first == null || first.key == null) {
+					first = novo;
+				}
+				else {
+					aux = first;
+					oldaux = null;
+					while(aux != null && (aux.key).compareTo(key) < 0) {
+						oldaux = aux;
+						aux = aux.next;
+					}
+					if (aux == null) { // inserir no final da lista
+						oldaux.next = novo;
+					}
+					else if (oldaux == null) { // inserir no início da lista
+						novo.next = aux;
+						first = novo;
+					}
+					else { // inserir no meio qualquer da lista
+						oldaux.next = novo;
+						novo.next = aux;
 					}
 				}
 			}
@@ -182,12 +215,15 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      * If key is not in the table, do nothing.
      */
     public void delete(Key key)  {
+        Node aux;
         if (key == null) throw new IllegalArgumentException("argument to put() is null");
         if (!contains(key)) return ;
-		for (Node aux : first) {
+		aux = first;
+		while(aux.next != null) {
 			if ((aux.next.key).compareTo(key) == 0)
 				aux.next = aux.next.next;
 				//talvez meter um null no antigo, pra ajudar o varredo ******
+			aux = aux.next;
 		}
 		return;
     }
@@ -206,15 +242,17 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      * from this symbol table.
      */
     public void deleteMax() {
+        Node aux;
         if (isEmpty()) throw new java.util.NoSuchElementException("deleteMax(): Symbol table underflow error");
-		for (Node aux : first) {
+		aux = first;
+		while (aux.next != last) {
 			if ((aux.next.key).compareTo(last.key) == 0) {
 				last =  aux;
 				//talvez meter um null no antigo, pra ajudar o varredo ******
 			}
+			aux = aux.next;
 		}
     }
-
 
    /***************************************************************************
     *  Ordered symbol table methods
@@ -235,7 +273,8 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      */
     public Key max() {
         if (!isEmpty()) {
-			for (Key aux : first) {
+			if (first == null) return null;
+			for (Node aux : nodes()) {
 				if ((aux.key).compareTo(last.key) == 0)
 					return	last.key;
 			}
@@ -273,11 +312,12 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
         
         if (key == null) throw new IllegalArgumentException("argument to floor() is null");
         if (!isEmpty() && contains(key)) {
-			for (Key aux : first)
+			if (first == null) return null;
+			for (Node aux : nodes())
 				if ((aux.key).compareTo(key) < 0)
-					if (cmp == null || aux.key.compareTo(cmp) > 0) cmp = aux.key;
+					if (cmp == null || aux.key.compareTo(cmp.key) > 0) cmp = aux;
 		}
-		return cmp;
+		return cmp.key;
     }
 
     /** Returns the smallest key that is 
@@ -291,11 +331,12 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
         Node cmp = null;
         if (key == null) throw new IllegalArgumentException("argument to ceiling() is null");
         if (!isEmpty() && contains(key)) {
-			for (Key aux : first)
+			if (first == null) return null;
+			for (Node aux : nodes())
 				if ((aux.key).compareTo(key) > 0)
-					if (cmp == null || aux.key.compareTo(cmp) < 0) cmp = aux.key;
+					if (cmp == null || aux.key.compareTo(cmp.key) < 0) cmp = aux;
 		}
-		return cmp;
+		return cmp.key;
     }
 
     /** Returns all keys in the symbol table as an Iterable.
@@ -305,7 +346,7 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
     public Iterable<Key> keys() {
         return new ListKeys();
     }
-
+    
     /**
      * implements Iterable<Key> significa que essa classe deve 
      * ter um método iterator(), acho...
@@ -343,6 +384,42 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
         }
     }
 
+	public Iterable<Node> nodes() {
+        return new ListNodes();
+    }
+
+	private class ListNodes implements Iterable<Node> {
+        /** 
+         * Devolve um iterador que itera sobre os itens da ST 
+         * da menor até a maior chave.<br>
+         */
+        public Iterator<Node> iterator() {
+            return new NodeIterator();
+        }
+        
+        private class NodeIterator implements Iterator<Node> {
+            // variáveis do iterador
+            Node it;
+            
+            public NodeIterator() {
+				it = new Node();
+				it.next = first;
+			}
+            
+            public boolean hasNext() {
+                return it.next != null;
+            }
+
+            public Node next() {
+				it = it.next;
+				return it;
+            }
+                    
+            public void remove() { 
+                throw new UnsupportedOperationException(); 
+            }
+        }
+    }
 
    /***************************************************************************
     *   Check internal invariants: pode ser útil durante o desenvolvimento 
@@ -351,13 +428,13 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
     // are the items in the linked list in ascending order?
     private boolean isSorted() {
         if (!isEmpty()) {
-			for (Node aux : first) {
+			for (Node aux : nodes()) {
 				if ((aux.key).compareTo(aux.next.key) > 0)
-					return 0;
+					return false;
 			}
-			return 1;
+			return true;
 		}
-		return 1;
+		return true;
     }
 
    /** Test client.
