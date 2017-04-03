@@ -209,17 +209,20 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      * If key is not in the table, do nothing.
      */
     public void delete(Key key)  {
-        Node aux;
+        Node aux, oldaux;
         if (key == null) 
 			throw new IllegalArgumentException("argument to put() is null");
-        if (!contains(key)) 
+        if (!contains(key))
 			return ;
 		aux = first;
-		while(aux.next != null) {
-			if ((aux.next.key).compareTo(key) == 0)
-				aux.next = aux.next.next;
+		oldaux = null;
+		while(aux != null && (aux.key).compareTo(key) != 0) {
+			oldaux = aux;
 			aux = aux.next;
 		}
+		oldaux.next = aux.next;
+		aux = null;
+		n--;
 		return;
     }
 
@@ -308,18 +311,18 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      * returns null.
      */
     public Key floor(Key key) {
-        Node cmp = null;
-        if (key == null) 
-			throw new IllegalArgumentException("argument to floor() is null");
-        if (!isEmpty() && contains(key)) {
-			if (first == null) 
-				return null;
-			for (Node aux : nodes())
-				if ((aux.key).compareTo(key) < 0)
-					if (cmp == null || aux.key.compareTo(cmp.key) >= 0) 
-						cmp = aux;
+        Node aux, oldaux;
+        if (key == null) throw new IllegalArgumentException("argument to floor() is null");
+        if (first.key == null || first.key.compareTo(key) > 0) return null;
+		aux = first;
+		oldaux = new Node();
+		while (aux != null && aux.key.compareTo(key) < 0) {
+			oldaux = aux;
+			aux = aux.next;
 		}
-		return cmp.key;
+		if(aux == null) return null;
+		if(aux.key.compareTo(key) == 0) return aux.key;
+		return oldaux.key;
     }
 
     /** Returns the smallest key that is 
@@ -330,16 +333,19 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
      * returns null.
      */
     public Key ceiling(Key key) {
-        Node cmp = null;
+        Node aux, cmp = new Node();
         if (key == null) 
 			throw new IllegalArgumentException("argument to ceiling() is null");
         if (!isEmpty() && contains(key)) {
-			if (first == null) 
+			if (first == null || first.key == null) 
 				return null;
-			for (Node aux : nodes())
+			aux = first;
+			while (aux != null) {
 				if ((aux.key).compareTo(key) > 0)
-					if (cmp == null || aux.key.compareTo(cmp.key) <= 0)
+					if (cmp.key == null || aux.key.compareTo(cmp.key) <= 0)
 						cmp = aux;
+				aux = aux.next;
+			}
 		}
 		return cmp.key;
     }
@@ -475,7 +481,11 @@ public class LinkedListST<Key extends Comparable<Key>, Value> {
         StdOut.println(st.ceiling("R"));
         st.put("R", 15);
         StdOut.println(st.ceiling("R"));
-        StdOut.println(st.floor("S"));
+        StdOut.println(st.floor("C"));
+        StdOut.println(st.floor("P"));
+        st.delete("M");
+        StdOut.println(st.floor("P"));
+        
 
     }
 }
