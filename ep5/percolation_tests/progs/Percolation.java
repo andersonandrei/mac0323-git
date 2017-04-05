@@ -26,95 +26,78 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdOut; 
 
 public class Percolation {
-	private int map [][];
-	private int root [][];
+	private WeightedQuickUnionUF map;
+	private int[][] openClose;
+	private int nopen;
 	private int tam;
 	
 	// create n-by-n grid, with all sites initially blocked
 	public Percolation(int n) {
-		int i, j;
+		map = new WeightedQuickUnionUF(n*n);
+		openClose = new int[n][n];
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < n; j++)
+				openClose[i][j] = -1;
+		nopen = 0;
 		tam = n;
-		map = new int[tam][tam];
-		root = new int[tam][tam];
-		for (i = 0; i < tam; i++) {
-			for (j = 0 ; j < tam; j++) {
-				map[i][j] = 2;
-				root[i][j] = i;
-			}
-		}
 	}
 	
 	// open the site (row, col) if it is not open already
     public void open(int row, int col) {
-		map[row][col] = 0;
-		achaRoot(row,col);
+		openClose[row][col] = 0;
+		nopen++;
+		achaRoot(row, col);
+		//Marca na matriz que abre que ta aberto,coma no open, olha nas adjascentes se tem algum aberto, 
+		//se tem manda dar o connetc .
 	}
     
     // is the site (row, col) open?    
     public boolean isOpen(int row, int col)  {
-		return map[row][col] == 0;
+		return openClose[row][col] == 0;
 	}
     
     // is the site (row, col) full?
     public boolean isFull(int row, int col)  {
-		StdOut.println("Entrou no is full" + map[row][col]);
-		if (map[row][col] == 1)
-			return true;
-		return false;
+		return openClose[row][col] == 1;
 	}
     
     // number of open sites
     public int numberOfOpenSites() {
-		int i, j, cont = 0;
-		map = new int[tam][tam];
-		for (i = 0; i < tam; i++)
-			for (j = 0 ; j < tam; j++)
-				if (map[i][j] == 0)
-					cont++;
-		return cont;
+		return nopen;
 	}
     
     // does the system percolate?
     public boolean percolates() {
-		for (int j = 0; j < tam; j++)
-			if (root[tam-1][j] == 0) 
-				return true;
+		int i, j;
+		for (i = 0; i < tam; i ++)
+			for (j = 0; j < tam; j++)
+				if (map.find(convertCo(0,i)) == map.find(convertCo(j,tam-1)))
+					return true;
 		return false;
 	}
     
+    private int convertCo (int row, int col) {
+		return row * tam + col;
+	}
+    
     public void achaRoot(int row, int col) {
-		if (row-1 >= 0 && col-1 >= 0) {
-			if (root[row-1][col-1] < root[row][col]) 
-				root[row][col] = root[row-1][col-1];
+		if (row-1 >= 0 && col >= 0) {
+			if (isOpen(row-1,col))
+				map.union(convertCo(row,col) ,convertCo(row-1,col));
 		}
-		else if (row-1 >= 0 && col >= 0) {
-			if (root[row-1][col] < root[row][col]) 
-				root[row][col] = root[row-1][col];
+		if (row >= 0 && col+1 < tam) {
+			if (isOpen(row,col+1))
+				map.union(convertCo(row,col) ,convertCo(row,col+1));
 		}
-		else if (row-1 >= 0 && col+1 < tam) {
-			if (root[row-1][col+1] < root[row][col]) 
-				root[row][col] = root[row-1][col+1];
+		if (row+1 < tam && col+1 < tam) {
+			if (isOpen(row+1,col+1))
+				map.union(convertCo(row,col) ,convertCo(row+1,col+1));
 		}
-		else if (row >= 0 && col-1 >= 0) {
-			if (root[row][col-1] < root[row][col]) 
-				root[row][col] = root[row][col-1];
+		if (row >= 0 && col-1 >= 0) {
+				if (isOpen(row,col-1))
+					map.union(convertCo(row,col) ,convertCo(row,col-1));
 		}
-		else if (row >= 0 && col+1 < 0) {
-			if (root[row][col+1] < root[row][col]) 
-				root[row][col] = root[row][col+1];
-		}
-		else if (row+1 < tam && col-1 >= 0) {
-			if (root[row+1][col-1] < root[row][col]) 
-				root[row][col] = root[row+1][col-1];
-		}
-		else if (row+1 < tam && col >= 0) {
-			if (root[row+1][col] < root[row][col]) 
-				root[row][col] = root[row+1][col];
-		}
-		else if (row+1 < tam && col+1 < tam) {
-			if (root[row+1][col+1] < root[row][col]) 
-				root[row][col] = root[row+1][col+1];
-		}
+		
 	}
     
     // unit testing (required)

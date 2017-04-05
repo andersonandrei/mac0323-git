@@ -12,7 +12,7 @@
  *
  *  After each site is opened, it draws full sites in light blue,
  *  open sites (that aren't full) in white, and blocked sites in black,
- *  with with site (1, 1) in the upper left-hand corner.
+ *  with with site (0, 0) in the upper left-hand corner.
  *
  ******************************************************************************/
 
@@ -20,7 +20,6 @@ import java.awt.Font;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut; 
 
 public class PercolationVisualizer {
 
@@ -36,45 +35,43 @@ public class PercolationVisualizer {
         StdDraw.filledSquare(n/2.0, n/2.0, n/2.0);
 
         // draw n-by-n grid
-        int opened = 0;
-        for (int row = 1; row <= n; row++) {
-            for (int col = 1; col <= n; col++) {
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
                 if (perc.isFull(row, col)) {
                     StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
-                    opened++;
                 }
                 else if (perc.isOpen(row, col)) {
                     StdDraw.setPenColor(StdDraw.WHITE);
-                    opened++;
                 }
-                else
+                else {
                     StdDraw.setPenColor(StdDraw.BLACK);
-                StdDraw.filledSquare(col - 0.5, n - row + 0.5, 0.45);
+                }
+                StdDraw.filledSquare(col + 0.5, n - row - 0.5, 0.45);
             }
         }
 
         // write status text
         StdDraw.setFont(new Font("SansSerif", Font.PLAIN, 12));
         StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.text(0.25*n, -0.025*n, opened + " open sites");
+        StdDraw.text(0.25*n, -0.025*n, perc.numberOfOpenSites() + " open sites");
         if (perc.percolates()) StdDraw.text(0.75*n, -0.025*n, "percolates");
         else                   StdDraw.text(0.75*n, -0.025*n, "does not percolate");
 
     }
-    
-    public static void main(String[] args) {
-        In in = new In(args[0]);      // input file
-        int n = in.readInt();         // n-by-n percolation system
+
+    private static void simulateFromFile(String filename) {
+        In in = new In(filename);
+        int n = in.readInt();
+        Percolation perc = new Percolation(n);
 
         // turn on animation mode
         StdDraw.enableDoubleBuffering();
 
         // repeatedly read in sites to open and draw resulting system
-        Percolation perc = new Percolation(n);
-        StdOut.println("Criou o perc");
         draw(perc, n);
         StdDraw.show();
         StdDraw.pause(DELAY);
+
         while (!in.isEmpty()) {
             int i = in.readInt();
             int j = in.readInt();
@@ -83,5 +80,10 @@ public class PercolationVisualizer {
             StdDraw.show();
             StdDraw.pause(DELAY);
         }
+    }
+
+    public static void main(String[] args) {
+        String filename = args[0];
+        simulateFromFile(filename);
     }
 }
