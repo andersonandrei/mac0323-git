@@ -87,8 +87,11 @@ public class Percolation {
 			if (isOpen(row-1,col)) {
 				StdOut.println("Caso 11---");
 				map.union(convertCo(row,col) ,convertCo(row-1,col));
-				openClose[row][col] = 2;
-				openClose[row-1][col] = 2;
+				for (int i = 0; i < tam; i++)
+					if (map.find(convertCo(row-1,col)) == map.find(convertCo(0,i))){
+						openClose[row][col] = 2;
+						openClose[row-1][col] = 2;
+					}
 			}
 		}
 		if (row >= 0 && col+1 < tam) {
@@ -96,28 +99,39 @@ public class Percolation {
 			if (isOpen(row,col+1)) {
 				StdOut.println("Caso 22---");
 				map.union(convertCo(row,col) ,convertCo(row,col+1));
-				openClose[row][col] = 2;
-				openClose[row][col+1] = 2;
+				for (int i = 0; i < tam; i++)
+					if (map.find(convertCo(row,col+1)) == map.find(convertCo(0,i))){
+						openClose[row][col] = 2;
+						openClose[row][col+1] = 2;
+					}
 			}
 		}
 		if (row+1 < tam && col >= 0) {
 			StdOut.println("Caso 3---");
 			if (isOpen(row+1,col)){
 				map.union(convertCo(row,col) ,convertCo(row+1,col));
-				openClose[row][col] = 2;
-				openClose[row+1][col] = 2;
+				for (int i = 0; i < tam; i++)
+					if (map.find(convertCo(row+1,col)) == map.find(convertCo(0,i))){
+						openClose[row][col] = 2;
+						openClose[row+1][col] = 2;
+					}
 			}
 		}
 		if (row >= 0 && col-1 >= 0) {
 			StdOut.println("Caso 4---");
 				if (isOpen(row,col-1)){
 					map.union(convertCo(row,col) ,convertCo(row,col-1));
-					openClose[row][col] = 2;
-					openClose[row][col-1] = 2;
+					for (int i = 0; i < tam; i++)
+						if (map.find(convertCo(row-1,col)) == map.find(convertCo(0,i))){
+							openClose[row][col] = 2;
+							openClose[row][col-1] = 2;
+						}
 				}
 		}
 		
 	}
+	
+	/*Falta fazer uma função preenche pra verificar bonitinho o que pintar e comentar os if(fin() == find() no acharoot.*/
     
     // unit testing (required)
     public static void main(String[] args)   {}
