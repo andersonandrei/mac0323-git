@@ -37,14 +37,14 @@ public class Percolation {
 		openClose = new int[n][n];
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < n; j++)
-				openClose[i][j] = -1;
+				openClose[i][j] = 0;
 		nopen = 0;
 		tam = n;
 	}
 	
 	// open the site (row, col) if it is not open already
     public void open(int row, int col) {
-		openClose[row][col] = 0;
+		openClose[row][col] = 1;
 		nopen++;
 		achaRoot(row, col);
 		//Marca na matriz que abre que ta aberto,coma no open, olha nas adjascentes se tem algum aberto, 
@@ -53,12 +53,12 @@ public class Percolation {
     
     // is the site (row, col) open?    
     public boolean isOpen(int row, int col)  {
-		return openClose[row][col] == 0;
+		return openClose[row][col] > 0;
 	}
     
     // is the site (row, col) full?
     public boolean isFull(int row, int col)  {
-		return openClose[row][col] == 1;
+		return openClose[row][col] == 2;
 	}
     
     // number of open sites
@@ -71,7 +71,7 @@ public class Percolation {
 		int i, j;
 		for (i = 0; i < tam; i ++)
 			for (j = 0; j < tam; j++)
-				if (map.find(convertCo(0,i)) == map.find(convertCo(j,tam-1)))
+				if (map.find(convertCo(0,i)) == map.find(convertCo(tam-1,j)))
 					return true;
 		return false;
 	}
@@ -81,21 +81,40 @@ public class Percolation {
 	}
     
     public void achaRoot(int row, int col) {
+		StdOut.println("Entrou --------9000");
 		if (row-1 >= 0 && col >= 0) {
-			if (isOpen(row-1,col))
+			StdOut.println("Caso 1---");
+			if (isOpen(row-1,col)) {
+				StdOut.println("Caso 11---");
 				map.union(convertCo(row,col) ,convertCo(row-1,col));
+				openClose[row][col] = 2;
+				openClose[row-1][col] = 2;
+			}
 		}
 		if (row >= 0 && col+1 < tam) {
-			if (isOpen(row,col+1))
+			StdOut.println("Caso 2---");
+			if (isOpen(row,col+1)) {
+				StdOut.println("Caso 22---");
 				map.union(convertCo(row,col) ,convertCo(row,col+1));
+				openClose[row][col] = 2;
+				openClose[row][col+1] = 2;
+			}
 		}
-		if (row+1 < tam && col+1 < tam) {
-			if (isOpen(row+1,col+1))
-				map.union(convertCo(row,col) ,convertCo(row+1,col+1));
+		if (row+1 < tam && col >= 0) {
+			StdOut.println("Caso 3---");
+			if (isOpen(row+1,col)){
+				map.union(convertCo(row,col) ,convertCo(row+1,col));
+				openClose[row][col] = 2;
+				openClose[row+1][col] = 2;
+			}
 		}
 		if (row >= 0 && col-1 >= 0) {
-				if (isOpen(row,col-1))
+			StdOut.println("Caso 4---");
+				if (isOpen(row,col-1)){
 					map.union(convertCo(row,col) ,convertCo(row,col-1));
+					openClose[row][col] = 2;
+					openClose[row][col-1] = 2;
+				}
 		}
 		
 	}
