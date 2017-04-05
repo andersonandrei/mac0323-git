@@ -20,6 +20,7 @@ import java.awt.Font;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut; 
 
 public class PercolationVisualizer {
 
@@ -60,7 +61,7 @@ public class PercolationVisualizer {
         else                   StdDraw.text(0.75*n, -0.025*n, "does not percolate");
 
     }
-
+    
     public static void main(String[] args) {
         In in = new In(args[0]);      // input file
         int n = in.readInt();         // n-by-n percolation system
@@ -70,6 +71,7 @@ public class PercolationVisualizer {
 
         // repeatedly read in sites to open and draw resulting system
         Percolation perc = new Percolation(n);
+        StdOut.println("Criou o perc");
         draw(perc, n);
         StdDraw.show();
         StdDraw.pause(DELAY);

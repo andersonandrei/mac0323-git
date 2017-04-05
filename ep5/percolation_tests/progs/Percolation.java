@@ -23,19 +23,22 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import edu.princeton.cs.algs4.StdOut; 
 
 public class Percolation {
 	private int map [][];
 	private int root [][];
+	private int tam;
 	
 	// create n-by-n grid, with all sites initially blocked
 	public Percolation(int n) {
 		int i, j;
-		map = new int[n][n];
-		root = new int[n][n];
-		for (i = 0; i < n; i++) {
-			for (j = 0 ; j < n; j++) {
-				map[i][j] = -1;
+		tam = n;
+		map = new int[tam][tam];
+		root = new int[tam][tam];
+		for (i = 0; i < tam; i++) {
+			for (j = 0 ; j < tam; j++) {
+				map[i][j] = 2;
 				root[i][j] = i;
 			}
 		}
@@ -54,29 +57,32 @@ public class Percolation {
     
     // is the site (row, col) full?
     public boolean isFull(int row, int col)  {
-		return map[row][col] == 1;
+		StdOut.println("Entrou no is full" + map[row][col]);
+		if (map[row][col] == 1)
+			return true;
+		return false;
 	}
     
     // number of open sites
     public int numberOfOpenSites() {
 		int i, j, cont = 0;
-		map = new int[n][n];
-		for (i = 0; i < n; i++)
-			for (j = 0 ; j < n; j++)
-				if (map[i][j] = 0)
+		map = new int[tam][tam];
+		for (i = 0; i < tam; i++)
+			for (j = 0 ; j < tam; j++)
+				if (map[i][j] == 0)
 					cont++;
 		return cont;
 	}
     
     // does the system percolate?
     public boolean percolates() {
-		for (int j = 0; j < n; j++)
-			if (root[n-1][j] == 0) 
+		for (int j = 0; j < tam; j++)
+			if (root[tam-1][j] == 0) 
 				return true;
 		return false;
 	}
     
-    public class achaRoot(int row, int cow) {
+    public void achaRoot(int row, int col) {
 		if (row-1 >= 0 && col-1 >= 0) {
 			if (root[row-1][col-1] < root[row][col]) 
 				root[row][col] = root[row-1][col-1];
@@ -85,7 +91,7 @@ public class Percolation {
 			if (root[row-1][col] < root[row][col]) 
 				root[row][col] = root[row-1][col];
 		}
-		else if (row-1 >= 0 && col+1 < n) {
+		else if (row-1 >= 0 && col+1 < tam) {
 			if (root[row-1][col+1] < root[row][col]) 
 				root[row][col] = root[row-1][col+1];
 		}
@@ -97,15 +103,15 @@ public class Percolation {
 			if (root[row][col+1] < root[row][col]) 
 				root[row][col] = root[row][col+1];
 		}
-		else if (row+1 < n && col-1 >= 0) {
+		else if (row+1 < tam && col-1 >= 0) {
 			if (root[row+1][col-1] < root[row][col]) 
 				root[row][col] = root[row+1][col-1];
 		}
-		else if (row+1 < n && col >= 0) {
+		else if (row+1 < tam && col >= 0) {
 			if (root[row+1][col] < root[row][col]) 
 				root[row][col] = root[row+1][col];
 		}
-		else if (row+1 < n && col+1 < n) {
+		else if (row+1 < tam && col+1 < tam) {
 			if (root[row+1][col+1] < root[row][col]) 
 				root[row][col] = root[row+1][col+1];
 		}
