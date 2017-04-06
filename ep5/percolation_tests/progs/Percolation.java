@@ -46,6 +46,7 @@ public class Percolation {
     public void open(int row, int col) {
 		openClose[row][col] = 1;
 		nopen++;
+		if(row == 0) openClose[row][col] = 2;
 		achaRoot(row, col);
 		//Marca na matriz que abre que ta aberto,coma no open, olha nas adjascentes se tem algum aberto, 
 		//se tem manda dar o connetc .
@@ -75,60 +76,61 @@ public class Percolation {
 					return true;
 		return false;
 	}
+	
+	//Mini percolations
+	public boolean percolates(int row, int col) {
+		int i, j;
+		for (i = 0; i < tam; i ++)
+			if (map.find(convertCo(0,i)) == map.find(convertCo(row,col)))
+				return true;
+		return false;
+	}
     
     private int convertCo (int row, int col) {
 		return row * tam + col;
 	}
     
     public void achaRoot(int row, int col) {
-		StdOut.println("Entrou --------9000");
 		if (row-1 >= 0 && col >= 0) {
-			StdOut.println("Caso 1---");
 			if (isOpen(row-1,col)) {
-				StdOut.println("Caso 11---");
 				map.union(convertCo(row,col) ,convertCo(row-1,col));
-				for (int i = 0; i < tam; i++)
-					if (map.find(convertCo(row-1,col)) == map.find(convertCo(0,i))){
-						openClose[row][col] = 2;
-						openClose[row-1][col] = 2;
-					}
+				if (percolates(row,col)) {
+					pintaConec(row,col);
+				}
 			}
 		}
 		if (row >= 0 && col+1 < tam) {
-			StdOut.println("Caso 2---");
 			if (isOpen(row,col+1)) {
-				StdOut.println("Caso 22---");
 				map.union(convertCo(row,col) ,convertCo(row,col+1));
-				for (int i = 0; i < tam; i++)
-					if (map.find(convertCo(row,col+1)) == map.find(convertCo(0,i))){
-						openClose[row][col] = 2;
-						openClose[row][col+1] = 2;
-					}
+				if (percolates(row,col)) {
+					pintaConec(row,col);
+				}
 			}
 		}
 		if (row+1 < tam && col >= 0) {
-			StdOut.println("Caso 3---");
 			if (isOpen(row+1,col)){
 				map.union(convertCo(row,col) ,convertCo(row+1,col));
-				for (int i = 0; i < tam; i++)
-					if (map.find(convertCo(row+1,col)) == map.find(convertCo(0,i))){
-						openClose[row][col] = 2;
-						openClose[row+1][col] = 2;
-					}
+				if (percolates(row,col)) {
+					pintaConec(row,col);
+				}
 			}
 		}
 		if (row >= 0 && col-1 >= 0) {
-			StdOut.println("Caso 4---");
-				if (isOpen(row,col-1)){
-					map.union(convertCo(row,col) ,convertCo(row,col-1));
-					for (int i = 0; i < tam; i++)
-						if (map.find(convertCo(row-1,col)) == map.find(convertCo(0,i))){
-							openClose[row][col] = 2;
-							openClose[row][col-1] = 2;
-						}
+			if (isOpen(row,col-1)){
+				map.union(convertCo(row,col) ,convertCo(row,col-1));
+				if (percolates(row,col)) {
+					pintaConec(row,col);
 				}
+			}
 		}
 		
+	}
+	
+	public void pintaConec(int row, int col) {
+		for (int i = 0; i < tam; i++)
+			for (int j = 0; j < tam; j++)
+				if(map.find(convertCo(i,j)) == map.find(convertCo(row,col)))
+					openClose[i][j] = 2;
 	}
 	
 	/*Falta fazer uma função preenche pra verificar bonitinho o que pintar e comentar os if(fin() == find() no acharoot.*/
