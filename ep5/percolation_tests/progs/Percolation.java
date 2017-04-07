@@ -123,7 +123,6 @@ public class Percolation {
 				}
 			}
 		}
-		
 	}
 	
 	public void pintaConec(int row, int col) {
