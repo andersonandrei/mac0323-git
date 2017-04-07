@@ -26,30 +26,38 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdOut; 
 
 public class Percolation {
-	private WeightedQuickUnionUF map;
+	private WeightedQuickUnionUF map, mapTopo;
 	private int[][] openClose;
 	private int nopen;
 	private int tam;
+	private int inicio, fim;
+	private boolean perc;
+	
 	
 	// create n-by-n grid, with all sites initially blocked
 	public Percolation(int n) {
-		map = new WeightedQuickUnionUF(n*n);
+		map = new WeightedQuickUnionUF(n*n+2);
+		mapTopo = new WeightedQuickUnionUF(n*n+1);
 		openClose = new int[n][n];
-		for (int i = 0; i < n; i++)
-			for (int j = 0; j < n; j++)
-				openClose[i][j] = 0;
-		nopen = 0;
 		tam = n;
+		inicio = n*n;
+		fim = n*n+1;
 	}
 	
 	// open the site (row, col) if it is not open already
     public void open(int row, int col) {
 		openClose[row][col] = 1;
 		nopen++;
-		if(row == 0) openClose[row][col] = 2;
-		achaRoot(row, col);
-		//Marca na matriz que abre que ta aberto,coma no open, olha nas adjascentes se tem algum aberto, 
-		//se tem manda dar o connetc .
+		if(row == 0) {
+			map.union(convertCo(row,col) , inicio);
+			mapTopo.union(convertCo(row,col) , inicio);
+			//openClose[row][col] = 2;
+		}
+		else if (row == tam-1) {
+			map.union(convertCo(row,col) , fim);
+			//mapTopo.union(convertCo(row,col) , fim);
+		}
+		achaVizinho(row, col);
 	}
     
     // is the site (row, col) open?    
@@ -59,7 +67,7 @@ public class Percolation {
     
     // is the site (row, col) full?
     public boolean isFull(int row, int col)  {
-		return openClose[row][col] == 2;
+		return mapTopo.find(convertCo(row,col)) == map.find(inicio);
 	}
     
     // number of open sites
@@ -69,20 +77,8 @@ public class Percolation {
     
     // does the system percolate?
     public boolean percolates() {
-		int i, j;
-		for (i = 0; i < tam; i ++)
-			for (j = 0; j < tam; j++)
-				if (map.find(convertCo(0,i)) == map.find(convertCo(tam-1,j)))
-					return true;
-		return false;
-	}
-	
-	//Mini percolations
-	public boolean percolates(int row, int col) {
-		int i, j;
-		for (i = 0; i < tam; i ++)
-			if (map.find(convertCo(0,i)) == map.find(convertCo(row,col)))
-				return true;
+		if (map.find(inicio) == map.find(fim))
+			return true;
 		return false;
 	}
     
@@ -90,47 +86,33 @@ public class Percolation {
 		return row * tam + col;
 	}
     
-    public void achaRoot(int row, int col) {
+    public void achaVizinho(int row, int col) {
 		if (row-1 >= 0 && col >= 0) {
 			if (isOpen(row-1,col)) {
 				map.union(convertCo(row,col) ,convertCo(row-1,col));
-				if (percolates(row,col)) {
-					pintaConec(row,col);
-				}
+				mapTopo.union(convertCo(row,col) ,convertCo(row-1,col));
 			}
 		}
 		if (row >= 0 && col+1 < tam) {
 			if (isOpen(row,col+1)) {
 				map.union(convertCo(row,col) ,convertCo(row,col+1));
-				if (percolates(row,col)) {
-					pintaConec(row,col);
-				}
+				mapTopo.union(convertCo(row,col) ,convertCo(row,col+1));
 			}
 		}
 		if (row+1 < tam && col >= 0) {
 			if (isOpen(row+1,col)){
 				map.union(convertCo(row,col) ,convertCo(row+1,col));
-				if (percolates(row,col)) {
-					pintaConec(row,col);
-				}
+				mapTopo.union(convertCo(row,col) ,convertCo(row+1,col));
 			}
 		}
 		if (row >= 0 && col-1 >= 0) {
 			if (isOpen(row,col-1)){
 				map.union(convertCo(row,col) ,convertCo(row,col-1));
-				if (percolates(row,col)) {
-					pintaConec(row,col);
-				}
+				mapTopo.union(convertCo(row,col) ,convertCo(row,col-1));
 			}
 		}
 	}
 	
-	public void pintaConec(int row, int col) {
-		for (int i = 0; i < tam; i++)
-			for (int j = 0; j < tam; j++)
-				if(map.find(convertCo(i,j)) == map.find(convertCo(row,col)))
-					openClose[i][j] = 2;
-	}
 	
 	/*Falta fazer uma função preenche pra verificar bonitinho o que pintar e comentar os if(fin() == find() no acharoot.*/
     
