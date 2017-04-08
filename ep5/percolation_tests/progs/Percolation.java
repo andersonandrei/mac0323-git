@@ -118,7 +118,17 @@ public class Percolation {
 	/*Falta fazer uma função preenche pra verificar bonitinho o que pintar e comentar os if(fin() == find() no acharoot.*/
     
     // unit testing (required)
-    public static void main(String[] args)   {}
+    public static void main(String[] args)   {
+		PercolationStats percStat = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+		
+		StdOut.println("Passou :" + args[0] + args[1]);
+		StdOut.println("Média:" + percStat.mean());
+		StdOut.println("Stddev:" + percStat.stddev());
+		StdOut.println("Min:" + percStat.confidenceLow());
+		StdOut.println("Max:" + percStat.confidenceHigh());     	
+	
+	
+	}
     
     
     

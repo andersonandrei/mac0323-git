@@ -9,6 +9,7 @@ public class PercolationStats {
 }
 */
 
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -33,18 +34,19 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class PercolationStats {
 	private double[] exp;
-	private perc Percolation;
+	private Percolation perc;
 	
+	public PercolationStats(){}
 	
 	// perform trials independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
-		int x, soma, merda, aux;
+		int x, soma, merda, aux = 0;
 		double mean, stddev, confidenceLow, confidenceHigh;
 		exp = new double[trials];
 		perc = new Percolation(n);
 		while (aux < trials) {
 			while(!perc.percolates()){
-				perc.open(uniform(0,n), uniform(0,n));
+				perc.open(2,3);
 			}
 			exp[aux] = (perc.numberOfOpenSites())/n;
 			aux++;
@@ -59,22 +61,29 @@ public class PercolationStats {
     
     // sample mean of percolation threshold
     public double mean() {
-		return mean(exp);
+		return StdStats.mean(exp);
 	}
     
     
     // sample standard deviation of percolation threshold
     public double stddev() {
-		return stddev(exp);
+		return StdStats.stddev(exp);
 	}
     
     
     // low  endpoint of 95% confidence interval                   
-    public double confidenceLow() {}
+    public double confidenceLow() {
+		return 0.0;
+	}
     
     
     // high endpoint of 95% confidence interval     
-    public double confidenceHigh()  {}
+    public double confidenceHigh()  {
+		return 1.0;
+	}
+	
+	public static void main(String[] args) {}
+	
     
     
 }
