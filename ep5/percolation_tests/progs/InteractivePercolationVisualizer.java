@@ -20,20 +20,13 @@ public class InteractivePercolationVisualizer {
         // n-by-n percolation system (read from command-line, default = 10)
         int n = 10;          
         if (args.length == 1) n = Integer.parseInt(args[0]);
-		StdOut.println("oi1");
         // turn on animation mode
         StdDraw.enableDoubleBuffering();
-		StdOut.println("oi2");
         // repeatedly open site specified my mouse click and draw resulting system
         StdOut.println(n);
-		StdOut.println("oi3");
         Percolation perc = new Percolation(n);
-        StdOut.println("oi4");
         PercolationVisualizer.draw(perc, n);
-        StdOut.println("oi5");
         StdDraw.show();
-
-		StdOut.println("oi");
         while (true) {
 
             // detected mouse click

@@ -33,7 +33,6 @@ public class Percolation {
 	private int inicio, fim;
 	private boolean perc;
 	
-	
 	// create n-by-n grid, with all sites initially blocked
 	public Percolation(int n) {
 		map = new WeightedQuickUnionUF(n*n+2);
@@ -46,18 +45,20 @@ public class Percolation {
 	
 	// open the site (row, col) if it is not open already
     public void open(int row, int col) {
-		openClose[row][col] = 1;
-		nopen++;
-		if(row == 0) {
-			map.union(convertCo(row,col) , inicio);
-			mapTopo.union(convertCo(row,col) , inicio);
-			//openClose[row][col] = 2;
+		if (!isOpen(row,col)) {
+			openClose[row][col] = 1;
+			nopen++;
+			if(row == 0) {
+				map.union(convertCo(row,col) , inicio);
+				mapTopo.union(convertCo(row,col) , inicio);
+				//openClose[row][col] = 2;
+			}
+			else if (row == tam-1) {
+				map.union(convertCo(row,col) , fim);
+				//mapTopo.union(convertCo(row,col) , fim);
+			}
+			achaVizinho(row, col);
 		}
-		else if (row == tam-1) {
-			map.union(convertCo(row,col) , fim);
-			//mapTopo.union(convertCo(row,col) , fim);
-		}
-		achaVizinho(row, col);
 	}
     
     // is the site (row, col) open?    
