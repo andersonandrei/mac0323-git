@@ -119,15 +119,13 @@ public class Percolation {
     
     // unit testing (required)
     public static void main(String[] args)   {
-		/*PercolationStats percStat = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-		
+		PercolationStats percStat = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		StdOut.println("Passou :" + args[0] + args[1]);
 		StdOut.println("Média:" + percStat.mean());
 		StdOut.println("Stddev:" + percStat.stddev());
 		StdOut.println("Min:" + percStat.confidenceLow());
 		StdOut.println("Max:" + percStat.confidenceHigh());     	
-	
-		*/
+
 	
 	}
     

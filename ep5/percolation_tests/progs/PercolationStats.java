@@ -40,13 +40,13 @@ public class PercolationStats {
 	
 	// perform trials independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
-		int x, soma, merda, aux = 0;
+		int a, b, x, soma, merda, aux = 0;
 		double mean, stddev, confidenceLow, confidenceHigh;
 		exp = new double[trials];
 		perc = new Percolation(n);
 		while (aux < trials) {
 			while(!perc.percolates()){
-				perc.open(2,3);
+				perc.open(StdRandom.uniform(n),StdRandom.uniform(n));
 			}
 			exp[aux] = (perc.numberOfOpenSites())/n;
 			aux++;
