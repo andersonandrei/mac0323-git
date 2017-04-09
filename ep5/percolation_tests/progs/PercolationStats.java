@@ -27,6 +27,10 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 	        In in = new In(filename);
         int n = in.readInt();
         * 
+        * 
+        * 
+        * 
+       0.05
  * 
  * 
  * 
@@ -83,7 +87,5 @@ public class PercolationStats {
 	}
 	
 	public static void main(String[] args) {}
-	
-    
     
 }
