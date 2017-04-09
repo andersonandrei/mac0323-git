@@ -68,7 +68,7 @@ public class Percolation {
     
     // is the site (row, col) full?
     public boolean isFull(int row, int col)  {
-		return mapTopo.find(convertCo(row,col)) == map.find(inicio);
+		return mapTopo.find(convertCo(row,col)) == mapTopo.find(inicio);
 	}
     
     // number of open sites
@@ -119,7 +119,7 @@ public class Percolation {
     
     // unit testing (required)
     public static void main(String[] args)   {
-		PercolationStats percStat = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+		/*PercolationStats percStat = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		
 		StdOut.println("Passou :" + args[0] + args[1]);
 		StdOut.println("Média:" + percStat.mean());
@@ -127,6 +127,7 @@ public class Percolation {
 		StdOut.println("Min:" + percStat.confidenceLow());
 		StdOut.println("Max:" + percStat.confidenceHigh());     	
 	
+		*/
 	
 	}
     
