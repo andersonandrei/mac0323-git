@@ -38,6 +38,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class PercolationStats {
 	private double[] exp;
+	private int tam;
 	private Percolation perc;
 	
 	public PercolationStats(){}
@@ -46,13 +47,14 @@ public class PercolationStats {
     public PercolationStats(int n, int trials) {
 		int a, b, x, soma, merda, aux = 0;
 		double mean, stddev, confidenceLow, confidenceHigh;
+		tam = n;
 		exp = new double[trials];
 		perc = new Percolation(n);
 		while (aux < trials) {
 			while(!perc.percolates()){
 				perc.open(StdRandom.uniform(n),StdRandom.uniform(n));
 			}
-			exp[aux] = (perc.numberOfOpenSites())/n;
+			exp[aux] = ((double)perc.numberOfOpenSites())/(n*n);
 			aux++;
 			perc = new Percolation(n);
 		}
@@ -77,13 +79,13 @@ public class PercolationStats {
     
     // low  endpoint of 95% confidence interval                   
     public double confidenceLow() {
-		return 0.0;
+		return (mean() - (1.96 * stddev() / Math.sqrt(tam)));
 	}
     
     
     // high endpoint of 95% confidence interval     
     public double confidenceHigh()  {
-		return 1.0;
+		return (mean() + (1.96 * stddev() / Math.sqrt(tam)));
 	}
 	
 	public static void main(String[] args) {}
