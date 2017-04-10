@@ -1,0 +1,10 @@
+-> INICIANDO TESTE: verificando se lança exceção com tamanho do grid < 1 (0.5) 
+
+** Teste falhou! ** 
+
+
+-> INICIANDO TESTE: verificando percola com grid 1x1 (0.5) 
+
+** Teste falhou! ** 
+
+

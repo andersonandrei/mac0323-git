@@ -14,28 +14,6 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
-/*
- * 
- * 	uniform(double a, double b)
-		Returns a random real number uniformly in [a, b).
-		* 
-		* 
-	setSeed(long s)
-		Sets the seed of the pseudorandom number generator.
-		* 
-		* 
-	        In in = new In(filename);
-        int n = in.readInt();
-        * 
-        * 
-        * 
-        * 
-       0.05
- * 
- * 
- * 
- * */
-
 public class PercolationStats {
 	private double[] exp;
 	private int tam;
@@ -45,18 +23,24 @@ public class PercolationStats {
 	
 	// perform trials independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
+		if (n <= 0 || trials <= 0)
+            throw new java.lang.IllegalArgumentException();
 		int a, b, x, soma, merda, aux = 0;
 		double mean, stddev, confidenceLow, confidenceHigh;
 		tam = n;
 		exp = new double[trials];
 		perc = new Percolation(n);
-		while (aux < trials) {
-			while(!perc.percolates()){
-				perc.open(StdRandom.uniform(n),StdRandom.uniform(n));
-			}
-			exp[aux] = ((double)perc.numberOfOpenSites())/(n*n);
-			aux++;
+		if (n == 1)
 			perc = new Percolation(n);
+		else {
+			while (aux < trials) {
+				while(!perc.percolates()){
+					perc.open(StdRandom.uniform(n),StdRandom.uniform(n));
+				}
+				exp[aux] = ((double)perc.numberOfOpenSites())/(n*n);
+				aux++;
+				perc = new Percolation(n);
+			}
 		}
 		mean = mean();
 		stddev = stddev();
@@ -79,13 +63,13 @@ public class PercolationStats {
     
     // low  endpoint of 95% confidence interval                   
     public double confidenceLow() {
-		return (mean() - (1.96 * stddev() / Math.sqrt(tam)));
+		return (mean() + (1.96 * stddev() / Math.sqrt(tam)));
 	}
     
     
     // high endpoint of 95% confidence interval     
     public double confidenceHigh()  {
-		return (mean() + (1.96 * stddev() / Math.sqrt(tam)));
+		return (mean() - (1.96 * stddev() / Math.sqrt(tam)));
 	}
 	
 	public static void main(String[] args) {}

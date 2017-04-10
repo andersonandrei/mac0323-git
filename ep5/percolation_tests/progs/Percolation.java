@@ -11,15 +11,6 @@
    }
 */
 
-/*
- * Teremos uma matriz auxiliar que aponta a raiz de cada posição, onde todos da linha 1 serão 1 e da 2 serão dois e assim por diante.
- * Quando abre uma nova posição, ve se tem vizinhos aberto, se tiver sai caçando raiz a partir deles. 
- * 		Se tiver mais de um vizinho, faz com todos e fica com o menor valor de raiz, ou seja, a raiz mais ampla.
- * 		Se não tiver nenhum fica com o valor da sua própria posição.
- * 
- * 
- * */
-
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -35,6 +26,8 @@ public class Percolation {
 	
 	// create n-by-n grid, with all sites initially blocked
 	public Percolation(int n) {
+		if (n <= 0) 
+            throw new java.lang.IllegalArgumentException();
 		map = new WeightedQuickUnionUF(n*n+2);
 		mapTopo = new WeightedQuickUnionUF(n*n+1);
 		openClose = new int[n][n];
@@ -51,11 +44,9 @@ public class Percolation {
 			if(row == 0) {
 				map.union(convertCo(row,col) , inicio);
 				mapTopo.union(convertCo(row,col) , inicio);
-				//openClose[row][col] = 2;
 			}
 			else if (row == tam-1) {
 				map.union(convertCo(row,col) , fim);
-				//mapTopo.union(convertCo(row,col) , fim);
 			}
 			achaVizinho(row, col);
 		}
@@ -78,6 +69,8 @@ public class Percolation {
     
     // does the system percolate?
     public boolean percolates() {
+		if (tam == 1) return true;
+		if (tam <= 0) return false;
 		if (map.find(inicio) == map.find(fim))
 			return true;
 		return false;
@@ -120,11 +113,12 @@ public class Percolation {
     // unit testing (required)
     public static void main(String[] args)   {
 		PercolationStats percStat = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-		StdOut.println("Passou :" + args[0] + args[1]);
-		StdOut.println("Média:" + percStat.mean());
-		StdOut.println("Stddev:" + percStat.stddev());
-		StdOut.println("Min:" + percStat.confidenceLow());
-		StdOut.println("Max:" + percStat.confidenceHigh());     	
+		StdOut.println("Example values after creating PercolationStats (" 
+		+ Integer.parseInt(args[0]) + ", " + Integer.parseInt(args[1]) + ")");		
+		StdOut.println("mean(): " + percStat.mean());
+		StdOut.println("stddev: " + percStat.stddev());
+		StdOut.println("confidenceLow(): " + percStat.confidenceLow());
+		StdOut.println("confidenceHigh(): " + percStat.confidenceHigh());     	
 
 	
 	}
