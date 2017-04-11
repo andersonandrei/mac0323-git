@@ -41,14 +41,21 @@ public class Percolation {
 		if (!isOpen(row,col)) {
 			openClose[row][col] = 1;
 			nopen++;
-			if(row == 0) {
+			if(tam == 1){
 				map.union(convertCo(row,col) , inicio);
 				mapTopo.union(convertCo(row,col) , inicio);
+				map.union(convertCo(row,col) , fim);				
 			}
-			else if (row == tam-1) {
-				map.union(convertCo(row,col) , fim);
+			else {
+				if(row == 0) {
+					map.union(convertCo(row,col) , inicio);
+					mapTopo.union(convertCo(row,col) , inicio);
+				}
+				else if (row == tam-1) {
+					map.union(convertCo(row,col) , fim);
+				}
+				achaVizinho(row, col);
 			}
-			achaVizinho(row, col);
 		}
 	}
     
@@ -69,7 +76,6 @@ public class Percolation {
     
     // does the system percolate?
     public boolean percolates() {
-		if (tam == 1) return true;
 		if (tam <= 0) return false;
 		if (map.find(inicio) == map.find(fim))
 			return true;
@@ -107,9 +113,6 @@ public class Percolation {
 		}
 	}
 	
-	
-	/*Falta fazer uma função preenche pra verificar bonitinho o que pintar e comentar os if(fin() == find() no acharoot.*/
-    
     // unit testing (required)
     public static void main(String[] args)   {
 		PercolationStats percStat = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));

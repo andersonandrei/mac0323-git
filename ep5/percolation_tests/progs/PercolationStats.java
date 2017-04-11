@@ -16,7 +16,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class PercolationStats {
 	private double[] exp;
-	private int tam;
+	private int tam, r;
 	private Percolation perc;
 	
 	public PercolationStats(){}
@@ -28,19 +28,17 @@ public class PercolationStats {
 		int a, b, x, soma, merda, aux = 0;
 		double mean, stddev, confidenceLow, confidenceHigh;
 		tam = n;
+		r = trials;
 		exp = new double[trials];
 		perc = new Percolation(n);
-		if (n == 1)
-			perc = new Percolation(n);
-		else {
-			while (aux < trials) {
-				while(!perc.percolates()){
-					perc.open(StdRandom.uniform(n),StdRandom.uniform(n));
-				}
-				exp[aux] = ((double)perc.numberOfOpenSites())/(n*n);
-				aux++;
-				perc = new Percolation(n);
+		while (aux < trials) {
+			while(!perc.percolates()){
+				perc.open(StdRandom.uniform(n),StdRandom.uniform(n));
 			}
+			exp[aux] = ((double)perc.numberOfOpenSites())/(n*n);
+			aux++;
+			perc = new Percolation(n);
+
 		}
 		mean = mean();
 		stddev = stddev();
@@ -48,28 +46,26 @@ public class PercolationStats {
 		confidenceHigh = confidenceHigh();
 	}
     
-    
     // sample mean of percolation threshold
     public double mean() {
 		return StdStats.mean(exp);
 	}
     
-    
     // sample standard deviation of percolation threshold
     public double stddev() {
+		//if (r == 1)
+		//	return 0.0;
 		return StdStats.stddev(exp);
 	}
     
-    
     // low  endpoint of 95% confidence interval                   
     public double confidenceLow() {
-		return (mean() + (1.96 * stddev() / Math.sqrt(tam)));
+		return (mean() - (1.96 * stddev() / Math.sqrt(r)));
 	}
-    
     
     // high endpoint of 95% confidence interval     
     public double confidenceHigh()  {
-		return (mean() - (1.96 * stddev() / Math.sqrt(tam)));
+		return (mean() + (1.96 * stddev() / Math.sqrt(r)));
 	}
 	
 	public static void main(String[] args) {}
