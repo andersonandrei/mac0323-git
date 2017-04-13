@@ -17,15 +17,115 @@ Performance requirements.
 * Additionally, your iterator implementation must support each operation (including construction) in constant worst-case time.
 
 */
+import edu.princeton.cs.algs4.StdIn; 
+import edu.princeton.cs.algs4.StdOut; 
+import java.util.Iterator; 
 
 public class Deque<Item> implements Iterable<Item> {
-   public Deque()                           // construct an empty deque
-   public boolean isEmpty()                 // is the deque empty?
-   public int size()                        // return the number of items on the deque
-   public void addFirst(Item item)          // add the item to the front
-   public void addLast(Item item)           // add the item to the end
-   public Item removeFirst()                // remove and return the item from the front
-   public Item removeLast()                 // remove and return the item from the end
-   public Iterator<Item> iterator()         // return an iterator over items in order from front to end
-   public static void main(String[] args)   // unit testing (required)
+	
+	private Node first, last;
+	private int n;
+	
+	private class Node {
+		public Item value;
+		public Node next;
+		
+		private Node(){
+			value = null;
+			next = first;
+		}
+		
+		private Node(Item value) {
+			value = value;
+			next = first;
+		}
+	}
+	
+	// construct an empty deque
+   public Deque() {
+		first = new Node();
+		last = first;
+		n = 0;
+	}
+	
+	// is the deque empty?
+   public boolean isEmpty() {
+		return n == 0;
+	}
+	
+	// return the number of items on the deque
+   public int size() {
+		return n;
+	}
+	
+	// add the item to the front
+   public void addFirst(Item item) {
+		Node novo = new Node(item);
+		novo.next = first.next;
+		first.next = novo;
+		first = novo;
+		n++;
+	}
+	
+	// add the item to the end	
+   public void addLast(Item item) {
+		Node novo = new Node(item);
+		last.next = novo;
+		novo.next = first;
+		last = novo;
+		n++;
+	}
+   
+   // remove and return the item from the front	
+   public Item removeFirst() {
+		Node novo = new Node();
+		novo = first;
+		first = first.next;
+		last.next = first;
+		return novo.value;
+	}
+	
+	// remove and return the item from the end
+   public Item removeLast() {
+		Node novo = new Node();
+		Node aux = new Node();
+		aux = first;
+		while (aux.next != last) {
+			aux = aux.next;
+		}
+		aux.next = first;
+		novo = last;
+		last = aux;
+		aux = null; //ajudar o coletor de lixo.
+		return novo.value;
+	}
+	
+	// return an iterator over items in order from front to end
+   public Iterator<Item> iterator() {
+		return new ListNodes();
+	}
+	
+	private class ListNodes implements Iterator<Item> {
+		Node it;
+		
+		public ListNodes() {
+			it = new Node();
+			it = first;
+		}
+		
+		public boolean hasNext() {
+			return it.next != first;
+		}
+		
+		public Item next() {
+			it = it.next;
+			return it.value;
+		}
+		
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+	}
+	
+   public static void main(String[] args)   {}// unit testing (required)
 }

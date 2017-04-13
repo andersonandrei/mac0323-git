@@ -21,14 +21,109 @@ Performance requirements.
 * you may use a linear amount of extra memory per iterator.
 
 */
+import edu.princeton.cs.algs4.StdIn; 
+import edu.princeton.cs.algs4.StdOut; 
+import java.util.Iterator;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-   public RandomizedQueue()                 // construct an empty randomized queue
-   public boolean isEmpty()                 // is the queue empty?
-   public int size()                        // return the number of items on the queue
-   public void enqueue(Item item)           // add the item
-   public Item dequeue()                    // remove and return a random item
-   public Item sample()                     // return a random item (but do not remove it)
-   public Iterator<Item> iterator()         // return an independent iterator over items in random order
-   public static void main(String[] args)   // unit testing (required)
+   	
+	private Node first;
+	private int size;
+   
+   private class Node {
+		public Item item;
+		public Node next;
+	
+		private Node(){
+			item = null;
+			next = first;
+		}
+	
+		private Node(Item item) {
+			item = item;
+			next = first;
+		}
+	}
+   
+   // construct an empty randomized queue
+   public RandomizedQueue() { 
+		first = new Node();
+		first.next = null;
+		size = 0;
+		
+	}
+		    
+	// is the queue empty?	             
+   public boolean isEmpty() {
+		return size == 0;
+	}
+	
+	// return the number of items on the queue
+   public int size() {
+		return size;
+	}
+	
+	// add the item
+   public void enqueue(Item item) {
+		Node novo = new Node(item);
+		novo.next = first;
+		first = novo;
+	}
+	
+	// remove and return a random item
+   public Item dequeue() {
+		int position, aux = 0;
+		Node temp = new Node();
+		Node current = new Node(); 
+		position = StdRandom.uniform(size());
+		current = first;
+		while (aux < position-1) {
+			current = current.next;
+		}
+		temp = current.next;
+		current.next = temp.next;
+		return temp.item;
+	}
+	// return a random item (but do not remove it)   
+   public Item sample() {
+		int position, aux = 0;
+		Node current = new Node(); 
+		position = StdRandom.uniform(size());
+		current = first;
+		while (aux < position) {
+			current = current.next;
+		}
+		return current.item;
+	}
+	
+	// return an independent iterator over items in random order
+   public Iterator<Item> iterator() {
+		return new ListItems();
+	}
+	
+	private class ListItems implements Iterator<Item> {
+		Node it;
+		
+		public ListItems() {
+			it =  new Node();
+			it = first;
+		}
+		
+		public boolean hasNext() {
+			return it.next != null;
+		}
+		
+		public Item next() {
+			it = it.next;
+			return it.item;
+		}
+		
+		public void remove() {
+			throw new java.lang.UnsupportedOperationException(); 
+		}
+	
+	}
+	
+   public static void main(String[] args) {}  // unit testing (required)
 }
