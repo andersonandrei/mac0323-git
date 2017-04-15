@@ -11,6 +11,21 @@
 */
 
 /* 0 ≤ k ≤ N, where N is the number of string on standard input.*/
+
+import edu.princeton.cs.algs4.In; 
+import edu.princeton.cs.algs4.StdIn; 
+import edu.princeton.cs.algs4.StdOut; 
+import java.util.Iterator;
+import edu.princeton.cs.algs4.StdRandom;
+
 public class Subset {
-   public static void main(String[] args)
+   public static void main(String[] args) {
+		int n = StdIn.readInt();
+		RandomizedQueue<String> q = new RandomizedQueue<String>();
+		while (!StdIn.isEmpty()){
+			q.enqueue(StdIn.readString());
+		}
+		for (int i = 0; i < n; i++)
+			StdOut.println(q.sample());
+	}
 }
