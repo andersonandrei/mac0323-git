@@ -37,12 +37,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 		private Node(){
 			item = null;
-			next = first;
+			next = null;
 		}
 	
 		private Node(Item item) {
-			item = item;
-			next = first;
+			this.item = item;
+			next = null;
 		}
 	}
    
@@ -51,7 +51,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		first = new Node();
 		first.next = null;
 		size = 0;
-		
 	}
 		    
 	// is the queue empty?	             
@@ -66,33 +65,57 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	// add the item
    public void enqueue(Item item) {
-		Node novo = new Node(item);
-		novo.next = first;
-		first = novo;
+		Node newfirst = first;
+		first = new Node(item);
+		first.next = newfirst;
+		size++;
 	}
 	
 	// remove and return a random item
    public Item dequeue() {
+		if (!isEmpty()) {
+			int position, aux = 0;
+			Node temp = new Node();
+			Node current = new Node(); 
+			position = StdRandom.uniform(0, size());
+			if (position > 1) {
+				current = first;
+				while (aux < position - 1) {
+					current = current.next;
+					aux++;
+				}
+				temp = current.next;
+				current.next = temp.next;
+			}
+			
+			else if (position == 1) {
+				temp = first.next;
+				first.next = temp.next;
+			}
+			
+			else {
+				temp = first;
+				first = first.next;
+			}
+			size--;
+			
+			return temp.item;
+		}
+		
+		else
+			return null;
+	}
+	// return a random item (but do not remove it)   
+   public Item sample() {
+		if(isEmpty())
+			return null;
 		int position, aux = 0;
-		Node temp = new Node();
 		Node current = new Node(); 
 		position = StdRandom.uniform(size());
 		current = first;
 		while (aux < position-1) {
 			current = current.next;
-		}
-		temp = current.next;
-		current.next = temp.next;
-		return temp.item;
-	}
-	// return a random item (but do not remove it)   
-   public Item sample() {
-		int position, aux = 0;
-		Node current = new Node(); 
-		position = StdRandom.uniform(size());
-		current = first;
-		while (aux < position) {
-			current = current.next;
+			aux++;
 		}
 		return current.item;
 	}
@@ -125,5 +148,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	}
 	
-   public static void main(String[] args) {}  // unit testing (required)
+	// unit testing (required)
+   public static void main(String[] args) {
+		RandomizedQueue<String> q = new RandomizedQueue<String>();
+		StdOut.println("Oi ...");
+		StdOut.println("Ta vazia? : " +q.isEmpty());
+		StdOut.println("Empilhando");
+		q.enqueue("Hoje");
+		q.enqueue("é");
+		q.enqueue("Um");
+		q.enqueue("novo");
+		q.enqueue("dia");
+		StdOut.println("Samples");
+		StdOut.println(q.sample());
+		StdOut.println(q.sample());
+		StdOut.println(q.sample());
+		StdOut.println(q.sample());
+		StdOut.println(q.sample());
+	
+		StdOut.println("Desempilhando");
+		StdOut.println(q.dequeue());
+		StdOut.println("");
+		StdOut.println(q.dequeue());
+		StdOut.println("");
+		StdOut.println(q.dequeue());
+		StdOut.println("");
+		StdOut.println(q.dequeue());
+		StdOut.println("");
+		StdOut.println(q.dequeue());
+		StdOut.println("Ta vazia? : " +q.isEmpty());
+	}  
 }

@@ -27,29 +27,30 @@ public class Deque<Item> implements Iterable<Item> {
 	private int n;
 	
 	private class Node {
-		public Item value;
+		
+		public Item item;
 		public Node next;
 		
 		private Node(){
-			value = null;
-			next = first;
+			item = null;
+			next = null;
 		}
 		
-		private Node(Item value) {
-			value = value;
-			next = first;
+		private Node(Item item) {
+			this.item = item;
+			next = null;
 		}
 	}
 	
 	// construct an empty deque
-   public Deque() {
+	public Deque() {
 		first = new Node();
 		last = first;
 		n = 0;
 	}
 	
 	// is the deque empty?
-   public boolean isEmpty() {
+	public boolean isEmpty() {
 		return n == 0;
 	}
 	
@@ -60,44 +61,48 @@ public class Deque<Item> implements Iterable<Item> {
 	
 	// add the item to the front
    public void addFirst(Item item) {
-		Node novo = new Node(item);
-		novo.next = first.next;
-		first.next = novo;
-		first = novo;
+		Node oldfirst = first;
+		first = new Node(item);
+		first.next = oldfirst;
 		n++;
 	}
 	
 	// add the item to the end	
    public void addLast(Item item) {
-		Node novo = new Node(item);
-		last.next = novo;
-		novo.next = first;
-		last = novo;
+		Node oldlast = last;
+		last = new Node(item);
+		oldlast.next = last;
 		n++;
 	}
    
    // remove and return the item from the front	
    public Item removeFirst() {
-		Node novo = new Node();
-		novo = first;
-		first = first.next;
-		last.next = first;
-		return novo.value;
+		if(!isEmpty()) {
+			Node novo = new Node();
+			novo = first;
+			first = first.next;
+			n--;
+			//last.next = first;
+			
+			return novo.item;
+		}
+		return null;
 	}
 	
 	// remove and return the item from the end
    public Item removeLast() {
 		Node novo = new Node();
 		Node aux = new Node();
-		aux = first;
-		while (aux.next != last) {
-			aux = aux.next;
-		}
-		aux.next = first;
-		novo = last;
-		last = aux;
-		aux = null; //ajudar o coletor de lixo.
-		return novo.value;
+			aux = first;
+			while (aux.next != last) {
+				aux = aux.next;
+			}
+			aux.next = first;
+			novo = last;
+			last = aux;
+			aux = null; //ajudar o coletor de lixo.
+			n--;
+			return novo.item;
 	}
 	
 	// return an iterator over items in order from front to end
@@ -119,7 +124,7 @@ public class Deque<Item> implements Iterable<Item> {
 		
 		public Item next() {
 			it = it.next;
-			return it.value;
+			return it.item;
 		}
 		
 		public void remove() {
@@ -127,5 +132,55 @@ public class Deque<Item> implements Iterable<Item> {
 		}
 	}
 	
-   public static void main(String[] args)   {}// unit testing (required)
+	public static void main(String[] args) {
+		Deque<String> q = new Deque<String>();
+		StdOut.println("Oi ...");
+		StdOut.println("Ta vazia? : " +q.isEmpty());
+		StdOut.println("Empilhando First");
+		q.addFirst("Hoje");
+		q.addFirst("é");
+		q.addFirst("Um");
+		q.addFirst("novo");
+		q.addFirst("dia");
+		StdOut.println("Desempilhando: last");
+		StdOut.println(q.removeFirst());
+		StdOut.println(q.removeFirst());
+		StdOut.println(q.removeFirst());
+		StdOut.println(q.removeFirst());
+		StdOut.println(q.removeFirst());
+		
+		StdOut.println("Ta vazia? : " +q.isEmpty());
+		StdOut.println("Isso ai.");
+		StdOut.println("---------------");
+		StdOut.println("Empilhando Last ");
+		q.addLast("Hoje");
+		q.addLast("é");
+		q.addLast("Um");
+		q.addLast("novo");
+		q.addLast("dia");
+		StdOut.println("Desempilhando: last");
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+
+		StdOut.println("---------------");
+		StdOut.println("Empilhando First");
+		q.addFirst("Hoje");
+		q.addFirst("é");
+		q.addFirst("Um");
+		q.addFirst("novo");
+		q.addFirst("dia");
+		StdOut.println("Desempilhando: last");
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+		StdOut.println(q.removeLast());
+		StdOut.println("Isso ai.");
+	   
+	  
+	}// unit testing (required)
 }
