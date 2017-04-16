@@ -38,13 +38,13 @@ public class Deque<Item> implements Iterable<Item> {
 		
 		private Node(Item item) {
 			this.item = item;
-			next = null;
+			this.next = null;
 		}
 	}
 	
 	// construct an empty deque
 	public Deque() {
-		first = new Node();
+		first = null;
 		last = first;
 		n = 0;
 	}
@@ -61,6 +61,8 @@ public class Deque<Item> implements Iterable<Item> {
 	
 	// add the item to the front
    public void addFirst(Item item) {
+	   if (item == null)
+            throw new java.lang.NullPointerException();
 		Node oldfirst = first;
 		first = new Node(item);
 		first.next = oldfirst;
@@ -69,40 +71,69 @@ public class Deque<Item> implements Iterable<Item> {
 	
 	// add the item to the end	
    public void addLast(Item item) {
-		Node oldlast = last;
-		last = new Node(item);
-		oldlast.next = last;
+		if (item == null)
+            throw new java.lang.NullPointerException();
+        if (last == null) {
+			first = last = new Node(item);
+			last.next = first;
+		}
+		else {
+			Node oldlast = last;
+			last = new Node(item);
+			oldlast.next = last;
+			last.next = first;
+		}
 		n++;
 	}
    
    // remove and return the item from the front	
    public Item removeFirst() {
-		if(!isEmpty()) {
-			Node novo = new Node();
-			novo = first;
-			first = first.next;
-			n--;
-			//last.next = first;
-			
-			return novo.item;
-		}
-		return null;
+		if(isEmpty())
+			throw new java.lang.NullPointerException();
+		Node novo = first;
+		Item i = novo.item;
+		first = first.next;
+		novo = null;
+		n--;
+		return i;
 	}
 	
 	// remove and return the item from the end
    public Item removeLast() {
+		if (isEmpty())
+			throw new java.lang.NullPointerException();
 		Node novo = new Node();
 		Node aux = new Node();
-			aux = first;
-			while (aux.next != last) {
-				aux = aux.next;
+		Item x;
+		novo = first;
+		aux = null;
+		/*
+		while (aux.next != last) {
+			aux = aux.next;
+		}
+		aux.next = first;
+		novo = last;
+		last = aux;
+		aux = null; //ajudar o coletor de lixo.
+		*/
+		if (n > 1) {
+			for (int i = 0; i < n-1; i++) {
+				aux = novo;
+				novo = novo.next;
 			}
 			aux.next = first;
-			novo = last;
 			last = aux;
-			aux = null; //ajudar o coletor de lixo.
-			n--;
-			return novo.item;
+			x = novo.item;
+			novo = null;
+		}
+		else {
+			x = first.item;
+			first = last = null;		
+		}
+		
+		n--;
+		
+		return x;
 	}
 	
 	// return an iterator over items in order from front to end
@@ -115,14 +146,16 @@ public class Deque<Item> implements Iterable<Item> {
 		
 		public ListNodes() {
 			it = new Node();
-			it = first;
+			it.next = first;
 		}
 		
 		public boolean hasNext() {
-			return it.next != first;
+			return (it != null && it.next != null);
 		}
 		
 		public Item next() {
+			if (!hasNext()) 
+                throw new java.util.NoSuchElementException();
 			it = it.next;
 			return it.item;
 		}
@@ -142,15 +175,15 @@ public class Deque<Item> implements Iterable<Item> {
 		q.addFirst("Um");
 		q.addFirst("novo");
 		q.addFirst("dia");
-		StdOut.println("Desempilhando: last");
+		StdOut.println("Desempilhando: First");
 		StdOut.println(q.removeFirst());
 		StdOut.println(q.removeFirst());
 		StdOut.println(q.removeFirst());
 		StdOut.println(q.removeFirst());
 		StdOut.println(q.removeFirst());
-		
 		StdOut.println("Ta vazia? : " +q.isEmpty());
 		StdOut.println("Isso ai.");
+		
 		StdOut.println("---------------");
 		StdOut.println("Empilhando Last ");
 		q.addLast("Hoje");
@@ -164,21 +197,22 @@ public class Deque<Item> implements Iterable<Item> {
 		StdOut.println(q.removeLast());
 		StdOut.println(q.removeLast());
 		StdOut.println(q.removeLast());
-		StdOut.println(q.removeLast());
+		StdOut.println("Ta vazia? : " +q.isEmpty());
 
 		StdOut.println("---------------");
-		StdOut.println("Empilhando First");
-		q.addFirst("Hoje");
-		q.addFirst("é");
-		q.addFirst("Um");
-		q.addFirst("novo");
-		q.addFirst("dia");
-		StdOut.println("Desempilhando: last");
-		StdOut.println(q.removeLast());
-		StdOut.println(q.removeLast());
-		StdOut.println(q.removeLast());
-		StdOut.println(q.removeLast());
-		StdOut.println(q.removeLast());
+		StdOut.println("Empilhando last");
+		q.addLast("Hoje");
+		q.addLast("é");
+		q.addLast("Um");
+		q.addLast("novo");
+		q.addLast("dia");
+		StdOut.println("Desempilhando: first");
+		StdOut.println(q.removeFirst());
+		StdOut.println(q.removeFirst());
+		StdOut.println(q.removeFirst());
+		StdOut.println(q.removeFirst());
+		StdOut.println(q.removeFirst());
+		StdOut.println("Ta vazia? : " +q.isEmpty());
 		StdOut.println("Isso ai.");
 	   
 	  

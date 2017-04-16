@@ -42,14 +42,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 		private Node(Item item) {
 			this.item = item;
-			next = null;
+			this.next = null;
 		}
 	}
    
    // construct an empty randomized queue
    public RandomizedQueue() { 
-		first = new Node();
-		first.next = null;
+		first = null;
+		//first.next = null;
 		size = 0;
 	}
 		    
@@ -65,6 +65,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	// add the item
    public void enqueue(Item item) {
+		if (item == null)
+			throw new java.lang.NullPointerException();
 		Node newfirst = first;
 		first = new Node(item);
 		first.next = newfirst;
@@ -73,42 +75,39 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	// remove and return a random item
    public Item dequeue() {
-		if (!isEmpty()) {
-			int position, aux = 0;
-			Node temp = new Node();
-			Node current = new Node(); 
-			position = StdRandom.uniform(0, size());
-			if (position > 1) {
-				current = first;
-				while (aux < position - 1) {
-					current = current.next;
-					aux++;
-				}
-				temp = current.next;
-				current.next = temp.next;
+		if (isEmpty())
+			throw new java.lang.NullPointerException();
+		int position, aux = 0;
+		Node temp = new Node();
+		Node current = new Node(); 
+		position = StdRandom.uniform(0, size());
+		if (position > 1) {
+			current = first;
+			while (aux < position - 1) {
+				current = current.next;
+				aux++;
 			}
-			
-			else if (position == 1) {
-				temp = first.next;
-				first.next = temp.next;
-			}
-			
-			else {
-				temp = first;
-				first = first.next;
-			}
-			size--;
-			
-			return temp.item;
+			temp = current.next;
+			current.next = temp.next;
 		}
 		
-		else
-			return null;
+		else if (position == 1) {
+			temp = first.next;
+			first.next = temp.next;
+		}
+		
+		else {
+			temp = first;
+			first = first.next;
+		}
+		size--;		
+		return temp.item;
 	}
+	
 	// return a random item (but do not remove it)   
    public Item sample() {
-		if(isEmpty())
-			return null;
+		if (isEmpty())
+			throw new java.lang.NullPointerException();
 		int position, aux = 0;
 		Node current = new Node(); 
 		position = StdRandom.uniform(size());
@@ -130,14 +129,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		
 		public ListItems() {
 			it =  new Node();
-			it = first;
+			it.next = first;
 		}
 		
 		public boolean hasNext() {
-			return it.next != null;
+			return (it != null && it.next != null);
 		}
 		
 		public Item next() {
+			if (!hasNext()) 
+                throw new java.util.NoSuchElementException();
 			it = it.next;
 			return it.item;
 		}
