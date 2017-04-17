@@ -24,7 +24,7 @@ import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 	
-	private Node first, last;
+	private Node first;
 	private int n;
 	
 	private class Node {
@@ -46,7 +46,7 @@ public class Deque<Item> implements Iterable<Item> {
 	// construct an empty deque
 	public Deque() {
 		first = null;
-		last = null;
+
 		n = 0;
 	}
 	
@@ -74,20 +74,19 @@ public class Deque<Item> implements Iterable<Item> {
    public void addLast(Item item) {
 		if (item == null)
             throw new java.lang.NullPointerException();
-      if (first == null || last == null) {
-			Node entry = new Node(item);
-			first = entry;
-			last = entry;
-			last.next = first;
+      Node novo = new Node (item);
+		Node aux = first;
+		
+		for(int i = 0; i < n && aux != null; i++) {
+			aux = aux.next;
+		}
+		if(aux == null) {
+			first = novo;
 		}
 		else {
-			Node oldlast = last;
-			last = new Node(item);
-			oldlast.next = last;
-			last.next = first;
+			aux.next = novo;
 		}
 		n++;
-		
 	}
    
    // remove and return the item from the front	
@@ -95,38 +94,30 @@ public class Deque<Item> implements Iterable<Item> {
 		if(isEmpty())
 			throw new java.util.NoSuchElementException();
 		Node novo = first;
+		Item x = first.item;
 		first = first.next;
+		novo = null;
 		n--;
-		return novo.item;
+		return x;
 	}
 	
 	// remove and return the item from the end
    public Item removeLast() {
 		if (isEmpty())
 			throw new java.util.NoSuchElementException();
-		Node novo = new Node();
-		Node aux = new Node();
+		Node novo = first;
+		Node aux = null;
 		Item x;
-		int i = 0;
-		novo = first;
-		aux = null;
-		if (n > 1) {
-			while (i < n-1) {
-				aux = novo;
-				novo = novo.next;
-				i++;
-			}
-			aux.next = first;
-			last = aux;
-			x = novo.item;
-			novo = null;
-		}
-		else {
-			x = first.item;
-			first = null;
-			last = null;		
-		}
 		
+		for(int i = 0; i < n && novo.next != null; i++) {
+			aux = novo;
+			novo = novo.next;
+		}
+
+		if(aux != null) aux.next = null;
+		if(novo == first) first = null;
+		x = novo.item;
+		novo = null;
 		n--;
 		
 		return x;
@@ -146,7 +137,7 @@ public class Deque<Item> implements Iterable<Item> {
 		}
 		
 		public boolean hasNext() {
-			return (it != last && it.next != last);
+			return (it != null && it.next != null);
 		}
 		
 		public Item next() {
@@ -161,7 +152,6 @@ public class Deque<Item> implements Iterable<Item> {
 		}
 	}
 	
-	// unit testing (required)
 	public static void main(String[] args) {
 		
 		Deque<String> q = new Deque<String>();
@@ -230,5 +220,5 @@ public class Deque<Item> implements Iterable<Item> {
 		StdOut.println("Isso ai.");
 	   
 		
-	}
+	}// unit testing (required)
 }

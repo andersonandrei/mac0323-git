@@ -76,7 +76,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	// remove and return a random item
    public Item dequeue() {
 		if (isEmpty())
-			throw new java.lang.NullPointerException();
+			throw new java.util.NoSuchElementException();
 		int position, aux = 0;
 		Node temp = new Node();
 		Node current = new Node(); 
@@ -102,6 +102,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		}
 		size--;		
 		return temp.item;
+
 	}
 	
 	// return a random item (but do not remove it)   
@@ -151,6 +152,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	// unit testing (required)
    public static void main(String[] args) {
+		
 		RandomizedQueue<String> q = new RandomizedQueue<String>();
 		StdOut.println("Oi ...");
 		StdOut.println("Ta vazia? : " +q.isEmpty());
@@ -178,5 +180,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		StdOut.println("");
 		StdOut.println(q.dequeue());
 		StdOut.println("Ta vazia? : " +q.isEmpty());
+		
 	}  
 }
