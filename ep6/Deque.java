@@ -146,7 +146,7 @@ public class Deque<Item> implements Iterable<Item> {
 		}
 		
 		public boolean hasNext() {
-			return (it != last && it.next != last);
+			return (it.next != first);
 		}
 		
 		public Item next() {
