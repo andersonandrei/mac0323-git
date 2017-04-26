@@ -209,7 +209,12 @@ public class Board {
 
     // string representation of this board (in the output format specified below)
     public String toString() {
-        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                StdOut.print(" " + tileAt(i, j));
+            }
+            StdOut.println();
+        }
     }
 
     public static void main(String[] args) // unit testing (required)
