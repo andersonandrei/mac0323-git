@@ -7,7 +7,7 @@ is not solvable and a java.lang.NullPointerException if the initial board is nul
 
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.MinPQ:
+import edu.princeton.cs.algs4.MinPQ;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -19,14 +19,17 @@ public class Board {
     private int[][] board;
     private int[][] goal;
     private int size;
-    private MinPQ<int> queue;
+    private int tam;
+    private MinPQ<Board> queue;
 
 
     //construct a board from an N-by-N array of tiles (where tiles[i][j] = tile at row i, column j)
     public Board(int[][] tiles) {
         int i, j;
-        for (int i = 0; i < n; i++){
-            for (j = 0; j < n; j++){
+        int tam = tiles.length;
+        int size = tam * tam;
+        for (i = 0; i < tam; i++){
+            for (j = 0; j < tam; j++){
                 board[i][j] = tiles[i][j];
                 goal[i][j] = tileExp(i,j);
             }
@@ -72,6 +75,7 @@ public class Board {
                 }
             }
         }
+        return inv;
     }
 
     public int findLineWhite() {
@@ -88,8 +92,8 @@ public class Board {
     public int hamming(){
         if (size() > 0) {
             int cont = 0;
-            for(int i = 0; i < n; i++) {
-                for(j = 0; j < n; j++) {
+            for(int i = 0; i < tam; i++) {
+                for(int j = 0; j < tam; j++) {
                     if(tileAt(i,j) != tileExp(i,j))
                         cont++; 
                 }
@@ -102,10 +106,11 @@ public class Board {
     // sum of Manhattan distances between tiles and goal
     public int manhattan(){
         int sum = 0;
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
+        for(int i = 0; i < tam; i++) {
+            for(int j = 0; j < tam; j++) {
                 if(tileAt(i,j) != tileExp(i,j)) {
-                    sum += sumPositionExpTile(i , j, tile(i,j));
+                    //Se é ta diferente do que eu esperava, vou ver a distancia da posição certa do intruso.
+                    sum += sumPositionExpTile(i , j, tileAt(i,j));
                 }
             }
         }
@@ -115,8 +120,8 @@ public class Board {
     // is this board the goal board?
     public boolean isGoal(){
         if (size() > 0) {
-            for (int i = 0; i < n; i++)
-                for(int j = 0; i < n; j++)
+            for (int i = 0; i < tam; i++)
+                for(int j = 0; i < tam; j++)
                     if (board[i][j] != tileExp(i, j))
                         return false;
             return true;
@@ -144,9 +149,9 @@ public class Board {
     public boolean equals(Object y){
         Board aux = (Board)y;
         if (size() > 0) {
-            for (int i = 0; i < n; i++)
-                for(int j = 0; i < n; j++)
-                    if (board[i][j] != aux[i][j])
+            for (int i = 0; i < tam; i++)
+                for(int j = 0; i < tam; j++)
+                    if (board[i][j] != aux.tileAt(i,j))
                         return false;
             return true;
         }
@@ -162,44 +167,41 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors(){
-        MinPQ<int> queue =  new MinPQ<int>();
-        Board b;
-        int i, j, m, n;
-        for(i = 0; i < n; i++) {
-            for(j = 0; j < n; j++) {
+        MinPQ<Board> queue =  new MinPQ<Board>();
+        Board b = new Board(board);
+        int i = 0, j = 0, m = 0, n = 0;
+        for(i = 0; i < tam; i++) {
+            for(j = 0; j < tam; j++) {
                 if(tileAt(i,j) != tileExp(i,j)) {
                     if (board[i][j] == 0) break;
                 }
             }
         }
-        //só pra guardar
-        wi = i;
-        wj = j;
 
         if (i - 1 >= 0) { // [x] sobe
             changeTile(i, j, i-1, j);
-            b = board;
+            b.board = board;
             changeTile(i-1, j, i, j);
             queue.insert(b);
         }
 
         if (i + 1 < size()) { // [x] desce
             changeTile(i, j, i+1, j);
-            b = board;
+            b.board = board;
             changeTile(i-1, j, i, j);
             queue.insert(b);
         }
 
         if (j - 1 >= 0) { // <--- [x]
             changeTile(i, j, i, j-1);
-            b = board;
+            b.board = board;
             changeTile(i, j-1, i, j);
             queue.insert(b);
         }
 
         if (j + 1 < size()) { // [x] --->
             changeTile(i, j, i, j+1);
-            b = board;
+            b.board = board;
             changeTile(i, j+1, i, j);
             queue.insert(b);
         }
@@ -209,13 +211,37 @@ public class Board {
 
     // string representation of this board (in the output format specified below)
     public String toString() {
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                StdOut.print(" " + tileAt(i, j));
+        String text = "";
+        for(int i = 0; i < tam; i++) {
+            for(int j = 0; j < tam; j++) {
+                text += (" " + tileAt(i, j));
             }
-            StdOut.println();
+            text += "\n";
         }
+        return text;
     }
 
-    public static void main(String[] args) // unit testing (required)
+    // unit testing (required)
+    public static void main(String[] args) {
+        int n = Integer.parseInt(args[0]);
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        int[][] b = new int[n][n];
+        while (k < n*n) {
+            i = 0;
+            while (i%n < n) {
+                j = 0;
+                while (j%n < n) {
+                    b[i][j] = Integer.parseInt(args[k]);
+                    j++;
+                    k++;
+                }
+                i++;
+            }
+        }
+
+        Board puzzle = new Board(b);
+
+    }
 }
