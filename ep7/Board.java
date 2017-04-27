@@ -5,6 +5,7 @@ Corner cases.  The constructor should throw a java.lang.IllegalArgumentException
 is not solvable and a java.lang.NullPointerException if the initial board is null.
 */
 
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.MinPQ;
@@ -28,6 +29,8 @@ public class Board {
         int i, j;
         int tam = tiles.length;
         int size = tam * tam;
+        board = new int[tam][tam];
+        goal = new int[tam][tam];
         for (i = 0; i < tam; i++){
             for (j = 0; j < tam; j++){
                 board[i][j] = tiles[i][j];
@@ -221,26 +224,49 @@ public class Board {
         return text;
     }
 
+    public void imprimeTabuleiro(int[][] board) {
+        for(int i = 0; i < tam; i++) {
+            for(int j = 0; j < tam; j++) {
+                StdOut.print(" " + board[i][j]);
+            }
+            StdOut.println("");
+        }
+    }
+
     // unit testing (required)
     public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]);
+        In in = new In(args[0]);
+        int n = in.readInt();
         int i = 0;
         int j = 0;
         int k = 0;
+        int contI = 0;
+        int contJ = 0;
         int[][] b = new int[n][n];
-        while (k < n*n) {
+        StdOut.println(n);
+        while (k < n * n) {
             i = 0;
-            while (i%n < n) {
+            contI = 0;
+            while (contI < n) {
                 j = 0;
-                while (j%n < n) {
-                    b[i][j] = Integer.parseInt(args[k]);
+                contJ = 0;
+                while (contJ < n) {
+                    b[i][j] = in.readInt();
+                    StdOut.println(b[i][j]);
                     j++;
+                    contJ++;
                     k++;
                 }
                 i++;
+                contI++;
             }
         }
-
+        for(i = 0; i < n; i++) {
+            for(j = 0; j < n; j++) {
+                StdOut.print(" " + b[i][j]);
+            }
+            StdOut.println("");
+        }
         Board puzzle = new Board(b);
 
     }
