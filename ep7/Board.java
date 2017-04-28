@@ -28,7 +28,9 @@ public class Board {
     public Board(int[][] tiles) {
         int i, j;
         int tam = tiles.length;
+        StdOut.println("Tam criar ----" + tam);
         int size = tam * tam;
+        StdOut.println("size criar ----" + size);
         board = new int[tam][tam];
         goal = new int[tam][tam];
         for (i = 0; i < tam; i++){
@@ -37,9 +39,15 @@ public class Board {
                 goal[i][j] = tileExp(i,j);
             }
         }
+
+        StdOut.println("-----Board criardo: ");
+        StdOut.println("Tam criar ----" + tam);
+        imprimeTabuleiro(board);
+        imprimeTabuleiro(goal);
+        
     }
 
-    //// return tile at row i, column j (or 0 if blank)
+    // return tile at row i, column j (or 0 if blank)
     public int tileAt(int i, int j){
         if (board[i][j] == -1) return 0;
         return board[i][j];
@@ -55,7 +63,8 @@ public class Board {
 
     // board size N
     public int size() {
-        return size;
+        StdOut.println("size--------"+tam);
+        return tam;
     }    
 
     public int sumPositionExpTile (int i, int j, int x) {
@@ -122,11 +131,15 @@ public class Board {
 
     // is this board the goal board?
     public boolean isGoal(){
+        StdOut.println("Aquiiiiiiiii");
+        StdOut.println("Size" + size());
         if (size() > 0) {
             for (int i = 0; i < tam; i++)
-                for(int j = 0; i < tam; j++)
+                for(int j = 0; i < tam; j++){
+                    StdOut.println("Esperava em " + i + " " + j + " " + tileExp(i, j));
                     if (board[i][j] != tileExp(i, j))
                         return false;
+                }
             return true;
         }
         return false;
@@ -171,7 +184,9 @@ public class Board {
     // all neighboring boards
     public Iterable<Board> neighbors(){
         MinPQ<Board> queue =  new MinPQ<Board>();
+        StdOut.println("Tam antes de iterable ----" + tam);
         Board b = new Board(board);
+        StdOut.println("Tam depois de iterable ----" + tam);
         int i = 0, j = 0, m = 0, n = 0;
         for(i = 0; i < tam; i++) {
             for(j = 0; j < tam; j++) {
@@ -225,6 +240,7 @@ public class Board {
     }
 
     public void imprimeTabuleiro(int[][] board) {
+        StdOut.println("Imprimindo tabuleiro");
         for(int i = 0; i < tam; i++) {
             for(int j = 0; j < tam; j++) {
                 StdOut.print(" " + board[i][j]);
@@ -268,6 +284,16 @@ public class Board {
             StdOut.println("");
         }
         Board puzzle = new Board(b);
+
+        //inversions, findLineWhite, hamming, manhattan,isGoal,isSolvable
+        StdOut.println("Testes");
+
+        StdOut.println("Inversions: " + puzzle.inversions());
+        StdOut.println("White line: " + puzzle.findLineWhite());
+        StdOut.println("Hamming: " + puzzle.hamming());
+        StdOut.println("Manhattan: " + puzzle.manhattan());
+        StdOut.println("IsGoal: " + puzzle.isGoal());
+        StdOut.println("IsSolvable: " + puzzle.isSolvable());
 
     }
 }
