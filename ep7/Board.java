@@ -11,6 +11,7 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.MinPQ;
 
 import java.util.Iterator;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.lang.NullPointerException;
     
@@ -21,6 +22,9 @@ public class Board {
     private int[][] goal;
     private int size;
     private int tam;
+    public int moves; //number of moves to came here.
+    public int distance; //distance for root.
+    public int score; //manhattam.
     private MinPQ<Board> queue;
 
 
@@ -31,6 +35,8 @@ public class Board {
         size = tam * tam;
         board = new int[tam][tam];
         goal = new int[tam][tam];
+        moves = 0;
+        distance = 0;
         for (i = 0; i < tam; i++){
             for (j = 0; j < tam; j++){
                 board[i][j] = tiles[i][j];
@@ -189,7 +195,7 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors(){
-        MinPQ<Board> queue =  new MinPQ<Board>();
+        MinPQ<Board> queue =  new MinPQ<Board>(new priority());
         Board b = new Board(board);
         int i = 0, j = 0, m = 0, n = 0;
         for(i = 0; i < tam; i++) {
@@ -199,6 +205,9 @@ public class Board {
                 }
             }
         }
+
+        b.distance = distance + 1;
+        b.moves = moves + 1;
 
         if (i - 1 >= 0) { // [x] sobe
             changeTile(i, j, i-1, j);
@@ -251,6 +260,14 @@ public class Board {
             StdOut.println("");
         }
     }
+
+    private class priority implements Comparator<Board> {
+        public int compare(Board x, Board y) {
+            if (x.manhattan() > y.manhattan()) return 1;
+            else if (x.manhattan() + x.moves < y.manhattan() + y.moves) return -1;
+            return 0;
+        }
+    }    
 
     // unit testing (required)
     public static void main(String[] args) {
