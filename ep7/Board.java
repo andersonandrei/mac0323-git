@@ -27,10 +27,8 @@ public class Board {
     //construct a board from an N-by-N array of tiles (where tiles[i][j] = tile at row i, column j)
     public Board(int[][] tiles) {
         int i, j;
-        int tam = tiles.length;
-        StdOut.println("Tam criar ----" + tam);
-        int size = tam * tam;
-        StdOut.println("size criar ----" + size);
+        tam = tiles.length;
+        size = tam * tam;
         board = new int[tam][tam];
         goal = new int[tam][tam];
         for (i = 0; i < tam; i++){
@@ -39,10 +37,9 @@ public class Board {
                 goal[i][j] = tileExp(i,j);
             }
         }
-
         StdOut.println("-----Board criardo: ");
-        StdOut.println("Tam criar ----" + tam);
         imprimeTabuleiro(board);
+        StdOut.println("-----Goal esperado: ");
         imprimeTabuleiro(goal);
         
     }
@@ -63,33 +60,44 @@ public class Board {
 
     // board size N
     public int size() {
-        StdOut.println("size--------"+tam);
         return tam;
     }    
 
     public int sumPositionExpTile (int i, int j, int x) {
+        int sumA, sumB;
         int m = x / size();
-        int n = x % size();
-        return (m - i) + (n - j);
+        int n = x % size() - 1;
+        if (m > i) 
+            sumA = m - i;
+        else 
+            sumA = i - m;
+        if (n > j)
+            sumB = n - j;
+        else
+            sumB = j - n;
+
+        return sumA + sumB;
     }
 
     public int inversions() {
         int inv = 0;
-        for (int i = 0; i < size(); i++) {
-            for (int j = 0; j < size(); j++) {
-                int item = board[i][j];
-
-                for (int m = i; m < size(); m++) {
-                    for (int n = 0; n < size(); n++) {
-                        if (item > board[m][n]  && (m > i || n > j))
-                            inv++;
-                    }
-                }
+        int[] aux = new int[size];
+        int x = 0;
+        for (int i = 0; i < size(); i++)
+            for (int j = 0; j < size(); j++){
+                aux[x] = board[i][j];
+                x++;
             }
+        
+        for (int i = 0; i < size - 1; i++){
+            for (int j = i+1; j < size; j++)
+                if (aux[i] > aux[j] && (aux[i] != 0 && aux[j] != 0))
+                    inv++;
         }
+
         return inv;
     }
-
+    
     public int findLineWhite() {
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
@@ -131,12 +139,9 @@ public class Board {
 
     // is this board the goal board?
     public boolean isGoal(){
-        StdOut.println("Aquiiiiiiiii");
-        StdOut.println("Size" + size());
         if (size() > 0) {
             for (int i = 0; i < tam; i++)
-                for(int j = 0; i < tam; j++){
-                    StdOut.println("Esperava em " + i + " " + j + " " + tileExp(i, j));
+                for(int j = 0; j < tam; j++){
                     if (board[i][j] != tileExp(i, j))
                         return false;
                 }
@@ -149,11 +154,12 @@ public class Board {
     public boolean isSolvable() {
         //Vou ver se é par ou impar e cada uma das confdições dentro dessas duas primeiras
         if (size() == 0) return false;
+        if (isGoal() == true) return true;
         int inv = inversions();
         int white = findLineWhite();
         if (size() % 2 == 0) {
-            if ((inv + white) % 2 == 0) return true;
-            return false;
+            if ((inv + white) % 2 == 0) return false;
+            return true;
         }
         else {
             if (inv % 2 == 0) return true;
@@ -184,9 +190,7 @@ public class Board {
     // all neighboring boards
     public Iterable<Board> neighbors(){
         MinPQ<Board> queue =  new MinPQ<Board>();
-        StdOut.println("Tam antes de iterable ----" + tam);
         Board b = new Board(board);
-        StdOut.println("Tam depois de iterable ----" + tam);
         int i = 0, j = 0, m = 0, n = 0;
         for(i = 0; i < tam; i++) {
             for(j = 0; j < tam; j++) {
@@ -240,7 +244,6 @@ public class Board {
     }
 
     public void imprimeTabuleiro(int[][] board) {
-        StdOut.println("Imprimindo tabuleiro");
         for(int i = 0; i < tam; i++) {
             for(int j = 0; j < tam; j++) {
                 StdOut.print(" " + board[i][j]);
