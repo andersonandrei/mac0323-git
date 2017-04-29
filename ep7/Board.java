@@ -17,15 +17,16 @@ import java.lang.NullPointerException;
     
 
 
-public class Board {
-    private int[][] board;
-    private int[][] goal;
+public class Board implements Comparable<Board> {
+    public int[][] board;
+    public int[][] goal;
     private int size;
-    private int tam;
+    public int tam;
     public int moves; //number of moves to came here.
     public int distance; //distance for root.
     public int score; //manhattam.
     private MinPQ<Board> queue;
+    public Board previous;
 
 
     //construct a board from an N-by-N array of tiles (where tiles[i][j] = tile at row i, column j)
@@ -186,54 +187,95 @@ public class Board {
         return false;
     }
 
-    public void changeTile(int i, int j, int m, int n) {
-        int aux = board[i][j];
-        board[i][j] = board[m][n];
-        board[m][n] = aux;
+    public void changeTile(Board b, int i, int j, int m, int n) {
+        int aux = b.board[i][j];
+        b.board[i][j] = b.board[m][n];
+        b.board[m][n] = aux;
         return;
+    }
+
+    public void copy (int[][]orig, int[][] dest) {
+        for(int i = 0; i < tam - 1; i++) {
+            for(int j = 0; j < tam - 1; j++) {
+                dest[i][j] = orig[i][j];
+            }
+        }
     }
 
     // all neighboring boards
     public Iterable<Board> neighbors(){
+        StdOut.println("No neighbors");
+        imprimeTabuleiro(board);
         MinPQ<Board> queue =  new MinPQ<Board>(new priority());
-        Board b = new Board(board);
+        Board b;
         int i = 0, j = 0, m = 0, n = 0;
         for(i = 0; i < tam; i++) {
             for(j = 0; j < tam; j++) {
-                if(tileAt(i,j) != tileExp(i,j)) {
-                    if (board[i][j] == 0) break;
+                StdOut.println("Olhando pra " + board[i][j] + "com " + i + j);
+                if (board[i][j] == 0) {
+                    m = i;
+                    n = j;
                 }
             }
         }
 
-        b.distance = distance + 1;
-        b.moves = moves + 1;
+        if (i == 3) i-=1;
+        if (j == 3) j-=1;
 
+        i = m;
+        j = n;
+
+        StdOut.println("Depois do for com " + i + j);
+        StdOut.println("Antes do if1");
         if (i - 1 >= 0) { // [x] sobe
-            changeTile(i, j, i-1, j);
-            b.board = board;
-            changeTile(i-1, j, i, j);
+            StdOut.println("if1");
+            b = new Board(board);
+            copy(board, b.board);
+            changeTile(b, i, j, i-1, j);
+            StdOut.println("No if1 criou");
+            imprimeTabuleiro(b.board);
+            b.previous = this;
+            b.distance = distance + 1;
+            b.moves = moves + 1;
             queue.insert(b);
         }
-
+        StdOut.println("Antes do if2");
         if (i + 1 < size()) { // [x] desce
-            changeTile(i, j, i+1, j);
-            b.board = board;
-            changeTile(i-1, j, i, j);
+            StdOut.println("if2");
+            b = new Board(board);
+            copy(board, b.board);
+            changeTile(b,i, j, i+1, j);
+            StdOut.println("No if2 criou");
+            imprimeTabuleiro(b.board);
+            b.previous = this;
+            b.distance = distance + 1;
+            b.moves = moves + 1;
             queue.insert(b);
         }
-
+        StdOut.println("Antes do if3");
         if (j - 1 >= 0) { // <--- [x]
-            changeTile(i, j, i, j-1);
-            b.board = board;
-            changeTile(i, j-1, i, j);
+            StdOut.println("if3");
+            b = new Board(board);
+            copy(board, b.board);
+            changeTile(b,i, j, i, j-1);
+            StdOut.println("No if3 criou");
+            imprimeTabuleiro(b.board);
+            b.distance = distance + 1;
+            b.moves = moves + 1;            
+            b.previous = this;
             queue.insert(b);
         }
-
+        StdOut.println("Antes do if4");
         if (j + 1 < size()) { // [x] --->
-            changeTile(i, j, i, j+1);
-            b.board = board;
-            changeTile(i, j+1, i, j);
+            StdOut.println("if4");
+            b = new Board(board);
+            copy(board, b.board);
+            changeTile(b,i, j, i, j+1);
+            StdOut.println("No if4 criou");
+            imprimeTabuleiro(b.board);
+            b.distance = distance + 1;
+            b.moves = moves + 1;
+            b.previous = this;
             queue.insert(b);
         }
 
@@ -259,6 +301,22 @@ public class Board {
             }
             StdOut.println("");
         }
+    }
+
+    public void imprimeTabuleiro() {
+        for(int i = 0; i < tam; i++) {
+            for(int j = 0; j < tam; j++) {
+                StdOut.print(" " + board[i][j]);
+            }
+            StdOut.println("");
+        }
+    }
+
+    public int compareTo(Board x) {
+        //return (this.manhattan() + x.moves) - (x.manhattan() + x.moves);
+        if (this.manhattan() + this.moves > x.manhattan() + x.moves) return 1;
+        else if (this.manhattan() + this.moves < x.manhattan() + x.moves) return -1;
+        return 0;
     }
 
     private class priority implements Comparator<Board> {
