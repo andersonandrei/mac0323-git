@@ -44,11 +44,6 @@ public class Board implements Comparable<Board> {
                 goal[i][j] = tileExp(i,j);
             }
         }
-        StdOut.println("-----Board criardo: ");
-        imprimeTabuleiro(board);
-        StdOut.println("-----Goal esperado: ");
-        imprimeTabuleiro(goal);
-        
     }
 
     // return tile at row i, column j (or 0 if blank)
@@ -208,75 +203,52 @@ public class Board implements Comparable<Board> {
 
     // all neighboring boards
     public Iterable<Board> neighbors(){
-        StdOut.println("No neighbors");
-        imprimeTabuleiro(board);
         MinPQ<Board> queue =  new MinPQ<Board>(new priority());
         Board b;
         int i = 0, j = 0, m = 0, n = 0;
         for(i = 0; i < tam; i++) {
             for(j = 0; j < tam; j++) {
-                StdOut.println("Olhando pra " + board[i][j] + "com " + i + j);
                 if (board[i][j] == 0) {
                     m = i;
                     n = j;
                 }
             }
         }
-
         if (i == 3) i-=1;
         if (j == 3) j-=1;
-
         i = m;
         j = n;
-
-        StdOut.println("Depois do for com " + i + j);
-        StdOut.println("Antes do if1");
         if (i - 1 >= 0 ) { // [x] sobe
-            StdOut.println("if1");
             b = new Board(board);
             copy(board, b.board);
             changeTile(b, i, j, i-1, j);
-            StdOut.println("No if1 criou");
-            imprimeTabuleiro(b.board);
             b.previous = this;
             b.distance = distance + 1;
             b.moves = moves + 1;
             queue.insert(b);
         }
-        StdOut.println("Antes do if2");
         if (i + 1 < size()) { // [x] desce
-            StdOut.println("if2");
             b = new Board(board);
             copy(board, b.board);
             changeTile(b,i, j, i+1, j);
-            StdOut.println("No if2 criou");
-            imprimeTabuleiro(b.board);
             b.previous = this;
             b.distance = distance + 1;
             b.moves = moves + 1;
             queue.insert(b);
         }
-        StdOut.println("Antes do if3");
         if (j - 1 >= 0) { // <--- [x]
-            StdOut.println("if3");
             b = new Board(board);
             copy(board, b.board);
             changeTile(b,i, j, i, j-1);
-            StdOut.println("No if3 criou");
-            imprimeTabuleiro(b.board);
             b.distance = distance + 1;
             b.moves = moves + 1;            
             b.previous = this;
             queue.insert(b);
         }
-        StdOut.println("Antes do if4");
         if (j + 1 < size()) { // [x] --->
-            StdOut.println("if4");
             b = new Board(board);
             copy(board, b.board);
             changeTile(b,i, j, i, j+1);
-            StdOut.println("No if4 criou");
-            imprimeTabuleiro(b.board);
             b.distance = distance + 1;
             b.moves = moves + 1;
             b.previous = this;
@@ -341,7 +313,6 @@ public class Board implements Comparable<Board> {
         int contI = 0;
         int contJ = 0;
         int[][] b = new int[n][n];
-        StdOut.println(n);
         while (k < n * n) {
             i = 0;
             contI = 0;
@@ -350,7 +321,6 @@ public class Board implements Comparable<Board> {
                 contJ = 0;
                 while (contJ < n) {
                     b[i][j] = in.readInt();
-                    StdOut.println(b[i][j]);
                     j++;
                     contJ++;
                     k++;
@@ -358,12 +328,6 @@ public class Board implements Comparable<Board> {
                 i++;
                 contI++;
             }
-        }
-        for(i = 0; i < n; i++) {
-            for(j = 0; j < n; j++) {
-                StdOut.print(" " + b[i][j]);
-            }
-            StdOut.println("");
         }
         Board puzzle = new Board(b);
 

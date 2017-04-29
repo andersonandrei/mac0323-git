@@ -33,79 +33,41 @@ public class Solver {
 	private int moves = 0;
 	// find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
-    	StdOut.println("Entrou no solver --------");
-    	initial.imprimeTabuleiro();
     	current = new Board(initial.board);
     	current.previous = null;
-    	StdOut.println("Antes do while");
     	while (!current.isGoal()) {
-    		StdOut.println("Olhando enquanto current nao goal --------");
-    		current.imprimeTabuleiro();
-    		//open.insert(initial);
-    	//while (!open.isEmpty()) {
-    		//current = open.delMin();
-    		//if (current.board.equals(initial.goal)) return ;
-    		StdOut.println("Dentro  do while");
-    		//known.add(current);
-    		StdOut.println("Antes do neighbors");
     		known.insert(current);
     		neighbors = current.neighbors();
     		for (Board next : neighbors) {
-    			StdOut.println("dentro do for --- tab ---");
-    			next.imprimeTabuleiro();
-    			StdOut.println("Manhatan ---" + next.manhattan());
-    			//next = neighbors.next();
     			if (!contains(next)) {
-    				StdOut.println("Empilhou --------");
-    				next.imprimeTabuleiro();	
     				open.insert(next);
     			}
-    			//currentScore = next.score + next.distance;
-    			//open.insert(next);
-    			//if (currentScore >= next.score) {} //ignora
-    			//known.add(current);
-    			//next.score = currentScore;
-    			//finalScore[next] = gScore[vizinho] + hestimate(vizinho,goal);
     		}
     		current = open.delMin();
-    		StdOut.println("Pra ele o menor é --------menooooooooor");
-    		current.imprimeTabuleiro();	
-
-    		
     	}
     	moves = current.moves;
 
     }
 
     public boolean contains(Board b) {
-    	StdOut.println("No contains -renho tudo isso ai-------");
-    	for (Board x : known) {
-    		x.imprimeTabuleiro();
-    	}
     	boolean achou = false;
-    	StdOut.println("Caso a caso-------");
     	for (Board x : known) {
-    		StdOut.println("x --------");
-    		x.imprimeTabuleiro();
     		boolean ok = true;
     		for (int i = 0; i < b.tam && ok; i++) {
     			for (int j = 0; j < b.tam && ok; j++){
-    				StdOut.println("Comparando :  " + b.board[i][j] + "------ " + x.board[i][j]);
     				if(b.board[i][j] != x.board[i][j]) {
     					ok = false;
-    					StdOut.println("x não é igual------");
     				}
     			}
     		}
     		if (ok == true) return true;
     	}
-    	StdOut.println("olha o q retorna ----" + achou);
     	return achou;
     } 
 
     // min number of moves to solve initial board
     public int moves() { 
-    	return 0;
+    	return moves;
     }
 
     // sequence of boards in a shortest solution
@@ -120,7 +82,7 @@ public class Solver {
 
     // unit testing 
     public static void main(String[] args) {
-    	       In in = new In(args[0]);
+    	In in = new In(args[0]);
         int n = in.readInt();
         int i = 0;
         int j = 0;
@@ -128,7 +90,6 @@ public class Solver {
         int contI = 0;
         int contJ = 0;
         int[][] b = new int[n][n];
-        StdOut.println(n);
         while (k < n * n) {
             i = 0;
             contI = 0;
@@ -137,7 +98,6 @@ public class Solver {
                 contJ = 0;
                 while (contJ < n) {
                     b[i][j] = in.readInt();
-                    StdOut.println(b[i][j]);
                     j++;
                     contJ++;
                     k++;
@@ -154,24 +114,14 @@ public class Solver {
         }
 
         Board puzzle = new Board(b);
-        StdOut.println("antes de chamar");
         Solver s = new Solver(puzzle);
-        StdOut.println("chamou");
         Iterable<Board> sol = s.solution();
         Board tmp;
-        /*while (!s.solution.isEmpty()) {
-        	StdOut.println("dempilhando solução");
-        	tmp = s.solution.pop();
-        	tmp.imprimeTabuleiro();
-        }
-        
-    	for (Board x : s.solution()) {
-    		x.imprimeTabuleiro();
-    	}
-    	*/
 
     	for (Board x : sol) {
+    		StdOut.println("---------");
     		x.imprimeTabuleiro();
+    		StdOut.println("---------");
     	}
     	
     	return;
