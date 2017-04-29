@@ -12,15 +12,17 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.SET;
+import edu.princeton.cs.algs4.Stack;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.lang.NullPointerException;
 
 public class Solver {
 	private MinPQ<Board> open = new MinPQ<Board>();
 	private MinPQ<Board> cloesed = new MinPQ<Board>();	
-	private MinPQ<Board> solution;	
+	private Stack<Board> solution;	
 	private Iterable<Board> neighbors;
 	private MinPQ<Board> known = new MinPQ<Board>();
 
@@ -33,7 +35,7 @@ public class Solver {
     public Solver(Board initial) {
     	StdOut.println("Entrou no solver --------");
     	initial.imprimeTabuleiro();
-    	current = initial;
+    	current = new Board(initial.board);
     	current.previous = null;
     	StdOut.println("Antes do while");
     	while (!current.isGoal()) {
@@ -46,12 +48,14 @@ public class Solver {
     		StdOut.println("Dentro  do while");
     		//known.add(current);
     		StdOut.println("Antes do neighbors");
+    		known.insert(current);
     		neighbors = current.neighbors();
-    		StdOut.println("Antes do for");
     		for (Board next : neighbors) {
-    			StdOut.println("dentro do for");
+    			StdOut.println("dentro do for --- tab ---");
+    			next.imprimeTabuleiro();
+    			StdOut.println("Manhatan ---" + next.manhattan());
     			//next = neighbors.next();
-    			if (!contains(next)) { 
+    			if (!contains(next)) {
     				StdOut.println("Empilhou --------");
     				next.imprimeTabuleiro();	
     				open.insert(next);
@@ -64,25 +68,38 @@ public class Solver {
     			//finalScore[next] = gScore[vizinho] + hestimate(vizinho,goal);
     		}
     		current = open.delMin();
-    		known.insert(current);
+    		StdOut.println("Pra ele o menor é --------menooooooooor");
+    		current.imprimeTabuleiro();	
+
+    		
     	}
     	moves = current.moves;
 
     }
 
     public boolean contains(Board b) {
-    	boolean achou = false;
+    	StdOut.println("No contains -renho tudo isso ai-------");
     	for (Board x : known) {
+    		x.imprimeTabuleiro();
+    	}
+    	boolean achou = false;
+    	StdOut.println("Caso a caso-------");
+    	for (Board x : known) {
+    		StdOut.println("x --------");
+    		x.imprimeTabuleiro();
     		boolean ok = true;
     		for (int i = 0; i < b.tam && ok; i++) {
-    			for (int j = 0; j < b.tam; j++){
-    				if(b.board[i][j] != x.board[i][j])
+    			for (int j = 0; j < b.tam && ok; j++){
+    				StdOut.println("Comparando :  " + b.board[i][j] + "------ " + x.board[i][j]);
+    				if(b.board[i][j] != x.board[i][j]) {
     					ok = false;
-    					break;
+    					StdOut.println("x não é igual------");
+    				}
     			}
     		}
-    		if (ok == true) achou = true;
+    		if (ok == true) return true;
     	}
+    	StdOut.println("olha o q retorna ----" + achou);
     	return achou;
     } 
 
@@ -93,9 +110,9 @@ public class Solver {
 
     // sequence of boards in a shortest solution
     public Iterable<Board> solution() { 
-    	solution = new MinPQ<Board>();
+    	solution = new Stack<Board>();
     	while (current != null) {
-    		solution.insert(current);
+    		solution.push(current);
     		current = current.previous;
     	}
     	return solution;
@@ -137,12 +154,26 @@ public class Solver {
         }
 
         Board puzzle = new Board(b);
+        StdOut.println("antes de chamar");
         Solver s = new Solver(puzzle);
-
-
+        StdOut.println("chamou");
+        Iterable<Board> sol = s.solution();
+        Board tmp;
+        /*while (!s.solution.isEmpty()) {
+        	StdOut.println("dempilhando solução");
+        	tmp = s.solution.pop();
+        	tmp.imprimeTabuleiro();
+        }
+        
     	for (Board x : s.solution()) {
     		x.imprimeTabuleiro();
     	}
+    	*/
+
+    	for (Board x : sol) {
+    		x.imprimeTabuleiro();
+    	}
+    	
     	return;
     }
 }

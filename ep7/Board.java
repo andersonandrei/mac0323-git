@@ -74,9 +74,13 @@ public class Board implements Comparable<Board> {
         int sumA, sumB;
         int m = x / size();
         int n = x % size() - 1;
+        if(x == 0) {
+            return (size() - i) + (size() - j);
+        }
+
         if (m > i) 
             sumA = m - i;
-        else 
+        else
             sumA = i - m;
         if (n > j)
             sumB = n - j;
@@ -227,7 +231,7 @@ public class Board implements Comparable<Board> {
 
         StdOut.println("Depois do for com " + i + j);
         StdOut.println("Antes do if1");
-        if (i - 1 >= 0) { // [x] sobe
+        if (i - 1 >= 0 ) { // [x] sobe
             StdOut.println("if1");
             b = new Board(board);
             copy(board, b.board);
@@ -314,15 +318,15 @@ public class Board implements Comparable<Board> {
 
     public int compareTo(Board x) {
         //return (this.manhattan() + x.moves) - (x.manhattan() + x.moves);
-        if (this.manhattan() + this.moves > x.manhattan() + x.moves) return 1;
-        else if (this.manhattan() + this.moves < x.manhattan() + x.moves) return -1;
+        if (this.manhattan() > x.manhattan()) return 1;
+        else if (this.manhattan() < x.manhattan()) return -1;
         return 0;
     }
 
     private class priority implements Comparator<Board> {
         public int compare(Board x, Board y) {
             if (x.manhattan() > y.manhattan()) return 1;
-            else if (x.manhattan() + x.moves < y.manhattan() + y.moves) return -1;
+            else if (x.manhattan() < y.manhattan()) return -1;
             return 0;
         }
     }    
