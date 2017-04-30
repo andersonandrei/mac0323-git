@@ -4,7 +4,7 @@ To implement the A* algorithm, you must use the MinPQ data type from algs4.jar f
 Corner cases.  The constructor should throw a java.lang.IllegalArgumentException if the initial board 
 is not solvable and a java.lang.NullPointerException if the initial board is null.
 */
-//import test;
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
