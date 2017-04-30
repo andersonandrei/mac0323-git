@@ -1,8 +1,11 @@
-/* 
-To implement the A* algorithm, you must use the MinPQ data type from algs4.jar for the priority queue.
+/*
+Corner cases.  You may assume that the constructor receives an N-by-N array containing the N2 integers between 0 and N2 − 1, 
+where 0 represents the blank square. 
+The tileAt() method should throw a java.lang.IndexOutOfBoundsException unless both i or j 
+are between 0 and N − 1.
 
-Corner cases.  The constructor should throw a java.lang.IllegalArgumentException if the initial board 
-is not solvable and a java.lang.NullPointerException if the initial board is null.
+Performance requirements.  Your implementation should support all Board methods in time proportional to N² (or better) 
+in the worst case, with the exception that isSolvable() may take up to N4 in the worst case. 
 */
 
 import edu.princeton.cs.algs4.In;
@@ -14,8 +17,6 @@ import java.util.Iterator;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.lang.NullPointerException;
-    
-
 
 public class Board implements Comparable<Board> {
     public int[][] board;
@@ -48,14 +49,17 @@ public class Board implements Comparable<Board> {
 
     // return tile at row i, column j (or 0 if blank)
     public int tileAt(int i, int j){
-        if (board[i][j] == -1) return 0;
+        if (i < 0 || j < 0 || i > tam || j > tam) 
+            throw new java.lang.IndexOutOfBoundsException();
         return board[i][j];
     }
 
     //Tile expect
     public int tileExp(int i, int j){
-        int t = i*size() + j + 1;
-        if (t == size() * size())
+        if (i < 0 || j < 0 || i > tam || j > tam) 
+            throw new java.lang.IndexOutOfBoundsException();
+        int t = i * size() + j + 1;
+        if (t == size)
             return 0;
         return t;
     }
@@ -66,31 +70,22 @@ public class Board implements Comparable<Board> {
     }    
 
     public int sumPositionExpTile (int i, int j, int x) {
-        int sumA, sumB;
-        int m = x / size();
-        int n = x % size() - 1;
-        if(x == 0) {
-            return (size() - i) + (size() - j);
+        int m = (x - 1) / tam;
+        int n = (x - 1) % tam;
+
+        if (x == 0) {
+            return 0;
         }
-
-        if (m > i) 
-            sumA = m - i;
-        else
-            sumA = i - m;
-        if (n > j)
-            sumB = n - j;
-        else
-            sumB = j - n;
-
-        return sumA + sumB;
+        return Math.abs(m-i) + Math.abs(n-j);
     }
 
+    // calculate the number 
     public int inversions() {
         int inv = 0;
         int[] aux = new int[size];
         int x = 0;
-        for (int i = 0; i < size(); i++)
-            for (int j = 0; j < size(); j++){
+        for (int i = 0; i < tam; i++)
+            for (int j = 0; j < tam; j++){
                 aux[x] = board[i][j];
                 x++;
             }
@@ -100,13 +95,13 @@ public class Board implements Comparable<Board> {
                 if (aux[i] > aux[j] && (aux[i] != 0 && aux[j] != 0))
                     inv++;
         }
-
         return inv;
     }
     
+    // find the line of 0
     public int findLineWhite() {
-        for (int i = 0; i < size(); i++) {
-            for (int j = 0; j < size(); j++) {
+        for (int i = 0; i < tam; i++) {
+            for (int j = 0; j < tam; j++) {
                 if (board[i][j] == 0)
                     return i;
             }
@@ -116,26 +111,24 @@ public class Board implements Comparable<Board> {
 
     // number of tiles out of place
     public int hamming(){
-        if (size() > 0) {
-            int cont = 0;
+        int cont = 0;
+        if (size > 0) {
             for(int i = 0; i < tam; i++) {
                 for(int j = 0; j < tam; j++) {
-                    if(tileAt(i,j) != tileExp(i,j))
+                    if((tileAt(i,j) != tileExp(i,j)) && (tileAt(i,j) != 0))
                         cont++; 
                 }
             }
-            return cont;
         }
-        return 0;
+        return cont;
     }
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan(){
         int sum = 0;
-        for(int i = 0; i < tam; i++) {
-            for(int j = 0; j < tam; j++) {
-                if(tileAt(i,j) != tileExp(i,j)) {
-                    //Se é ta diferente do que eu esperava, vou ver a distancia da posição certa do intruso.
+        if (size > 0) {
+            for(int i = 0; i < tam; i++) {
+                for(int j = 0; j < tam; j++) {
                     sum += sumPositionExpTile(i , j, tileAt(i,j));
                 }
             }
@@ -145,7 +138,7 @@ public class Board implements Comparable<Board> {
 
     // is this board the goal board?
     public boolean isGoal(){
-        if (size() > 0) {
+        if (tam > 0) {
             for (int i = 0; i < tam; i++)
                 for(int j = 0; j < tam; j++){
                     if (board[i][j] != tileExp(i, j))
@@ -159,11 +152,11 @@ public class Board implements Comparable<Board> {
     // is this board solvable?
     public boolean isSolvable() {
         //Vou ver se é par ou impar e cada uma das confdições dentro dessas duas primeiras
-        if (size() == 0) return false;
+        if (tam == 0) return false;
         if (isGoal() == true) return true;
         int inv = inversions();
         int white = findLineWhite();
-        if (size() % 2 == 0) {
+        if (size % 2 == 0) {
             if ((inv + white) % 2 == 0) return false;
             return true;
         }
@@ -176,9 +169,9 @@ public class Board implements Comparable<Board> {
     // does this board equal y?
     public boolean equals(Object y){
         Board aux = (Board)y;
-        if (size() > 0) {
+        if (tam > 0) {
             for (int i = 0; i < tam; i++)
-                for(int j = 0; i < tam; j++)
+                for(int j = 0; j < tam; j++)
                     if (board[i][j] != aux.tileAt(i,j))
                         return false;
             return true;
@@ -186,6 +179,7 @@ public class Board implements Comparable<Board> {
         return false;
     }
 
+    // change a tile
     public void changeTile(Board b, int i, int j, int m, int n) {
         int aux = b.board[i][j];
         b.board[i][j] = b.board[m][n];
@@ -193,7 +187,8 @@ public class Board implements Comparable<Board> {
         return;
     }
 
-    public void copy (int[][]orig, int[][] dest) {
+    // copy a table
+    public void copy (int[][] orig, int[][] dest) {
         for(int i = 0; i < tam - 1; i++) {
             for(int j = 0; j < tam - 1; j++) {
                 dest[i][j] = orig[i][j];
@@ -206,6 +201,7 @@ public class Board implements Comparable<Board> {
         MinPQ<Board> queue =  new MinPQ<Board>(new priority());
         Board b;
         int i = 0, j = 0, m = 0, n = 0;
+        //Taking the coordenates of 0 
         for(i = 0; i < tam; i++) {
             for(j = 0; j < tam; j++) {
                 if (board[i][j] == 0) {
@@ -214,47 +210,48 @@ public class Board implements Comparable<Board> {
                 }
             }
         }
-        if (i == 3) i-=1;
-        if (j == 3) j-=1;
         i = m;
         j = n;
-        if (i - 1 >= 0 ) { // [x] sobe
+        if (i - 1 >= 0 ) { // [x] get up
             b = new Board(board);
             copy(board, b.board);
             changeTile(b, i, j, i-1, j);
+            b.score = manhattan();
             b.previous = this;
             b.distance = distance + 1;
-            b.moves = moves + 1;
+            b.moves = this.moves + 1;
             queue.insert(b);
         }
-        if (i + 1 < size()) { // [x] desce
+        if (i + 1 < size()) { // [x] get down
             b = new Board(board);
             copy(board, b.board);
             changeTile(b,i, j, i+1, j);
+            b.score = manhattan();
             b.previous = this;
             b.distance = distance + 1;
-            b.moves = moves + 1;
+            b.moves = this.moves + 1;
             queue.insert(b);
         }
-        if (j - 1 >= 0) { // <--- [x]
+        if (j - 1 >= 0) { // <--- to left
             b = new Board(board);
             copy(board, b.board);
             changeTile(b,i, j, i, j-1);
+            b.score = manhattan();
             b.distance = distance + 1;
-            b.moves = moves + 1;            
+            b.moves = this.moves + 1;            
             b.previous = this;
             queue.insert(b);
         }
-        if (j + 1 < size()) { // [x] --->
+        if (j + 1 < size()) { // to right
             b = new Board(board);
             copy(board, b.board);
             changeTile(b,i, j, i, j+1);
+            b.score = manhattan();
             b.distance = distance + 1;
-            b.moves = moves + 1;
+            b.moves = this.moves + 1;
             b.previous = this;
             queue.insert(b);
         }
-
         return queue;
     }
 
@@ -270,6 +267,7 @@ public class Board implements Comparable<Board> {
         return text;
     }
 
+    // print the table
     public void imprimeTabuleiro(int[][] board) {
         for(int i = 0; i < tam; i++) {
             for(int j = 0; j < tam; j++) {
@@ -278,7 +276,8 @@ public class Board implements Comparable<Board> {
             StdOut.println("");
         }
     }
-
+    
+    // print the table
     public void imprimeTabuleiro() {
         for(int i = 0; i < tam; i++) {
             for(int j = 0; j < tam; j++) {
@@ -288,17 +287,25 @@ public class Board implements Comparable<Board> {
         }
     }
 
-    public int compareTo(Board x) {
-        //return (this.manhattan() + x.moves) - (x.manhattan() + x.moves);
-        if (this.manhattan() > x.manhattan()) return 1;
-        else if (this.manhattan() < x.manhattan()) return -1;
-        return 0;
+    // print the table
+    public void imprimeTabuleiroVetor() {
+        for(int i = 0; i < tam; i++) {
+            for(int j = 0; j < tam; j++) {
+                StdOut.print(" " + board[i][j]);
+            }
+        }
     }
 
+    // method to Comparable implements
+    public int compareTo(Board x) {
+        return (this.score + this.moves) - (x.score + x.moves);
+    }
+
+    // method to apply Comparable implements into MinPQ
     private class priority implements Comparator<Board> {
         public int compare(Board x, Board y) {
-            if (x.manhattan() > y.manhattan()) return 1;
-            else if (x.manhattan() < y.manhattan()) return -1;
+            if (x.score + x.moves > y.score + y.moves) return 1;
+            else if (x.score + x.moves < y.score + y.moves) return -1;
             return 0;
         }
     }    

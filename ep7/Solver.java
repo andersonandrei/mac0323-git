@@ -1,69 +1,53 @@
-/*Corner cases.  You may assume that the constructor receives an N-by-N array containing the N2 integers between 0 and N2 − 1, 
-where 0 represents the blank square. The tileAt() method should throw a java.lang.IndexOutOfBoundsException unless both i or j 
-are between 0 and N − 1.
+/* 
+To implement the A* algorithm, you must use the MinPQ data type from algs4.jar for the priority queue.
 
-Performance requirements.  Your implementation should support all Board methods in time proportional to N² (or better) 
-in the worst case, with the exception that isSolvable() may take up to N4 in the worst case. 
-
+Corner cases.  The constructor should throw a java.lang.IllegalArgumentException if the initial board 
+is not solvable and a java.lang.NullPointerException if the initial board is null.
 */
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.MinPQ;
-import edu.princeton.cs.algs4.SET;
 import edu.princeton.cs.algs4.Stack;
 
-import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.lang.NullPointerException;
+import java.lang.IllegalArgumentException;
 
 public class Solver {
 	private MinPQ<Board> open = new MinPQ<Board>();
 	private MinPQ<Board> cloesed = new MinPQ<Board>();	
 	private Stack<Board> solution;	
 	private Iterable<Board> neighbors;
-	private MinPQ<Board> known = new MinPQ<Board>();
-
+	private LinkedList<Board> known = new LinkedList<Board>();
 
 	private Board current;
 	private int currentScore;
 	private int finalScore = 0;
 	private int moves = 0;
+
 	// find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
+    	if (!initial.isSolvable()) throw new java.lang.IllegalArgumentException();
     	current = new Board(initial.board);
+    	current.score = current.manhattan();
     	current.previous = null;
+    	known.push(current);
     	while (!current.isGoal()) {
-    		known.insert(current);
     		neighbors = current.neighbors();
     		for (Board next : neighbors) {
-    			if (!contains(next)) {
+    			if (!known.contains(next)) {
     				open.insert(next);
     			}
     		}
     		current = open.delMin();
+    		known.push(current);
     	}
     	moves = current.moves;
-
     }
-
-    public boolean contains(Board b) {
-    	boolean achou = false;
-    	for (Board x : known) {
-    		boolean ok = true;
-    		for (int i = 0; i < b.tam && ok; i++) {
-    			for (int j = 0; j < b.tam && ok; j++){
-    				if(b.board[i][j] != x.board[i][j]) {
-    					ok = false;
-    				}
-    			}
-    		}
-    		if (ok == true) return true;
-    	}
-    	return achou;
-    } 
 
     // min number of moves to solve initial board
     public int moves() { 
