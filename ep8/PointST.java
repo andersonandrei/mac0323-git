@@ -51,6 +51,7 @@ Here is the subset of its API that you may use:
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.RedBlackBST;
@@ -80,22 +81,22 @@ public class PointST<Value> {
 	// associate the value val with point p
 	public void put(Point2D p, Value val) {
 		if (p == null || val == null)
-			return java.lang.NullPointerException;
+			throw new java.lang.NullPointerException();	
 		rbt.put(p, val);
 		return;
 	}
 
 	// value associated with point p      
 	public Value get(Point2D p) {
-		if (p == null || val == null)
-			return java.lang.NullPointerException;	
+		if (p == null)
+			throw new java.lang.NullPointerException();		
 		return rbt.get(p);
 	}
 
 	// does the symbol table contain point p?  
 	public boolean contains(Point2D p) {
-		if (p == null || val == null)
-			return java.lang.NullPointerException;	
+		if (p == null)
+			throw new java.lang.NullPointerException();	
 		return rbt.contains(p);
 	}
 
@@ -105,10 +106,34 @@ public class PointST<Value> {
 	}
 
 	// all points that are inside the rectangle
-	public Iterable<Point2D> range(RectHV rect) {}
+	public Iterable<Point2D> range(RectHV rect) {
+		Queue<Point2D> pointQueue = new Queue<Point2D>();
+		Iterable<Point2D> points = this.points();
+		for (Point2D p : points) {
+			if (rect.contains(p)) {
+				pointQueue.enqueue(p);
+			}
+		}
+		return pointQueue;
+	}
 
 	// a nearest neighbor to point p; null if the symbol table is empty 
-	public Point2D nearest(Point2D p) {}
+	public Point2D nearest(Point2D p) {
+		if (rbt.size() == 0) return null;
+		if (rbt.size() == 1) return p;
+		Iterable<Point2D> points = this.points();
+		Point2D selected = p;
+		double minDist = 0;
+		double d;
+		for (Point2D point : points) {
+			d = p.distanceSquaredTo(point); 
+			if (d < minDist) {
+				minDist = d;
+				selected = point;
+			}
+		}
+		return selected;
+	}
 
 	// unit testing (required) 
 	public static void main(String[] args) {}
