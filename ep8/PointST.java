@@ -47,7 +47,6 @@ Here is the subset of its API that you may use:
        public  String toString()                       // string representation 
     }
 */
-
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
@@ -123,10 +122,11 @@ public class PointST<Value> {
 		if (rbt.size() == 1) return p;
 		Iterable<Point2D> points = this.points();
 		Point2D selected = p;
-		double minDist = 0;
+		double minDist = Double.POSITIVE_INFINITY;
 		double d;
 		for (Point2D point : points) {
-			d = p.distanceSquaredTo(point); 
+			//StdOut.println("Olhando pro ponto " + point.toString());
+			d = p.distanceSquaredTo(point);
 			if (d < minDist) {
 				minDist = d;
 				selected = point;
@@ -136,6 +136,7 @@ public class PointST<Value> {
 	}
 
 	// unit testing (required) 
-	public static void main(String[] args) {}
+	public static void main(String[] args) {
+	}
 }
 
