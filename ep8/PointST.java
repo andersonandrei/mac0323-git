@@ -57,33 +57,52 @@ import edu.princeton.cs.algs4.RedBlackBST;
 
 import java.util.Iterator;
 import java.lang.NullPointerException;
-    
-
 
 public class PointST<Value> {
 
+	RedBlackBST<Point2D, Value> rbt;
+
 	// construct an empty symbol table of points
 	public PointST() {
-		RedBlackBST rbt = new rbt();
+		rbt = new RedBlackBST<Point2D, Value>();
 	}
 
 	// is the symbol table empty?
-	public boolean isEmpty() {}
+	public boolean isEmpty() {
+		return rbt.isEmpty();
+	}
 
 	// number of points                      
-	public int size() {}
+	public int size() {
+		return rbt.size();
+	}
 
 	// associate the value val with point p
-	public void put(Point2D p, Value val) {}
+	public void put(Point2D p, Value val) {
+		if (p == null || val == null)
+			return java.lang.NullPointerException;
+		rbt.put(p, val);
+		return;
+	}
 
 	// value associated with point p      
-	public Value get(Point2D p) {}
+	public Value get(Point2D p) {
+		if (p == null || val == null)
+			return java.lang.NullPointerException;	
+		return rbt.get(p);
+	}
 
 	// does the symbol table contain point p?  
-	public boolean contains(Point2D p) {}
+	public boolean contains(Point2D p) {
+		if (p == null || val == null)
+			return java.lang.NullPointerException;	
+		return rbt.contains(p);
+	}
 
 	// all points in the symbol table
-	public Iterable<Point2D> points() {}
+	public Iterable<Point2D> points() {
+		return rbt.keys();
+	}
 
 	// all points that are inside the rectangle
 	public Iterable<Point2D> range(RectHV rect) {}
