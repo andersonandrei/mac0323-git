@@ -102,6 +102,7 @@ public class KdTreeST<Value> {
 		Node x = new Node (p,val);
 		if (root == null) {
 			x.orientation = 0;
+			x.rect = new RectHV(0, 0, 1, 1);
 			root = x;
 			return;
 		}
@@ -130,13 +131,18 @@ public class KdTreeST<Value> {
 		return;
 	}
 
+
+
 	public void put(Node current, Node x, Node parent, int side) { //side : 0 left, 1 right
 		if (current == null) {
+			x.rect = rect(x, parent, side, x.orientation, parent.rect);
 			if (side == 0) {
+				//maybe the rect should to be here.
 				parent.left = x;
 				return;
 			}
 			else {
+				//maybe the rect should to be here.
 				parent.right = x;
 				return;
 			}
@@ -160,6 +166,28 @@ public class KdTreeST<Value> {
 			}
 		}
 		return;
+	}
+
+	//Calculate the rect for the point of Node x
+	private RectHV rect (Node x, Node parent, int side, int orientation, RectHV parentRect) {
+		if(x == null) return null;
+		if(x == root) return new RectHV(0, 0, 1, 1);
+		if (side == 0) {
+			if (orientation == 0) {
+				return new RectHV(parentRect.xmin(), parentRect.ymin(), parent.p.x(), parentRect.ymax());
+			}
+			else {
+				return new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parent.p.y());
+			}
+		}
+		else {
+			if (orientation == 0) {
+				return new RectHV(parent.p.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax());
+			}
+			else {
+				return new RectHV(parentRect.xmin(), parent.p.y(), parentRect.xmax(), parentRect.ymax());
+			}
+		}
 	}
 
 	// value associated with point p
@@ -207,68 +235,6 @@ public class KdTreeST<Value> {
 			q.enqueue(x.p);
 			inOrdem(x.right, q);
 		}
-	}
-
-
-	private RectHV rect (Node x, Point2D p, Node parent, int orientation, int side, RectHV board) {
-		if (p == null || x == null) return null;
-		RectHV board = new RectHV(0, 0, 1, 1); //tirar daqui
-		if (x.p.equals(p)) {
-			return board;
-		}
-		if (x.orientation == 0) { //change x-coordenate
-			if (x.p.x() > p.x()) { //go to <-
-				board.xmax = parent.p.x();
-				return rect(x.left, p, x, 0, 0);
-			}
-			else { //go to ->
-				board.xmin = parent.p.x();
-				return rect(x.right, p, x, 0, 1);
-			}
-		}
-		else { //use y-coordenate
-			if (x.p.y() > p.y()) { //go to <-
-				board.ymax = parent.p.y();
-				return rect(x.left, p, x, 1, 0);
-			}
-			else { //go to ->
-				board.ymin = parent.p.y();
-				return rect(x.right, p, x, 1, 1);
-			}
-		}
-	}
-
-	private RectHV findRect (Node x, Node parent, Point2D p, int orientation, int side, RectHV rectNeed) {
-		if (p == null || x == null) return null;
-		Queue<Point2D> queue = new Queue<Point2D>();
-		RectHV rect;
-		queue.enqueue(root);
-		if(x.p.equals(p)) {
-			return rect;
-		}
-		if (x.orientation == 0) { //use x-coordenate
-			if (x.p.x() > p.x()) { //go to <-
-				rect = (x, x.p, parent, 0, 0); //, board); we need this.
-				if (rect.intersect(rectNeed)) {
-					if (rect.contains(p)) {
-						queue.enqueue(x.p);
-						return findRect(x.left, x, p, 0, 0, rectNeed);
-					}
-				}
-			}
-			else { //go to ->
-				return get(x.right, p);
-			}
-		}
-		else { //use y-coordenate
-			if (x.p.y() > p.y()) { //go to <-
-				return get(x.left, p);
-			}
-			else { //go to ->
-				return get(x.right, p);
-			}
-		}
-
 	}
 
 	// all points that are inside the rectangle
