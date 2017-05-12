@@ -98,7 +98,7 @@ public class KdTreeST<Value> {
 
 	// associate the value val with point p
 	public void put(Point2D p, Value val) {
-		if (p == null) return null;
+		if (p == null) return ;
 		Node x = new Node (p,val);
 		if (root == null) {
 			x.orientation = 0;
@@ -121,18 +121,18 @@ public class KdTreeST<Value> {
 		else {
 			x.orientation = 0;
 			if (root.p.y() > x.p.x()) {
-				put(root.left, x, current, 0);
+				put(root.left, x, root, 0);
 			}
 			else {
-				put(root.right, x, current, 1);	
+				put(root.right, x, root, 1);	
 			}
 		}
 		return;
 	}
 
-	public void put(Node current, Node x, Node parent, int side) { //0 left, 1 right
+	public void put(Node current, Node x, Node parent, int side) { //side : 0 left, 1 right
 		if (current == null) {
-			if (parent == 0) {
+			if (side == 0) {
 				parent.left = x;
 				return;
 			}
@@ -159,7 +159,6 @@ public class KdTreeST<Value> {
 				put(current.right, x, current, 1);	
 			}
 		}
-		
 		return;
 	}
 
@@ -195,8 +194,18 @@ public class KdTreeST<Value> {
 	}
 
 	// all points in the symbol table
-	public Iterable<Point2D> points() {
-		return null;
+	public Iterable<Point2D> points() { // read: left, middle, rigth
+		Queue<Point2D> points = new Queue<Point2D>();
+		inOrdem(root, points);
+		return points;
+	}
+
+	private void inOrdem (Node x, Queue<Point2D> q) {
+		if (x != null) {
+			inOrdem(x.left, q);
+			q.enqueue(x.p);
+			inOrdem(x.right, q);
+		}
 	}
 
 	// all points that are inside the rectangle
