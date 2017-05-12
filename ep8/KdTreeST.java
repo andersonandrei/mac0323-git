@@ -242,6 +242,17 @@ public class KdTreeST<Value> {
 		return null;
 	}
 
+	private void range(Node current, RectHV rect, Queue<Point2D> queue) {
+		if (current == null || !rect.contains(current.p)) return;
+		if (current.rect.intersect(rect)) {
+			if (rect.contains(current.p)) {
+				queue.enqueue(current.p);
+			}
+		}
+		range(current.left, rect, queue);
+		range(current.right, rect, queue);
+	}
+
 	// a nearest neighbor to point p; null if the symbol table is empty 
 	public Point2D nearest(Point2D p) {
 		return p;
