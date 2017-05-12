@@ -169,6 +169,7 @@ public class KdTreeST<Value> {
 
 	public Value get(Node x, Point2D p) {
 		if (p == null || x == null) return null;
+		if (x.p.equals(p)) return x.value;
 		if (x.orientation == 0) { //use x-coordenate
 			if (x.p.x() > p.x()) { //go to <-
 				return get(x.left, p);
@@ -206,6 +207,68 @@ public class KdTreeST<Value> {
 			q.enqueue(x.p);
 			inOrdem(x.right, q);
 		}
+	}
+
+
+	private RectHV rect (Node x, Point2D p, Node parent, int orientation, int side, RectHV board) {
+		if (p == null || x == null) return null;
+		RectHV board = new RectHV(0, 0, 1, 1); //tirar daqui
+		if (x.p.equals(p)) {
+			return board;
+		}
+		if (x.orientation == 0) { //change x-coordenate
+			if (x.p.x() > p.x()) { //go to <-
+				board.xmax = parent.p.x();
+				return rect(x.left, p, x, 0, 0);
+			}
+			else { //go to ->
+				board.xmin = parent.p.x();
+				return rect(x.right, p, x, 0, 1);
+			}
+		}
+		else { //use y-coordenate
+			if (x.p.y() > p.y()) { //go to <-
+				board.ymax = parent.p.y();
+				return rect(x.left, p, x, 1, 0);
+			}
+			else { //go to ->
+				board.ymin = parent.p.y();
+				return rect(x.right, p, x, 1, 1);
+			}
+		}
+	}
+
+	private RectHV findRect (Node x, Node parent, Point2D p, int orientation, int side, RectHV rectNeed) {
+		if (p == null || x == null) return null;
+		Queue<Point2D> queue = new Queue<Point2D>();
+		RectHV rect;
+		queue.enqueue(root);
+		if(x.p.equals(p)) {
+			return rect;
+		}
+		if (x.orientation == 0) { //use x-coordenate
+			if (x.p.x() > p.x()) { //go to <-
+				rect = (x, x.p, parent, 0, 0); //, board); we need this.
+				if (rect.intersect(rectNeed)) {
+					if (rect.contains(p)) {
+						queue.enqueue(x.p);
+						return findRect(x.left, x, p, 0, 0, rectNeed);
+					}
+				}
+			}
+			else { //go to ->
+				return get(x.right, p);
+			}
+		}
+		else { //use y-coordenate
+			if (x.p.y() > p.y()) { //go to <-
+				return get(x.left, p);
+			}
+			else { //go to ->
+				return get(x.right, p);
+			}
+		}
+
 	}
 
 	// all points that are inside the rectangle
