@@ -110,39 +110,49 @@ public class KdTreeST<Value> {
 			root.value = x.value;
 			return;
 		}
-		if (root.orientation == 0) {
+		if (root.p.x() > x.p.x()) {
+			x.rect = rect(x, root, 0, 0, root.rect);
+			put(root.left, x, root, 0);
+		}
+		else {
+			x.rect = rect(x, root, 1, 0, root.rect);
+			put(root.right, x, root, 1);	
+		}
+
+		/*if (x.orientation == 0) {
 			x.orientation = 1;
 			if (root.p.x() > x.p.x()) {
+				x.rect = rect(x, root, 0, 0, root.rect);
 				put(root.left, x, root, 0);
 			}
 			else {
+				x.rect = rect(x, root, 1, 0, root.rect);
 				put(root.right, x, root, 1);	
 			}
 		}
 		else {
 			x.orientation = 0;
 			if (root.p.y() > x.p.x()) {
+				x.rect = rect(x, root, 0, 1, root.rect);
 				put(root.left, x, root, 0);
 			}
 			else {
+				x.rect = rect(x, root, 1, 1, root.rect);
 				put(root.right, x, root, 1);	
 			}
 		}
-		return;
+		return;*/
 	}
 
 
 
 	public void put(Node current, Node x, Node parent, int side) { //side : 0 left, 1 right
 		if (current == null) {
-			x.rect = rect(x, parent, side, x.orientation, parent.rect);
 			if (side == 0) {
-				//maybe the rect should to be here.
 				parent.left = x;
 				return;
 			}
 			else {
-				//maybe the rect should to be here.
 				parent.right = x;
 				return;
 			}
@@ -150,18 +160,22 @@ public class KdTreeST<Value> {
 		if (current.orientation == 0) {
 			x.orientation = 1;
 			if (current.p.x() > x.p.x()) {
+				x.rect = new RectHV(current.rect.xmin(), current.rect.ymin(), current.p.x(), current.rect.ymax());
 				put(current.left, x, current, 0);
 			}
 			else {
+				x.rect = new RectHV(current.p.x(), current.rect.ymin(), current.rect.xmax(),current.rect.ymax());
 				put(current.right, x, current, 1);	
 			}
 		}
 		else {
 			x.orientation = 0;
 			if (current.p.y() > x.p.y()) {
+				x.rect = new RectHV(current.rect.xmin(), current.rect.ymin(), current.rect.xmax(), current.p.y());
 				put(current.left, x, current, 0);
 			}
 			else {
+				x.rect = new RectHV(current.rect.xmin(), current.p.y(), current.rect.xmax(), current.rect.ymax());
 				put(current.right, x, current, 1);	
 			}
 		}
@@ -173,18 +187,22 @@ public class KdTreeST<Value> {
 		if(x == null) return null;
 		if(x == root) return new RectHV(0, 0, 1, 1);
 		if (side == 0) {
-			if (orientation == 0) {
+			if (orientation == 0) { // abaixo
+				x.orientation = 1;
 				return new RectHV(parentRect.xmin(), parentRect.ymin(), parent.p.x(), parentRect.ymax());
 			}
-			else {
+			else { // esqueda
+				x.orientation = 0;
 				return new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parent.p.y());
 			}
 		}
 		else {
 			if (orientation == 0) {
+				x.orientation = 1;
 				return new RectHV(parent.p.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax());
 			}
 			else {
+				x.orientation = 0;
 				return new RectHV(parentRect.xmin(), parent.p.y(), parentRect.xmax(), parentRect.ymax());
 			}
 		}
@@ -239,12 +257,14 @@ public class KdTreeST<Value> {
 
 	// all points that are inside the rectangle
 	public Iterable<Point2D> range(RectHV rect) {
-		return null;
+		Queue<Point2D> queue = new Queue<Point2D>();
+		range(root, rect, queue);
+		return queue;
 	}
 
 	private void range(Node current, RectHV rect, Queue<Point2D> queue) {
 		if (current == null || !rect.contains(current.p)) return;
-		if (current.rect.intersect(rect)) {
+		if (current.rect.intersects(rect)) {
 			if (rect.contains(current.p)) {
 				queue.enqueue(current.p);
 			}
@@ -255,7 +275,20 @@ public class KdTreeST<Value> {
 
 	// a nearest neighbor to point p; null if the symbol table is empty 
 	public Point2D nearest(Point2D p) {
-		return p;
+		if(p == null || root == null) return null;
+		Iterable<Point2D> points = this.points();
+		Point2D selected = p;
+		double minDist = Double.POSITIVE_INFINITY;
+		double d;
+		for (Point2D point : points) {
+			//StdOut.println("Olhando pro ponto " + point.toString());
+			d = p.distanceSquaredTo(point);
+			if (d < minDist) {
+				minDist = d;
+				selected = point;
+			}
+		}
+		return selected;
 	}
 
 	// unit testing (required) 
