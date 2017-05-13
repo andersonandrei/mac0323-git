@@ -47,6 +47,7 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.lang.NullPointerException;
 
 public class KdTreeST<Value> {
@@ -119,8 +120,6 @@ public class KdTreeST<Value> {
 			put(root.right, x, root, 1);	
 		}
 	}
-
-
 
 	public void put(Node current, Node x, Node parent, int side) { //side : 0 left, 1 right
 		if (current == null) {	
@@ -243,7 +242,6 @@ public class KdTreeST<Value> {
 		if (rect.contains(current.p)) {
 			queue.enqueue(current.p);
 		}
-		
 		range(current.left, rect, queue);
 		range(current.right, rect, queue);
 	}
@@ -256,7 +254,6 @@ public class KdTreeST<Value> {
 		double minDist = Double.POSITIVE_INFINITY;
 		double d;
 		for (Point2D point : points) {
-			//StdOut.println("Olhando pro ponto " + point.toString());
 			d = p.distanceSquaredTo(point);
 			if (d < minDist) {
 				minDist = d;
@@ -264,6 +261,33 @@ public class KdTreeST<Value> {
 			}
 		}
 		return selected;
+	}
+
+	public Iterable<Point2D> nearest(Point2D p, int k) {
+		if(p == null || root == null) return null;
+		Queue<Point2D> nearest = new Queue<Point2D>();
+		LinkedList<Point2D> copyPoint = new LinkedList<Point2D>();
+		Iterable<Point2D> points = this.points();
+		Point2D selected = p;
+
+		for (Point2D point : points){
+			copyPoint.addFirst(point);
+		}
+		while (k > 0) {
+			double minDist = Double.POSITIVE_INFINITY;
+			double d;
+			for (Point2D point : copyPoint) {
+				d = p.distanceSquaredTo(point);
+				if (d < minDist) {
+					minDist = d;
+					selected = point;
+				}
+			}
+			nearest.enqueue(selected);
+			copyPoint.remove(selected);
+			k--;
+		}
+		return nearest;
 	}
 
 	// unit testing (required) 
