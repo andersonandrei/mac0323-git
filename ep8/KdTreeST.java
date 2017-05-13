@@ -102,7 +102,7 @@ public class KdTreeST<Value> {
 		Node x = new Node (p,val);
 		if (root == null) {
 			x.orientation = 0;
-			x.rect = new RectHV(0, 0, 1, 1);
+			x.rect = new RectHV(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 			root = x;
 			return;
 		}
@@ -118,36 +118,12 @@ public class KdTreeST<Value> {
 			x.rect = rect(x, root, 1, 0, root.rect);
 			put(root.right, x, root, 1);	
 		}
-
-		/*if (x.orientation == 0) {
-			x.orientation = 1;
-			if (root.p.x() > x.p.x()) {
-				x.rect = rect(x, root, 0, 0, root.rect);
-				put(root.left, x, root, 0);
-			}
-			else {
-				x.rect = rect(x, root, 1, 0, root.rect);
-				put(root.right, x, root, 1);	
-			}
-		}
-		else {
-			x.orientation = 0;
-			if (root.p.y() > x.p.x()) {
-				x.rect = rect(x, root, 0, 1, root.rect);
-				put(root.left, x, root, 0);
-			}
-			else {
-				x.rect = rect(x, root, 1, 1, root.rect);
-				put(root.right, x, root, 1);	
-			}
-		}
-		return;*/
 	}
 
 
 
 	public void put(Node current, Node x, Node parent, int side) { //side : 0 left, 1 right
-		if (current == null) {
+		if (current == null) {	
 			if (side == 0) {
 				parent.left = x;
 				return;
