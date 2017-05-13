@@ -55,6 +55,7 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.RedBlackBST;
 
+import java.util.LinkedList;
 import java.util.Iterator;
 import java.lang.NullPointerException;
 
@@ -133,6 +134,41 @@ public class PointST<Value> {
 			}
 		}
 		return selected;
+	}
+
+
+	public Iterable<Point2D> nearest(Point2D p, int k) {
+		if (rbt.size() == 0) return null;
+
+		Queue<Point2D> nearest = new Queue<Point2D>();
+		LinkedList<Point2D> copyPoint = new LinkedList<Point2D>();
+		Iterable<Point2D> points = this.points();
+		Point2D selected = p;
+		double minDist;
+		double d;
+		if (rbt.size() == 1) {
+			nearest.enqueue(p);
+			return nearest;
+		}
+		for (Point2D point : points){
+			copyPoint.addFirst(point);
+		}
+
+		while (k > 0) {
+			minDist =  Double.POSITIVE_INFINITY;
+			for (Point2D point : copyPoint) {
+				//StdOut.println("Olhando pro ponto " + point.toString());
+				d = p.distanceSquaredTo(point);
+				if (d < minDist) {
+					minDist = d;
+					selected = point;
+				}
+			}
+			nearest.enqueue(selected);
+			copyPoint.remove(selected);
+			k--;
+		}
+		return nearest;
 	}
 
 	// unit testing (required) 
