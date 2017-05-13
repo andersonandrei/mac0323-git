@@ -239,12 +239,11 @@ public class KdTreeST<Value> {
 	}
 
 	private void range(Node current, RectHV rect, Queue<Point2D> queue) {
-		if (current == null || !rect.contains(current.p)) return;
-		if (current.rect.intersects(rect)) {
-			if (rect.contains(current.p)) {
-				queue.enqueue(current.p);
-			}
+		if (current == null || !current.rect.intersects(rect)) return;
+		if (rect.contains(current.p)) {
+			queue.enqueue(current.p);
 		}
+		
 		range(current.left, rect, queue);
 		range(current.right, rect, queue);
 	}
