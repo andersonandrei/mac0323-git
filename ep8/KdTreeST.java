@@ -272,7 +272,7 @@ public class KdTreeST<Value> {
 	public Iterable<Point2D> nearest(Point2D p, int k) {
 		if(p == null) throw new NullPointerException();
 		if (root == null) return null;
-		LinkedList<Point2D> nearest = new LinkedList<Point2D>();
+		Queue<Point2D> nearest = new Queue<Point2D>();
 		LinkedList<Point2D> copyPoint = new LinkedList<Point2D>();
 		Iterable<Point2D> points = this.points();
 		Point2D selected = p;
@@ -290,16 +290,8 @@ public class KdTreeST<Value> {
 					selected = point;
 				}
 			}
-			nearest.addFirst(selected);
-			for (Point2D pi : nearest) {
-				
-			}
-			copyPoint = new LinkedList<Point2D>();
-			for (Point2D point : points) {
-				if ((!nearest.isEmpty()) && (!nearest.contains(point))) {
-					copyPoint.addFirst(point);
-				}
-			}
+			nearest.enqueue(selected);
+			copyPoint.remove(selected);
 			k--;
 		}
 		return nearest;
