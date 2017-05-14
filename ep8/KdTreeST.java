@@ -99,7 +99,7 @@ public class KdTreeST<Value> {
 
 	// associate the value val with point p
 	public void put(Point2D p, Value val) {
-		if (p == null) return ;
+		if (p == null) throw new NullPointerException();
 		Node x = new Node (p,val);
 		if (root == null) {
 			x.orientation = 0;
@@ -185,11 +185,13 @@ public class KdTreeST<Value> {
 
 	// value associated with point p
 	public Value get(Point2D p) {
+		if (p == null) throw new NullPointerException();
 		return this.get(root, p);
 	}
 
 	public Value get(Node x, Point2D p) {
-		if (p == null || x == null) return null;
+		if (p == null) throw new NullPointerException();
+		if (x == null) return null;
 		if (x.p.equals(p)) return x.value;
 		if (x.orientation == 0) { //use x-coordenate
 			if (x.p.x() > p.x()) { //go to <-
@@ -211,6 +213,7 @@ public class KdTreeST<Value> {
 
 	// does the symbol table contain point p?  
 	public boolean contains(Point2D p) {
+		if (p == null) throw new NullPointerException();
 		if (get(p) != null) return true;
 		return false;
 	}
@@ -232,6 +235,8 @@ public class KdTreeST<Value> {
 
 	// all points that are inside the rectangle
 	public Iterable<Point2D> range(RectHV rect) {
+		if (rect == null) throw new NullPointerException();
+		if (root == null) return null;
 		Queue<Point2D> queue = new Queue<Point2D>();
 		range(root, rect, queue);
 		return queue;
@@ -248,7 +253,8 @@ public class KdTreeST<Value> {
 
 	// a nearest neighbor to point p; null if the symbol table is empty 
 	public Point2D nearest(Point2D p) {
-		if(p == null || root == null) return null;
+		if(p == null) throw new NullPointerException();
+		if (root == null) return null;
 		Iterable<Point2D> points = this.points();
 		Point2D selected = p;
 		double minDist = Double.POSITIVE_INFINITY;
@@ -261,21 +267,22 @@ public class KdTreeST<Value> {
 			}
 		}
 		return selected;
-	}
+	}  
 
 	public Iterable<Point2D> nearest(Point2D p, int k) {
-		if(p == null || root == null) return null;
-		Queue<Point2D> nearest = new Queue<Point2D>();
+		if(p == null) throw new NullPointerException();
+		if (root == null) return null;
+		LinkedList<Point2D> nearest = new LinkedList<Point2D>();
 		LinkedList<Point2D> copyPoint = new LinkedList<Point2D>();
 		Iterable<Point2D> points = this.points();
 		Point2D selected = p;
-
+		double minDist = Double.POSITIVE_INFINITY;
+		double d;
 		for (Point2D point : points){
 			copyPoint.addFirst(point);
 		}
 		while (k > 0) {
-			double minDist = Double.POSITIVE_INFINITY;
-			double d;
+			minDist = Double.POSITIVE_INFINITY;
 			for (Point2D point : copyPoint) {
 				d = p.distanceSquaredTo(point);
 				if (d < minDist) {
@@ -283,8 +290,16 @@ public class KdTreeST<Value> {
 					selected = point;
 				}
 			}
-			nearest.enqueue(selected);
-			copyPoint.remove(selected);
+			nearest.addFirst(selected);
+			for (Point2D pi : nearest) {
+				
+			}
+			copyPoint = new LinkedList<Point2D>();
+			for (Point2D point : points) {
+				if ((!nearest.isEmpty()) && (!nearest.contains(point))) {
+					copyPoint.addFirst(point);
+				}
+			}
 			k--;
 		}
 		return nearest;

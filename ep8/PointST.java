@@ -102,14 +102,17 @@ public class PointST<Value> {
 
 	// all points in the symbol table
 	public Iterable<Point2D> points() {
+		if (rbt == null) return null;
 		return rbt.keys();
 	}
 
 	// all points that are inside the rectangle
 	public Iterable<Point2D> range(RectHV rect) {
+		if(rbt.size() == 0) return null;
+		if (rect == null) throw new NullPointerException();
 		Queue<Point2D> pointQueue = new Queue<Point2D>();
 		Iterable<Point2D> points = this.points();
-		for (Point2D p : points) {
+		for (Point2D p : points()) {
 			if (rect.contains(p)) {
 				pointQueue.enqueue(p);
 			}
@@ -121,6 +124,7 @@ public class PointST<Value> {
 	public Point2D nearest(Point2D p) {
 		if (rbt.size() == 0) return null;
 		if (rbt.size() == 1) return p;
+		if (p == null) throw new NullPointerException();
 		Iterable<Point2D> points = this.points();
 		Point2D selected = p;
 		double minDist = Double.POSITIVE_INFINITY;
@@ -139,7 +143,6 @@ public class PointST<Value> {
 
 	public Iterable<Point2D> nearest(Point2D p, int k) {
 		if (rbt.size() == 0) return null;
-
 		Queue<Point2D> nearest = new Queue<Point2D>();
 		LinkedList<Point2D> copyPoint = new LinkedList<Point2D>();
 		Iterable<Point2D> points = this.points();
