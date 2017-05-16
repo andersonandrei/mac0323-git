@@ -20,13 +20,13 @@ import edu.princeton.cs.algs4.SeparateChainingHashST;
 
 import java.lang.NullPointerException;
 
-private class WordFinder<String> {
+public class WordFinder<String, Value> {
 	private int size;
-	private SeparateChainingHashST<String> wf;
-
+	private SeparateChainingHashST<String, Value> wf;
+ 	
 	//Constructor
-	private class WordFinder<String> (String[] s) {
-		wf = new SeparateChainingHashST<String> (s);
+	public WordFinder (String[] s) {
+		wf = new SeparateChainingHashST<String, Value> ();
 	}
 
 	//retorna a palavra que se repete mais vezes nas strings dadas. 
@@ -34,9 +34,9 @@ private class WordFinder<String> {
 	public String getMax() {
 		Iterable<String> words = wf.keys();
 		int size ;
-		int max = double.NEGATIVE_INFINITY;
+		Integer max = -1;
 		String wordSelected;
-		int cont = 0;
+		Integer cont = 0;
 		for (String word : words) {
 			size = wf.size();
 			while (size > 0) {
@@ -71,7 +71,7 @@ private class WordFinder<String> {
 	//do vetor inicial em que ela apareça. Se não aparecer em nenhum, 
 	//retorne um vetor vazio.
     public int[] appearsIn(String s) {
-    	Integer[] ind = new Integer[wf.size()];
+    	int[] ind = new int[wf.size()];
     	Integer size = wf.size();
     	Integer tam = 0;
     	Iterable<String> words;
@@ -93,6 +93,10 @@ private class WordFinder<String> {
     		tam++;
     	}
     	return ind;
+    }
+
+    public void main () {
+    	return;
     }
 
 }
