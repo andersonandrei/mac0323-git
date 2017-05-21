@@ -12,55 +12,70 @@ Aconselhamos a utilização de uma HashTable do Sedgewick (como a SeparateChaini
 
 */
 
-
-import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.SeparateChainingHashST;
+import java.lang.StringBuilder;
+import java.util.LinkedList;
 
 import java.lang.NullPointerException;
 
-public class WordFinder<String, Value> {
-	private int size;
-	private SeparateChainingHashST<String, Value> wf;
+public class WordFinder {
+
+	SeparateChainingHashST<String, LinkedList<Integer>> wf;
  	
 	//Constructor
-	public WordFinder (String[] s) {
-		wf = new SeparateChainingHashST<String, Value> ();
+	public WordFinder (String[] str) {
+		wf = new SeparateChainingHashST<>();
+		StringBuilder word = new StringBuilder();
+		LinkedList<Integer> position = null;
+		char carac = 0;
+		for (int i = 0; i < str.length; i++) {
+			carac = str[i].charAt(0);
+			if (carac == 32) { 
+				position = wf.get(word.toString());
+				if (position == null){
+					position = new LinkedList<Integer>();
+				}
+				if(!position.contains(i)){
+					position.add(i);
+				}
+				wf.put(word.toString(), position);
+			}
+
+			if ((carac >= 65 && carac <= 90) || (carac >= 97 && carac <=122)){
+				word.append(carac);
+			}
+		}
 	}
 
 	//retorna a palavra que se repete mais vezes nas strings dadas. 
 	//Caso a palavra apareça mais de uma vez na mesma string, ignore.
 	public String getMax() {
 		Iterable<String> words = wf.keys();
-		int size ;
-		Integer max = -1;
-		String wordSelected;
-		Integer cont = 0;
-		for (String word : words) {
-			size = wf.size();
-			while (size > 0) {
-				if (wf[size - 1].contains(word)) {
-					cont++;
-				}
-				size--;
+		String str = null;
+		int min = Integer.MIN_VALUE;
+		int tmp;
+
+		for (String s : words) {
+			tmp = wf.get(s).size();
+			if (tmp > min) {
+				min = tmp;
+				str = s;
 			}
-			if (cont > max) {
-				max = cont;
-				wordSelected = word;
-			}
-			cont = 0;
 		}
-		return wordSelected;
+		return str;
 	} 
 
 	//retorna uma palavra que apareça tanto na string de índice 
 	//a do vetor quanto na string de índice b. Se não tiver nenhuma, 
 	//retorne null. Se tiver mais de uma, retorne a que quiser.
     public String containedIn(int a, int b) {
-    	Iterable<String> wordsA = wf[a].keys();
-    	for (String word : wordsA) {
-    		if (wf[b].contains(word)) {
+    	Iterable<String> words = wf.keys();
+    	LinkedList<Integer> position;
+    	for (String word : words) {
+    		position = wf.get(word);
+    		if (position.contains(a) && position.contains(b)) {
     			return word;
     		}
     	}
@@ -70,29 +85,20 @@ public class WordFinder<String, Value> {
 	//recebe uma palavra e retorna um vetor com os índices das strings 
 	//do vetor inicial em que ela apareça. Se não aparecer em nenhum, 
 	//retorne um vetor vazio.
-    public int[] appearsIn(String s) {
-    	int[] ind = new int[wf.size()];
-    	Integer size = wf.size();
-    	Integer tam = 0;
-    	Iterable<String> words;
-    	Integer k;
-    	while (tam < size) {
-    		if (wf[tam].contains(s)) {
-	    		words = wf[tam-1].keys();
-    			k = 0;
-	    		for (String word : words) {
-	    			if (word.equals(s)){
-	    				break;
-	    			}
-	    			else {
-	    				k++;
-	    			}
-	    		}
-	    		ind[tam] = k;
+    public int[] appearsIn(String str) {
+    	LinkedList<Integer> position;
+    	int cont = 0;
+    	int v[] = null;
+
+    	if (wf.contains(str)) {
+    		position = wf.get(str);
+    		v = new int[position.size()];
+    		for (Integer i : position) {
+    			v[cont] = i;
+    			cont++;
     		}
-    		tam++;
     	}
-    	return ind;
+    	return v;
     }
 
     public void main () {
