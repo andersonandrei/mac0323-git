@@ -15,9 +15,7 @@ Aconselhamos a utilização de uma HashTable do Sedgewick (como a SeparateChaini
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.SeparateChainingHashST;
-import java.lang.StringBuilder;
 import java.util.LinkedList;
-
 import java.lang.NullPointerException;
 
 public class WordFinder {
@@ -27,33 +25,17 @@ public class WordFinder {
 	//Constructor
 	public WordFinder (String[] str) {
 		wf = new SeparateChainingHashST<>();
-		StringBuilder word = new StringBuilder();
 		LinkedList<Integer> position = null;
-		char carac = 0;
-		int num;
 		for (int i = 0; i < str.length; i++) {
-			num = 0;
-			for (int j = 0; j < str[i].length(); j++) {
-				StdOut.println("Olhando pra:    " + str[i]);
-				carac = str[i].charAt(j);
-				StdOut.println("Pegou:   " + carac);
-				if ((carac >= 65 && carac <= 90) || (carac >= 97 && carac <=122)){
-					word.append(carac);
+			for (String word: str[i].split(" ")) {
+				position = wf.get(word.toString());
+				if (position == null) {
+					position = new LinkedList<Integer>();
 				}
-				else if (carac == 32) {
-					StdOut.println("Formou:    " + word);
-					StdOut.println("Igual a espaço? " + word.equals(" "));
-					position = wf.get(word.toString());
-					if (position == null) {
-						position = new LinkedList<Integer>();
-					}
-					if(!position.contains(i)) {
-						position.add(i);
-					}
-					wf.put(word.toString(), position);
-					word = new StringBuilder();
-					num++;
+				if(!position.contains(i)) {
+					position.add(i);
 				}
+				wf.put(word, position);
 			}
 		}
 	}
@@ -67,7 +49,6 @@ public class WordFinder {
 		int min = Integer.MIN_VALUE;
 		int tmp;
 		for (String s : words) {
-			StdOut.println("No for        :" + s + "->" + wf.get(s).size() );
 			tmp = wf.get(s).size();
 			if (tmp > min) {
 				min = tmp;
@@ -102,13 +83,10 @@ public class WordFinder {
     	int cont = 0;
     	int v[] = new int[0];
     	if (wf.contains(str)) {
-    		StdOut.println("Achei a str: " + str);
     		position = wf.get(str);
     		v = new int[position.size()];
     		for (Integer i : position) {
-    			StdOut.println("Position : " + i);
     			v[cont] = i;
-    			StdOut.println("Position cont: " + v[cont]);
     			cont++;
     		}
     	}
@@ -117,8 +95,8 @@ public class WordFinder {
 
     public static void main (String[] args) {
     	String[] str = new String[3];
-    	str[0] = "hoje eu acordei seila ";
-    	str[1] = " oi tudo bem eu seila seila ";
+    	str[0] = "hoje eu acordei feliz ";
+    	str[1] = " oi tudo bem eu feliz feliz ";
     	str[2] = " acordei para sorrir e mostrar os dentes hoje ";
     	WordFinder wf = new WordFinder(str);
     	StdOut.println("getMax: " + wf.getMax());
