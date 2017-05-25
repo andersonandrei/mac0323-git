@@ -157,7 +157,7 @@ public class MeuSeparateChainingHashST<Key, Value> {
         this.m = m;
         this.alfaSup = alfaSup;
         this.alfaInf = alfaInf;
-        st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[m];
+        st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[m]; // é um vetor de beyonce (symble tables)
         for (int i = 0; i < m; i++)
             st[i] = new SequentialSearchST<Key, Value>();
     } 
@@ -174,6 +174,16 @@ public class MeuSeparateChainingHashST<Key, Value> {
     private void resize(int k) {
         // TAREFA: veja o método original e faça adaptação para que
         //         o tamanho da nova tabela seja PRIMES[k].
+        MeuSeparateChainingHashST<Key, Value> temp = new MeuSeparateChainingHashST<Key, Value>(PRIMES[k], alfaInf, alfaSup);
+        for (int i = 0; i < m; i++) {
+            for (Key key : st[i].keys()) {
+                temp.put(key, st[i].get(key));
+            }
+        }
+        this.iPrimes = k;
+        this.m  = temp.m;
+        this.n  = temp.n;
+        this.st = temp.st;
     }
 
     // hash function: returns a hash value between 0 and M-1
@@ -209,6 +219,20 @@ public class MeuSeparateChainingHashST<Key, Value> {
         // TAREFA: veja o método original e faça adaptação para que
         //         a tabela seja redimensionada se o fator de carga
         //         passar de alfaSup.
+        if (key == null) throw new IllegalArgumentException("first argument to put() is null");
+        if (val == null) {
+            delete(key);
+            return;
+        }
+        //int alfaFuture = n+1/m;
+        if ((n+1)/m > alfaSup) {
+            resize(PRIMES[iPrimes + 1]);
+            iPrimes = iPrimes + 1;
+        }
+        int i = hash(key);
+        if (!st[i].contains(key)) n++;
+        st[i].put(key, val);
+
     } 
 
     // delete key (and associated value) if key is in the table
@@ -216,6 +240,16 @@ public class MeuSeparateChainingHashST<Key, Value> {
         // TAREFA: veja o método original e adapte para que a tabela 
         //         seja redimensionada sempre que o fator de carga for menor que
         //         alfaInf.
+
+        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+        int i = hash(key);
+        if (st[i].contains(key)) n--;
+        st[i].delete(key);
+
+        if (m > INIT_CAPACITY && (n-1)/m < alfaInf) { //maybe (m > INIT_CAPACITY) can be dangerous.
+            resize(PRIMES[iPrimes-1]);
+            iPrimes = iPrimes - 1; 
+        }
     } 
 
     // return keys in symbol table as an Iterable
@@ -239,9 +273,22 @@ public class MeuSeparateChainingHashST<Key, Value> {
         return m;
     } 
 
-    // retorna o maior comprimeno de uma lista
+    // retorna o maior comprimento de uma lista
     public int maxLista() {
         // TAREFA
+        if(sizeST() == 0) return 0;
+        int max = Integer.MIN_VALUE;
+        int tam;
+        for (int i = 0; i < m; i++) {
+            tam  = 0;
+            for (Key key : st[i].keys()) {
+                tam++;
+            }
+            if (tam > max) {
+                max = tam;
+            }
+        }
+        return max;
     }
 
     /** Exercício 3.4.30 S&W
@@ -258,6 +305,7 @@ public class MeuSeparateChainingHashST<Key, Value> {
      *  estar no intervalo [m-sqrt(n),m+sqrt(n)] com probabilidade 1-1/c  
      */
     public double chiSquare() {
+        return 0.0;
     }
     
    /***********************************************************************
