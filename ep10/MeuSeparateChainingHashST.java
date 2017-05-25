@@ -8,7 +8,7 @@
  *
  *************************************************************************/
 
-/**
+/*
     The SeparateChainingHashST class represents a symbol table of generic
     key-value pairs. 
                                                                                                                                         
@@ -154,6 +154,12 @@ public class MeuSeparateChainingHashST<Key, Value> {
      */
     public MeuSeparateChainingHashST(int m, double alfaInf, double alfaSup) {
         // TAREFA: veja o método original e faça adaptações necessárias
+        this.m = m;
+        this.alfaSup = alfaSup;
+        this.alfaInf = alfaInf;
+        st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[m];
+        for (int i = 0; i < m; i++)
+            st[i] = new SequentialSearchST<Key, Value>();
     } 
    
 
