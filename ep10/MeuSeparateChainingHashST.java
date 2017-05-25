@@ -160,8 +160,7 @@ public class MeuSeparateChainingHashST<Key, Value> {
         st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[m]; // é um vetor de beyonce (symble tables)
         for (int i = 0; i < m; i++)
             st[i] = new SequentialSearchST<Key, Value>();
-    } 
-   
+    }
 
     /** 
      *
@@ -226,7 +225,7 @@ public class MeuSeparateChainingHashST<Key, Value> {
         }
         //int alfaFuture = n+1/m;
         if ((n+1)/m > alfaSup) {
-            resize(PRIMES[iPrimes + 1]);
+            resize(iPrimes + 1);
             iPrimes = iPrimes + 1;
         }
         int i = hash(key);
