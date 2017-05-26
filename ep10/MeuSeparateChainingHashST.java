@@ -272,6 +272,14 @@ public class MeuSeparateChainingHashST<Key, Value> {
         return m;
     } 
 
+    private int sizeIndice(int ind) {
+        int s = 0;
+        for (Key key : st[ind].keys()){
+            s++;
+        }
+        return s;
+    }
+
     // retorna o maior comprimento de uma lista
     public int maxLista() {
         // TAREFA
@@ -304,7 +312,19 @@ public class MeuSeparateChainingHashST<Key, Value> {
      *  estar no intervalo [m-sqrt(n),m+sqrt(n)] com probabilidade 1-1/c  
      */
     public double chiSquare() {
-        return 0.0;
+        double alfa = n/m;
+        double sum = 0;
+        double current;
+        double alfaInv = (double)m/(double)n;
+        for (int i = 0; i < m; i++) {
+            current = sizeIndice(i);
+            //StdOut.println("current ===== " + current);
+            sum += ((double)current - alfa) * ((double)current - alfa);
+        }
+        //StdOut.println("Antes de m/n ============" + sum + "e m/n: =======" + alfaInv);
+        sum *= alfaInv;
+
+        return sum;
     }
     
    /***********************************************************************
