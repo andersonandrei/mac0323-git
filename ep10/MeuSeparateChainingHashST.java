@@ -312,18 +312,15 @@ public class MeuSeparateChainingHashST<Key, Value> {
      *  estar no intervalo [m-sqrt(n),m+sqrt(n)] com probabilidade 1-1/c  
      */
     public double chiSquare() {
-        double alfa = n/m;
+        double alfa = (double)n/(double)m;
         double sum = 0;
         double current;
         double alfaInv = (double)m/(double)n;
         for (int i = 0; i < m; i++) {
             current = sizeIndice(i);
-            //StdOut.println("current ===== " + current);
             sum += ((double)current - alfa) * ((double)current - alfa);
         }
-        //StdOut.println("Antes de m/n ============" + sum + "e m/n: =======" + alfaInv);
         sum *= alfaInv;
-
         return sum;
     }
     
