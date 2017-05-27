@@ -224,9 +224,9 @@ public class MeuSeparateChainingHashST<Key, Value> {
             return;
         }
         //int alfaFuture = n+1/m;
-        if ((n+1)/m > alfaSup) {
+        if ((double)(n+1)/(double)m > alfaSup) {
             resize(iPrimes + 1);
-            iPrimes = iPrimes + 1;
+            //iPrimes = iPrimes + 1;
         }
         int i = hash(key);
         if (!st[i].contains(key)) n++;
@@ -245,8 +245,8 @@ public class MeuSeparateChainingHashST<Key, Value> {
         if (st[i].contains(key)) n--;
         st[i].delete(key);
 
-        if (m > INIT_CAPACITY && (n-1)/m < alfaInf) { //maybe (m > INIT_CAPACITY) can be dangerous.
-            resize(PRIMES[iPrimes-1]);
+        if (m > INIT_CAPACITY && (double)(n+1)/(double)m >= alfaInf) { //maybe (m > INIT_CAPACITY) can be dangerous.
+            resize(iPrimes-1); ////////////aquiiiiiiiiii verifiar
             iPrimes = iPrimes - 1; 
         }
     } 
