@@ -134,7 +134,6 @@ public class MeuLinearProbingHashST<Key, Value> {
         this.m = m;
         this.alfaInf = alfaInf;
         this.alfaSup = alfaSup;
-        //iPrimes = 0;
         keys = (Key[]) new Object[m];
         vals = (Value[]) new Object[m];
     }
@@ -197,8 +196,7 @@ public class MeuLinearProbingHashST<Key, Value> {
         this.iPrimes = k;
         this.keys = temp.keys;
         this.vals = temp.vals;
-        this.m = temp.m; //quero q fique 14
-        //StdOut.println(" **** k e m : " + k + " e " + this.m);
+        this.m = temp.m;
         this.n = temp.n; 
     }
 
@@ -214,12 +212,10 @@ public class MeuLinearProbingHashST<Key, Value> {
         //         a tabela seja redimensionada se o fator de carga
         //         passar de alfaSup.
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-
         if (val == null) {
             delete(key);
             return;
         }
-
         if ((double)(n+1)/(double)m > alfaSup) {
             resize(iPrimes + 1);
         }
@@ -272,9 +268,8 @@ public class MeuLinearProbingHashST<Key, Value> {
 
         n--;
 
-        if (m >= INIT_CAPACITY && (double)(n+1)/(double)m >= alfaInf) {
-            resize(iPrimes-1);
-            iPrimes = iPrimes - 1; 
+        if ((double)(n-1)/(double)m < alfaInf && iPrimes > 0) {
+            resize(iPrimes-1); 
         }
 
         assert check();
