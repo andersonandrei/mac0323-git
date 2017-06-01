@@ -222,6 +222,7 @@ public class MeuTST<Value extends Comparable<Value>> {
             throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
         }
         Queue<String> queue = new Queue<String>();
+        //Queue<Value> val = new Queue<SValue> ();
         Node<Value> x = get(root, prefix, 0);
         if (x == null) return queue;
         collectReverseOrder(x.mid, new StringBuilder(prefix), queue);
@@ -231,18 +232,56 @@ public class MeuTST<Value extends Comparable<Value>> {
 
     private void collectReverseOrder(Node<Value> x, StringBuilder prefix, Queue<String> queue) {
         if (x == null) return;
+        Queue<Value> val = new Queue<Value> ();
         int sumVal = 0;
         int posStack = 0;
         collect(x.left,  prefix, queue);
         if (x.val != null) {
-            sumVal += x.val;
-            
             queue.enqueue(prefix.toString() + x.c);
-
+            val.enqueue(x.val);
         }
         collect(x.mid,   prefix.append(x.c), queue);
         prefix.deleteCharAt(prefix.length() - 1);
         collect(x.right, prefix, queue);
+        queue = orderQueueVal(queue,val);
+    }
+
+    private Queue<String> orderQueueVal (Queue<String> s, Queue<Value> v) {
+        int sz = s.size();
+        String[] strs = new String[sz];
+        Value[] vals = (Value[]) new Object[sz];
+        Queue<String> ordered = new Queue<String>();
+        int min, aux;
+        for (int i = 0; i < sz; i++){
+            strs[i] = s.dequeue();
+            vals[i] = v.dequeue();
+        }
+
+        int k;
+        int i = sz;
+        while(i > 1) {
+            k = 0;
+            while (vals[k] == null){
+                k+=1;
+            }
+            min = vals[k];
+            for(int j = 0; j < sz; j++){
+                if (vals[j] != null && vals[j] < min) {
+                    min = j;
+                }
+            }
+            ordered.enqueue(strs[min]);
+            strs[min] = null;
+            vals[min] = null;
+            i--;
+        }
+        while (vals[j] == null){
+            j+=1;
+        }
+        ordered.enqueue(strs[j]);
+        strs[j] = null;
+        vals[j] = null;
+        return ordered;
     }
 
 /*    private class StrValues {
