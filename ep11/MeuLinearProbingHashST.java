@@ -41,6 +41,7 @@ import edu.princeton.cs.algs4.StdOut;
 // https://www.ime.usp.br/~pf/sedgewick-wayne/algs4/documentation/index.html
 import edu.princeton.cs.algs4.Stopwatch; // arquivo
 
+import edu.princeton.cs.algs4.StdRandom;
 
 public class MeuLinearProbingHashST<Key, Value> {
     // largest prime <= 2^i for i = 3 to 31
@@ -133,7 +134,6 @@ public class MeuLinearProbingHashST<Key, Value> {
         this.m = m;
         this.alfaInf = alfaInf;
         this.alfaSup = alfaSup;
-        //iPrimes = 0;
         keys = (Key[]) new Object[m];
         vals = (Value[]) new Object[m];
     }
@@ -196,8 +196,7 @@ public class MeuLinearProbingHashST<Key, Value> {
         this.iPrimes = k;
         this.keys = temp.keys;
         this.vals = temp.vals;
-        this.m = temp.m; //quero q fique 14
-        StdOut.println(" **** k e m : " + k + " e " + this.m);
+        this.m = temp.m;
         this.n = temp.n; 
     }
 
@@ -213,16 +212,12 @@ public class MeuLinearProbingHashST<Key, Value> {
         //         a tabela seja redimensionada se o fator de carga
         //         passar de alfaSup.
         if (key == null) throw new IllegalArgumentException("first argument to put() is null");
-
         if (val == null) {
             delete(key);
             return;
         }
-
         if ((double)(n+1)/(double)m > alfaSup) {
-            StdOut.println("Resizar");
             resize(iPrimes + 1);
-            //iPrimes = iPrimes + 1;
         }
 
         int i;
@@ -240,7 +235,7 @@ public class MeuLinearProbingHashST<Key, Value> {
 
     // delete the key (and associated value) from the symbol table
     public void delete(Key key) {
-        StdOut.println("*********DELETE");
+        //StdOut.println("*********DELETE");
         // TAREFA: veja o método original e adapte para que a tabela 
         //         seja redimensionada sempre que o fator de carga for menor que
         //         alfaInf.
@@ -273,9 +268,8 @@ public class MeuLinearProbingHashST<Key, Value> {
 
         n--;
 
-        if (m >= INIT_CAPACITY && (double)(n+1)/(double)m >= alfaInf) { //maybe (m > INIT_CAPACITY) can be dangerous.
-            resize(iPrimes-1);
-            iPrimes = iPrimes - 1; 
+        if ((double)(n-1)/(double)m < alfaInf && iPrimes > 0) {
+            resize(iPrimes-1); 
         }
 
         assert check();
@@ -313,11 +307,6 @@ public class MeuLinearProbingHashST<Key, Value> {
             System.err.println("Hash table size m = " + m + "is bigger than alfaSup/2 = " + alfaSup/2);
             return false;
         }
-
-        /*if (m < 2*n) {
-            System.err.println("Hash table size m = " + m + "; array size n = " + n);
-            return false;
-        }*/
 
         // check that each key in table can be found by get()
         for (int i = 0; i < m; i++) {
@@ -367,17 +356,14 @@ public class MeuLinearProbingHashST<Key, Value> {
         int[] sizes =  new int[n]; 
         int indS = 0;
         for (i = 0; i < m; i ++) {
-            //StdOut.println("**********************Olhando pra keys[i]" + keys[i]);
             if (keys[i] != null) {
                 if (start == false) {
                     start = true;
-                    //StdOut.println("*************strat true");
                     startCluster = i;
                     sizeC = 1;
                 }
                 else if (i == m-1) {
                     sizeC++;
-                    //StdOut.println("*********Colocando aqui:" + sizeC);
                     sizes[indS] = sizeC;
                     indS++;
                 }
@@ -387,7 +373,6 @@ public class MeuLinearProbingHashST<Key, Value> {
             }
             else if (start == true){
                 start = false;
-                //StdOut.println("*********Colocando :" + sizeC);
                 sizes[indS] = sizeC;
                 indS++;
             }
@@ -399,7 +384,6 @@ public class MeuLinearProbingHashST<Key, Value> {
     private int bigger(int[] v) {
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < v.length; i++) {
-            //StdOut.println("**************************************Olhando pra word" + v[i]);
             if (v[i] > max) {
                 max = v[i];
             }
@@ -451,7 +435,22 @@ public class MeuLinearProbingHashST<Key, Value> {
      * ou seja, o número de posições visitadas da tabela de hash. 
      */
     public double averageSearchHit() {
-        return 0.0;
+        int count;
+        int position;
+        int sum = 0;
+        double average = 0;
+
+        for (Key key : this.keys()) {
+            count = 1;
+            position = hash(key);
+            while(!keys[position].equals(key)){
+                position += 1;
+                count+=1;
+            }
+            average += count;
+        }
+
+        return (double)average / (double)size();
     }
 
     /**
@@ -463,7 +462,24 @@ public class MeuLinearProbingHashST<Key, Value> {
      * ou seja, o número de posições visitadas da tabela de hash. 
      */
     public double averageSearchMiss() {
-        return 0.0;
+        int count;
+        int position;
+        int sum = 0;
+        double average = 0;
+        for (Key key : this.keys()) {
+            count = 1;
+            position = StdRandom.uniform(m);
+            while(vals[position] != null){
+                position += 1;
+                count+=1;
+            }
+            average += count;
+        }
+
+        return average / (double)size();
+
+
+
     }
 
 
@@ -519,7 +535,6 @@ public class MeuLinearProbingHashST<Key, Value> {
         
         // reabra o arquivo
         in = new In(fileName);
-        
         // crie uma ST
         MeuLinearProbingHashST<String, Integer> meuST = new MeuLinearProbingHashST<String, Integer>(alfaInf, alfaSup);
 
