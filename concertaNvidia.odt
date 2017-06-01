@@ -1,0 +1,500 @@
+    1  apt-get install flashplugin-nonfree
+    2  sudo apt-get install flashplugin-nonfree
+    3  sudo apt-get install flashplugin-nonfree
+    4  sudo sudo apt-get install flashplugin-nonfree
+    5  apt-get upgrade
+    6  apt-get install xboxdrv
+    7  lsmod | grep xpad
+    8  ls /dev/input/ | grep event*
+    9  ls /dev/input/ | grep event*
+   10  evtest /dev/input/event0
+   11  evtest /dev/input/event1
+   12  evtest /dev/input/event10
+   13  evtest /dev/input/event11
+   14  evtest /dev/input/event112
+   15  evtest /dev/input/event12
+   16  evtest /dev/input/event13
+   17  apt-get install evtest
+   18  evtest /dev/input/event0
+   19  evtest /dev/input/event1
+   20  evtest /dev/input/event1
+   21  evtest /dev/input/event2
+   22  evtest /dev/input/event3
+   23  evtest /dev/input/event4
+   24  evtest /dev/input/event5
+   25  evtest /dev/input/event6
+   26  evtest /dev/input/event6
+   27  evtest /dev/input/event7
+   28  ls /dev/input/ | grep event*
+   29  evtest /dev/input/event10
+   30  evtest /dev/input/event11
+   31  ls /dev/input/ | grep event*
+   32  evtest /dev/input/event12
+   33  evtest /dev/input/event13
+   34  evtest /dev/input/event13
+   35  evtest /dev/input/event13
+   36  xboxdrv --evdev [EVENT] --evdev-absmap [ABS MAP] --axismap [AXIS MAP] --evdev-keymap [BUTTONS MAP] --mimic-xpad --silent &
+   37  evtest /dev/input/event13
+   38  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1, ABS_Y=y1, ABS_RZ=y2, ABS_Z=x2, ABS_HAT0X=dpad_x, ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x, BTN_TRIGGER=y,BTN_THUMB2=a, BTN_THUMB=b, BTN_BASE3=select, BTN_BASE4=start, BTN_BASE=lt, BTN_BASE2=rt, BTN_TOP2=lb, BTN_PINKIE=rb, BTN_BASE5=tl, BTN_BASE6=tr --mimic-xpad --silent &
+   39  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1, ABS_Y=y1, ABS_RZ=y2, ABS_Z=x2, ABS_HAT0X=dpad_x, ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x, BTN_TRIGGER=y,BTN_THUMB2=a, BTN_THUMB=b, BTN_BASE3=select, BTN_BASE4=start, BTN_BASE=lt, BTN_BASE2=rt, BTN_TOP2=lb, BTN_PINKIE=rb, BTN_BASE5=tl, BTN_BASE6=tr --mimic-xpad --silent &
+   40  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1, ABS_Y=y1,ABS_RZ=y2, ABS_Z=x2, ABS_HAT0X=dpad_x, ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x, BTN_TRIGGER=y,BTN_THUMB2=a, BTN_THUMB=b, BTN_BASE3=select, BTN_BASE4=start, BTN_BASE=lt, BTN_BASE2=rt, BTN_TOP2=lb, BTN_PINKIE=rb, BTN_BASE5=tl, BTN_BASE6=tr --mimic-xpad --silent &
+   41  evtest /dev/input/event13
+   42  evtest /dev/input/event15
+   43  evtest /dev/input/event13
+   44  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad --silent &
+   45  evtest /dev/input/event13
+   46  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad --silent &
+   47  evtest /dev/input/event13
+   48  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad --silent &
+   49  exit
+   50  39227517
+   51  evtest /dev/input/event13
+   52  evtest /dev/input/event13
+   53  ls /dev/input/ | grep event*
+   54  evtest /dev/input/event14
+   55  evtest /dev/input/event0
+   56  evtest /dev/input/event1
+   57  ls /dev/input/ | grep event*
+   58  evtest /dev/input/event10
+   59  evtest /dev/input/event11
+   60  history
+   61  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad --silent &
+   62  history
+   63  nano
+   64  xboxdrv --evdev /dev/input/event11 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad --silent &
+   65  evtest /dev/input/event11
+   66  evtest /dev/input/event13
+   67  ls /dev/input/ | grep event*
+   68  evtest /dev/input/event10
+   69  evtest /dev/input/event12
+   70  evtest /dev/input/event14
+   71  xboxdrv --evdev /dev/input/event14 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad --silent &
+   72  evtest /dev/input/event14
+   73  xboxdrv --evdev /dev/input/event14 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad --silent &
+   74  evtest /dev/input/event14
+   75  xboxdrv --evdev /dev/input/event14 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad --silent &
+   76  evtest /dev/input/event14
+   77  xboxdrv --evdev /dev/input/event14 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad&
+   78  xboxdrv --evdev /dev/input/event14 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad&
+   79  evtest /dev/input/event14
+   80  evtest /dev/input/event10
+   81  evtest /dev/input/event11
+   82  evtest /dev/input/event12
+   83  evtest /dev/input/event13
+   84  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad&
+   85  evtest /dev/input/event13
+   86  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad&
+   87  evtest /dev/input/event13
+   88  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad&
+   89  xboxdrv --evdev /dev/input/event13 --evdev-absmap ABS_X=x1,ABS_Y=y1,ABS_RZ=y2,ABS_Z=x2,ABS_HAT0X=dpad_x,ABS_HAT0Y=dpad_y --axismap -Y1=Y1,-Y2=Y2 --evdev-keymap BTN_TOP=x,BTN_TRIGGER=y,BTN_THUMB2=a,BTN_THUMB=b,BTN_BASE3=select,BTN_BASE4=start,BTN_BASE=lt,BTN_BASE2=rt,BTN_TOP2=lb,BTN_PINKIE=rb,BTN_BASE5=tl,BTN_BASE6=tr --mimic-xpad&
+   90  wget http://icedtea.wildebeest.org/download/source/icedtea-web-1.7.tar.gz
+   91  wget -a http://icedtea.wildebeest.org/download/source/icedtea-web-1.7.tar.gz
+   92  wget -A http://icedtea.wildebeest.org/download/source/icedtea-web-1.7.tar.gz
+   93  wget --help
+   94  apt-cache search openjdk
+   95  apt-get install openjdk-8-jre
+   96  apt-cache search icedtea
+   97  apt-get install icedtea-7-plugin
+   98  apt-get install openjdk-8-jre
+   99  apt-cache search ensp
+  100  apt-get update
+  101  apt-get upgrade
+  102  apt-get install p7zip p7zip-full
+  103  wget -O bios.7z http://goo.gl/ZcLjd
+  104  mkdir ~/.config/pcsx2
+  105  7z x bios.7z -o.config/pcsx2/bios && rm bios.7z
+  106  add-apt-repository ppa:noobslab/pcsx2
+  107  apt-get update
+  108  apt-get install pcsx2
+  109  apt-cache search psx2
+  110  apt-cache search pcsx2
+  111  apt-cache search emulator | grep pcsx2
+  112  tar xvjf firefox-50.1.0.tar.bz2 
+  113  mv firefox/ /opt/
+  114  ln -s /opt/firefox/firefox /usr/bin/firefox
+  115  ln --help
+  116  ln -sf /opt/firefox/firefox /usr/bin/firefox
+  117  firefox
+  118  apt-cache search icedtea-pugin
+  119  apt-cache search icedteapugin
+  120  apt-cache search icedtea-plugin
+  121  apt-get install icedtea-plugin
+  122  apt-get remove icedtea-plugin
+  123  history
+  124  apt-get remove icedtea-plugin
+  125  apt-get install icedtea-plugin
+  126  apt-get install firefox-esr-l10n-pt-br
+  127  apt-get remove firefox-esr-l10n-pt-br
+  128  apt-get remove firefox-esr
+  129  apt-get remove firefox-esr
+  130  apt-get install firefox-esr-l10n-pt-br
+  131  firefox5
+  132  apt-cache search firefox | grep 5
+  133  firefox
+  134  apt-get remove firefox-es
+  135  apt-get remove firefox-esr
+  136  firefox
+  137  cd Downloads/
+  138  ls
+  139  ls | grep firefox
+  140  tar xvjf firefox-50.1.0.tar.bz2 
+  141  mv firefox/ /opt/
+  142  cd /opt/firefox/
+  143  ls
+  144  cd ..
+  145  rm firefox/
+  146  rm -r firefox/
+  147  ls
+  148  cd ..
+  149  cd home/andrei/Downloads/
+  150  mv firefox/ /opt/
+  151  ln -s /opt/firefox/firefox /usr/bin/firefox
+  152  ln -s /opt/firefox/firefox
+  153  ln -s /usr/bin/firefox
+  154  dpkg --get-selections
+  155  echo -e '[Desktop Entry]\n Version=50.1.0\n Encoding=UTF-8\n Name=Mozilla Firefox\n Comment=Navegador Web\n Exec=/opt/firefox/firefox\n Icon=/opt/firefox/browser/icons/mozicon128.png\n Type=Application\n Categories=Network' | sudo tee /usr/share/applications/firefox.desktop
+  156  dpkg -i teamviewer_12.0.71510_i386.deb 
+  157  teamviewer 
+  158  quit
+  159  exit
+  160  nano sources.list
+  161  apt-get update
+  162  nano sources.list
+  163  apt-get update
+  164  apt-get -f install
+  165  nano sources
+  166  nano sources.list
+  167  apt-get -f install
+  168  nano sources.list
+  169  apt-get -f install
+  170  nano sources.list
+  171  apt-get -f install
+  172  apt-get -f install
+  173  apt-get update
+  174  nano sources.list
+  175  mkdir /mnt/bosta
+  176  dmesg 
+  177  ls /dev/sda4
+  178  ls /dev/sda4/
+  179  ls /dev/sdb /mnt/bosta/
+  180  cd /mnt/bosta/
+  181  ls
+  182  ls
+  183  umount /dev/sdb /mnt/bosta
+  184  mount /dev/sdb /mnt/bosta/
+  185  mount /dev/sdb1 /mnt/bosta/
+  186  dmesg | tail
+  187  ls /dev/sd
+  188  killall -9 -u merda
+  189  ps -aux | grep merda
+  190  man killall
+  191  :
+  192  :|:
+  193  :|:merda
+  194  :|:\&
+  195  :|:\&};:
+  196  :|:\& };:
+  197  exit
+  198  passwd suja
+  199  pwd suja
+  200  nano /etc/passwd
+  201  su suja
+  202  exit 
+  203  clear
+  204  nano /etc/passwd
+  205  passwd suja
+  206  su suja
+  207  nano /etc/passwd
+  208  nano /etc/passwd
+  209  39227517
+  210  sudo su
+  211  :|:\& };:
+  212  exit
+  213  apt-get install sox
+  214  apt-get install tvtime
+  215  ls -l /dev/video*
+  216  ls -l /dev/vbi*
+  217  cat /proc/asound/cards
+  218  cat /proc/asound/cards
+  219  gedit /etc/tvtime/tvtime.xml
+  220  nano /etc/tvtime/tvtime.xml
+  221  nano tv.sh
+  222  chmod +x tv.sh 
+  223  ./tv.sh 
+  224  nano /etc/tvtime/tvtime.xml
+  225  ./tv.sh 
+  226  dmesg 
+  227  ls /dev/usb
+  228  dmesg 
+  229  dmesg 
+  230  nano /etc/tvtime/tvtime.xml
+  231  ls /dev/usb/hiddev0 
+  232  nano /etc/tvtime/tvtime.xml
+  233  nano /etc/tvtime/tvtime.xml
+  234  ./tv.sh 
+  235  dmesg 
+  236  dmesg 
+  237  dmesg 
+  238  ls /dev | grep usb
+  239  ls /dev/usb/
+  240  ls /dev/usb/hiddev0 
+  241  ls -l /dev/video*
+  242  ls -l /dev/video*
+  243  ls -l /dev/vbi*
+  244  lsub
+  245  lsusb
+  246  hg clone http://www.linuxtv.org/hg/v4l-dvb
+  247  apt-get install hg
+  248  find "video"
+  249  apt-cache search dr-racket
+  250  apt-cache search drracket
+  251  exit
+  252  ./racket-6.8-x86_64-linux.sh 
+  253  drracket 
+  254  drracket && ls
+  255  drracket &
+  256  apt-cache search drjava
+  257  add-apt-repository ppa:webupd8team/java
+  258  apt-get update
+  259  apt-cache serach java
+  260  apt-cache search java
+  261  cd Downloads/
+  262  ls
+  263  history | grep tar
+  264  tar -xvjf drjava-stable-20120818-r5686.jar 
+  265  dpkg -i drjava-stable-20120818-r5686.jar 
+  266  nano /etc/apt/sources.list
+  267  apt-get update
+  268  apt-cache search intelliJ
+  269  java version
+  270  java -version
+  271  cd /usr/local
+  272  mkdir algs4
+  273  chmod 755 algs4
+  274  cd algs4
+  275  pwd
+  276  wget http://algs4.cs.princeton.edu/code/algs4.jar
+  277  wget http://algs4.cs.princeton.edu/linux/java-algs4
+  278  chmod 755 javac-algs4 java-algs4
+  279  nano java-algs4
+  280  ls
+  281  wget http://algs4.cs.princeton.edu/linux/javac-algs4
+  282  chmod 755 javac-algs4 java-algs4
+  283  mv javac-algs4 /usr/local/bin
+  284  mv java-algs4 /usr/local/bin
+  285  wget http://algs4.cs.princeton.edu/linux/drjava.jar
+  286  wget http://algs4.cs.princeton.edu/linux/.drjava
+  287  chmod 755 drjava
+  288  ls
+  289  wget http://algs4.cs.princeton.edu/linux/drjava
+  290  ls
+  291  chmod 755 drjava
+  292  mv drjava /usr/local/bin
+  293  mv .drjava ~
+  294  wget http://algs4.cs.princeton.edu/linux/checkstyle.zip
+  295  wget http://algs4.cs.princeton.edu/linux/checkstyle-algs4.xml
+  296  wget http://algs4.cs.princeton.edu/linux/checkstyle-suppressions.xml
+  297  wget http://algs4.cs.princeton.edu/linux/checkstyle-algs4
+  298  unzip checkstyle.zip
+  299  chmod 755 checkstyle-algs4
+  300  mv checkstyle-algs4 /usr/local/bin
+  301  wget http://algs4.cs.princeton.edu/linux/findbugs.zip
+  302  wget http://algs4.cs.princeton.edu/linux/findbugs-algs4
+  303  unzip findbugs.zip 
+  304  chmod 755 findbugs-algs4
+  305  mv findbugs-algs4 /usr/local/bin
+  306  drjava &
+  307  sudo wget http://algs4.cs.princeton.edu/code/algs4.jar
+  308  wget http://algs4.cs.princeton.edu/linux/javac-algs4
+  309  wget http://algs4.cs.princeton.edu/linux/java-algs4
+  310  ls
+  311  mv java* /usr/local/algs4/
+  312  cd /usr/local/algs4/
+  313  chmod 755 javac-algs4 java-algs4
+  314  mv javac-algs4 /usr/local/bin
+  315  mv java-algs4 /usr/local/bin
+  316  chmod 755 introcs
+  317  wget http://introcs.cs.princeton.edu/java/code/stdlib.jar
+  318  wget http://introcs.cs.princeton.edu/java/linux/javac-introcs
+  319  wget http://introcs.cs.princeton.edu/java/linux/java-introcs
+  320  chmod 755 javac-introcs java-introcs
+  321  mv javac-introcs /usr/local/bin
+  322  mv java-introcs /usr/local/bin
+  323  wget http://introcs.cs.princeton.edu/java/linux/checkstyle.zip
+  324  wget http://introcs.cs.princeton.edu/java/linux/checkstyle-introcs.xml
+  325  wget http://introcs.cs.princeton.edu/java/linux/checkstyle-suppressions.xml
+  326  wget http://introcs.cs.princeton.edu/java/linux/checkstyle-introcs
+  327  unzip checkstyle.zip
+  328  chmod 755 checkstyle-introcs
+  329  mv checkstyle-introcs /usr/local/bin
+  330  wget http://introcs.cs.princeton.edu/java/linux/findbugs.zip
+  331  wget http://introcs.cs.princeton.edu/java/linux/findbugs.xml
+  332  wget http://introcs.cs.princeton.edu/java/linux/findbugs-introcs
+  333  unzip findbugs.zip
+  334  chmod 755 findbugs-introcs
+  335  mv findbugs-introcs /usr/local/bin
+  336  cd /home/andrei/Documentos/Disciplinas/mac0323/mac0323-git/ep2/
+  337  ls
+  338  findbugs-algs4 BulgingSquares.class 
+  339  cd /usr/local/algs4/
+  340  wget http://algs4.cs.princeton.edu/linux/checkstyle.zip
+  341  wget http://algs4.cs.princeton.edu/linux/checkstyle-algs4.xml
+  342  wget http://algs4.cs.princeton.edu/linux/checkstyle-suppressions.xml
+  343  wget http://algs4.cs.princeton.edu/linux/checkstyle-algs4
+  344  unzip checkstyle.zip
+  345  unzip checkstyle.zip
+  346  y
+  347  y
+  348  y
+  349  y
+  350  y
+  351  y
+  352  chmod 755 checkstyle-algs4
+  353  mv checkstyle-algs4 /usr/local/bin
+  354  wget http://algs4.cs.princeton.edu/linux/findbugs.zip
+  355  wget http://algs4.cs.princeton.edu/linux/findbugs.xml
+  356  wget http://algs4.cs.princeton.edu/linux/findbugs-algs4
+  357  unzip findbugs.zip
+  358  chmod 755 findbugs-algs4
+  359  mv findbugs-algs4 /usr/local/bin
+  360  cd /home/andrei/Documentos/Disciplinas/mac0323/mac0323-git/ep2/
+  361  ls
+  362  findbugs-algs4 BulgingSquares.class 
+  363  checkstyle-algs4 BulgingSquares.class 
+  364  checkstyle-algs4 BulgingSquares.java 
+  365  cd ..
+  366  cd ep1/
+  367  ls
+  368  git status
+  369  git pull
+  370  java -Xlint ST.java 
+  371  exit
+  372  apt-get update
+  373  nano /etc/apt/sources.list
+  374  nano /etc/apt/sources.list~ 
+  375  nano /etc/apt/sources.list.d/noobslab-pcsx2-jessie.list
+  376  nano /etc/apt/sources.list.d/noobslab-pcsx2-jessie.list.save 
+  377  nano /etc/apt/sources.list.d/bumblebee-stable-jessie.list
+  378  nano /etc/apt/sources.list.d/bumblebee-stable-jessie.list.save 
+  379  nano /etc/apt/sources.list.d/webupd8team-java-jessie.list 
+  380  nano /etc/apt/sources.list.d/ehoover-compholio-jessie.list
+  381  nano /etc/apt/sources.list.d/ehoover-compholio-jessie.list.save 
+  382  nano /etc/apt/sources.list.d/ehoover-compholio-jessie.list
+  383  nano /etc/apt/sources.list.d/bumblebee-stable-jessie.list
+  384  nano /etc/apt/sources.list.d/noobslab-pcsx2-jessie.list
+  385  nano /etc/apt/sources.list.d/webupd8team-java-jessie.list 
+  386  apt-get update
+  387  nano /etc/apt/sources.list.d/webupd8team-java-jessie.list 
+  388  nano /etc/apt/sources.list.d/noobslab-pcsx2-jessie.list
+  389  nano /etc/apt/sources.list.d/bumblebee-stable-jessie.list
+  390  nano /etc/apt/sources.list.d/ehoover-compholio-jessie.list
+  391  apt-get update
+  392  apt-get upgrade
+  393  apt-cache search openmp
+  394  apt-cache search cuda
+  395  apt-get update
+  396  apt-get upgrade
+  397  apt-cache search cuda
+  398  apt-cache search cuda
+  399  lspci | grep -i nvidia
+  400  uname -r
+  401  apt-get install linux-headers-$(uname -r)
+  402  cd Downloads/
+  403  chmod +x cuda-repo-ubuntu1604_8.0.61-1_amd64.deb 
+  404  dpkg -i cuda-repo-ubuntu1604_8.0.61-1_amd64.deb 
+  405  apt-get update
+  406  apt-get update && apt-get upgrade
+  407  export PATH=/usr/local/cuda-8.0.61/bin${PATH:+:${PATH}} - See more at: http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#post-installation-actions
+  408  export PATH=/usr/local/cuda-8.0.61/bin${PATH:+:${PATH}} - See more at: http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#post-installation-actions
+  409  export PATH=/usr/local/cuda-8.0.61/bin${PATH:+:${PATH}} - See more at: http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#post-installation-actions
+  410  export PATH=/usr/local/cuda-8.0.61/bin${PATH:+:${PATH}}
+  411  export LD_LIBRARY_PATH=/usr/local/cuda-8.0.61/lib64\ ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+  412  nvcc 
+  413  apt-cache search nvcc
+  414  apt-get install nvidia-cuda-toolkit
+  415  nano /etc/apt/sources.list
+  416  apt-cache search nvidia | grep driver
+  417  apt-get install nvidia-driver
+  418  nvidia-settings 
+  419  apt-get install nvidia-xconfig
+  420  nvidia-xconfig 
+  421  restart
+  422  reboot
+  423  apt-get update
+  424  apt dist-upgrade
+  425  reboot
+  426  apt-cache search ocl
+  427  apt-cache search ocl | grep libopencl1
+  428  apt-get install -y ocl-icd-libopencl1 nvidia-driver nvidia-cuda-toolkit
+  429  reboot
+  430  clear
+  431  apt-get remove xorg-server xorg-xinit xorg-utils xorg-server-utils
+  432  apt-get install xorg-server xorg-xinit xorg-utils xorg-server-utils
+  433  apt-get search xorg
+  434  apt-get search xorg
+  435  apt-cache search xorg
+  436  apt-cache search xorg | grep xinit
+  437  apt-cache search xorg | grep utils
+  438  apt-cache search xorg | grep server
+  439  apt-cache search xorg | grep server-utils
+  440  startx
+  441  startx
+  442  startx
+  443  cd /var/log/
+  444  ls
+  445  cat Xorg.0.log
+  446  cd 
+  447  dpkg -l | grep nvidia
+  448  dpkg -l | grep nvidia | xargs
+  449  dpkg -l | grep nvidia | grep -v ^rc | awk '{print $2}'
+  450  dpkg -l | grep nvidia | grep -v ^rc | awk '{print $2}' | cut -d: -f1
+  451  dpkg -l | grep nvidia | grep -v ^rc | awk '{print $2}' | cut -d: -f1 | xargs apt-get -y purge
+  452  dpkg -l | grep nvidia | grep -v ^rc | awk '{print $2}' | cut -d: -f1 | xargs apt-get -y purge
+  453  dpkg -l | grep nvidia | grep -v ^rc | awk '{print $2}' | cut -d: -f1 | xargs apt-get -y purge
+  454  ps aux | grep apt
+  455  fg
+  456  dpkg -l | grep nvidia | grep -v ^rc | awk '{print $2}' | cut -d: -f1 | xargs apt-get -y purge
+  457  ps aux | grep apt
+  458  kill -9 1419
+  459  ps aux | grep apt
+  460  dpkg -l | grep nvidia | grep -v ^rc | awk '{print $2}' | cut -d: -f1 | xargs apt-get -y purge
+  461  dpkg --configure -a
+  462  dpkg --configure -a
+  463  clear
+  464  uname -a
+  465  reboot
+  466  service lightdm status
+  467  service lightdm stop
+  468  service lightdm start
+  469  service lightdm stop
+  470  startx
+  471  cd /etc/X11/
+  472  ls
+  473  cat xorg.conf
+  474  mv xorg.conf bosta
+  475  service lightdm start
+  476  service lightdm stop
+  477  apt-get install bumblebee-nvidia
+  478  vim /etc/apt/sources
+  479  vim /etc/apt/sources.list
+  480  apt-get update
+  481  cd /etc/apt/sources.list.d/
+  482  ls
+  483  rm *
+  484  cd 
+  485  apt-get update
+  486  dpkg -l | grep nvidia | grep -v ^rc | awk '{print $2}' | cut -d: -f1 | xargs apt-get -y purge
+  487  passwd
+  488  passwd
+  489  reboot
+  490  dpkg -l | grep nvidia
+  491  dpkg -l | grep nvidia | awk '{print $2}' | cut -d: -f1 | xargs apt-get -y purge
+  492  apt-get install bumblebee-nvidia
+  493  reboot
+  494  apt-get install nvidia-smi
+  495  optirun nvidia-smi
+  496  nvidia-smi
+  497  passwd
+  498  39227517
+  499  reboot
+  500  history > concertaNvidia.txt
