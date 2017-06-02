@@ -191,6 +191,7 @@ public class MeuTST<Value extends Comparable<Value>> {
             throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
         }
         Queue<String> queue = new Queue<String>();
+        StdOut.println("Oi");
         Node<Value> x = get(root, prefix, 0);
         if (x == null) return queue;
         if (x.val != null) queue.enqueue(prefix);
@@ -247,26 +248,31 @@ public class MeuTST<Value extends Comparable<Value>> {
     }
 
     private Queue<String> orderQueueVal (Queue<String> s, Queue<Value> v) {
+        StdOut.println("Entrou");
         int sz = s.size();
         String[] strs = new String[sz];
-        Value[] vals = (Value[]) new Object[sz];
+        StdOut.println("Chegou");
+        Comparable<Value>[] vals = (Comparable<Value>[]) new Object[sz];
+        StdOut.println("Passou");
         Queue<String> ordered = new Queue<String>();
         int min, aux;
+        Value minVal;
         for (int i = 0; i < sz; i++){
             strs[i] = s.dequeue();
             vals[i] = v.dequeue();
         }
 
-        int k;
+        int k = 0, j = 0;
         int i = sz;
+        min = 0;
         while(i > 1) {
             k = 0;
-            while (vals[k] == null){
+            while (vals[k].compareTo(null) == 0){
                 k+=1;
             }
-            min = vals[k];
-            for(int j = 0; j < sz; j++){
-                if (vals[j] != null && vals[j] < min) {
+            minVal = vals[k];
+            for(j = 0; j < sz; j++){
+                if (vals[j] != null && vals[j].compareTo(minVal) < 0) {
                     min = j;
                 }
             }
@@ -275,7 +281,7 @@ public class MeuTST<Value extends Comparable<Value>> {
             vals[min] = null;
             i--;
         }
-        while (vals[j] == null){
+        while (vals[k].compareTo(null) == 0){
             j+=1;
         }
         ordered.enqueue(strs[j]);
