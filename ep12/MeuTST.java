@@ -15,8 +15,11 @@
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Queue;
+
 import edu.princeton.cs.algs4.In;
 import java.util.Comparator;
+//import java.util.MinPQ;
+import edu.princeton.cs.algs4.MaxPQ;
 
 /**
  *  The {@code TST} class represents an symbol table of key-value
@@ -199,6 +202,15 @@ public class MeuTST<Value extends Comparable<Value>> {
         return queue;
     }
 
+    // all keys in subtrie rooted at x with given prefix
+    private void collect(Node<Value> x, StringBuilder prefix, Queue<String> queue) {
+        if (x == null) return;
+        collect(x.left,  prefix, queue);
+        if (x.val != null) queue.enqueue(prefix.toString() + x.c);
+        collect(x.mid,   prefix.append(x.c), queue);
+        prefix.deleteCharAt(prefix.length() - 1);
+        collect(x.right, prefix, queue);
+    }
 
     /**
      *  TAREFA: keysWithPrefixByValue():
@@ -218,107 +230,70 @@ public class MeuTST<Value extends Comparable<Value>> {
      *
      */
     // all keys starting with given prefix
+    
+
+    //Maiscertinho
+
+    /*public Iterable<String> keysWithPrefixByValue(String prefix) {
+        if (prefix == null) {
+            throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
+        }
+        MinPQ<Value> queue = new MinPQ<Value> (new comp());
+        //Queue<Value> val = new Queue<SValue> ();
+        Node<Value> x = get(root, prefix, 0);
+        if (x == null) return null;
+        collectReverseOrder(x.mid, new StringBuilder(prefix), queue);
+        if (x.val != null) queue.insert(prefix);
+        
+        Queue<String> oficial = new Queue<String>();
+        for (String a : queue.iterator()){
+            oficial.enqueue(a);
+        }
+
+        return a;
+    }*/
+
     public Iterable<String> keysWithPrefixByValue(String prefix) {
         if (prefix == null) {
             throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
         }
-        Queue<String> queue = new Queue<String>();
+        MaxPQ<String> queue = new MaxPQ<String>(new comp());
         //Queue<Value> val = new Queue<SValue> ();
         Node<Value> x = get(root, prefix, 0);
         if (x == null) return queue;
         collectReverseOrder(x.mid, new StringBuilder(prefix), queue);
-        if (x.val != null) queue.enqueue(prefix);
+        if (x.val != null) queue.insert(prefix);
         return queue;
     }
 
-    private void collectReverseOrder(Node<Value> x, StringBuilder prefix, Queue<String> queue) {
+    private class comp implements Comparator<String> {
+        public int compare (String a, String b) {
+            if (get(a).compareTo(get(b)) < 0) return -1;
+            else if (get(a).compareTo(get(b)) > 0) return 1;
+            return 0;
+        }
+    }
+
+    private void collectReverseOrder(Node<Value> x, StringBuilder prefix, MaxPQ<String> queue) {
         if (x == null) return;
-        Queue<Value> val = new Queue<Value> ();
-        int sumVal = 0;
-        int posStack = 0;
-        collect(x.left,  prefix, queue);
-        if (x.val != null) {
-            queue.enqueue(prefix.toString() + x.c);
-            val.enqueue(x.val);
-        }
-        collect(x.mid,   prefix.append(x.c), queue);
+        collectReverseOrder(x.left,  prefix, queue);
+        if (x.val != null) queue.insert(prefix.toString() + x.c);
+        collectReverseOrder(x.mid, prefix.append(x.c), queue);
         prefix.deleteCharAt(prefix.length() - 1);
-        collect(x.right, prefix, queue);
-        queue = orderQueueVal(queue,val);
+        collectReverseOrder(x.right, prefix, queue);
     }
 
-    private Queue<String> orderQueueVal (Queue<String> s, Queue<Value> v) {
-        StdOut.println("Entrou");
-        int sz = s.size();
-        String[] strs = new String[sz];
-        StdOut.println("Chegou");
-        Comparable<Value>[] vals = (Comparable<Value>[]) new Object[sz];
-        StdOut.println("Passou");
-        Queue<String> ordered = new Queue<String>();
-        int min, aux;
-        Value minVal;
-        for (int i = 0; i < sz; i++){
-            strs[i] = s.dequeue();
-            vals[i] = v.dequeue();
-        }
+    /*private class StrVal implements Comparable<String, Value> {
+        private Strin str;
+        private Value val;
 
-        int k = 0, j = 0;
-        int i = sz;
-        min = 0;
-        while(i > 1) {
-            k = 0;
-            while (vals[k].compareTo(null) == 0){
-                k+=1;
-            }
-            minVal = vals[k];
-            for(j = 0; j < sz; j++){
-                if (vals[j] != null && vals[j].compareTo(minVal) < 0) {
-                    min = j;
-                }
-            }
-            ordered.enqueue(strs[min]);
-            strs[min] = null;
-            vals[min] = null;
-            i--;
-        }
-        while (vals[k].compareTo(null) == 0){
-            j+=1;
-        }
-        ordered.enqueue(strs[j]);
-        strs[j] = null;
-        vals[j] = null;
-        return ordered;
-    }
-
-/*    private class StrValues {
-        private int[] vals;
-        private String[] strs;
-        private int size;
-        private StrValues (int n){
-            vals = new int[n];
-            strs = new String[n];
-            size = n;
-            private int Val(int ind){
-                return vals[ind];
-            }
-
-            private int put (String str, Value val){
-
-            }
-
-        }
+        public StrVal (String str, Value val){
+            this.str = str;
+            this.val = val; 
+        }   
     }*/
-     
-    
+
     // all keys in subtrie rooted at x with given prefix
-    private void collect(Node<Value> x, StringBuilder prefix, Queue<String> queue) {
-        if (x == null) return;
-        collect(x.left,  prefix, queue);
-        if (x.val != null) queue.enqueue(prefix.toString() + x.c);
-        collect(x.mid,   prefix.append(x.c), queue);
-        prefix.deleteCharAt(prefix.length() - 1);
-        collect(x.right, prefix, queue);
-    }
 
 
     /**
