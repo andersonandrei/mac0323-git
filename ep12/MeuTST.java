@@ -307,7 +307,6 @@ public class MeuTST<Value extends Comparable<Value>> {
      * @throws NullPointerException if {@code key} is {@code null}
      */
     public void delete(String key) {
-        if (!contains(key)) return;
         if (key == null) throw new NullPointerException();
         root = delete(root, key, 0);
     }
