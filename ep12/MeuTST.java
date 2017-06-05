@@ -229,30 +229,8 @@ public class MeuTST<Value extends Comparable<Value>> {
      *       de colocar o import correspondente.
      *
      */
+
     // all keys starting with given prefix
-    
-
-    //Maiscertinho
-
-    /*public Iterable<String> keysWithPrefixByValue(String prefix) {
-        if (prefix == null) {
-            throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
-        }
-        MinPQ<Value> queue = new MinPQ<Value> (new comp());
-        //Queue<Value> val = new Queue<SValue> ();
-        Node<Value> x = get(root, prefix, 0);
-        if (x == null) return null;
-        collectReverseOrder(x.mid, new StringBuilder(prefix), queue);
-        if (x.val != null) queue.insert(prefix);
-        
-        Queue<String> oficial = new Queue<String>();
-        for (String a : queue.iterator()){
-            oficial.enqueue(a);
-        }
-
-        return a;
-    }*/
-
     public Iterable<String> keysWithPrefixByValue(String prefix) {
         if (prefix == null) {
             throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
@@ -283,19 +261,6 @@ public class MeuTST<Value extends Comparable<Value>> {
         collectReverseOrder(x.right, prefix, queue);
     }
 
-    /*private class StrVal implements Comparable<String, Value> {
-        private Strin str;
-        private Value val;
-
-        public StrVal (String str, Value val){
-            this.str = str;
-            this.val = val; 
-        }   
-    }*/
-
-    // all keys in subtrie rooted at x with given prefix
-
-
     /**
      * Returns all of the keys in the symbol table that match {@code pattern},
      * where . symbol is treated as a wildcard character.
@@ -323,7 +288,6 @@ public class MeuTST<Value extends Comparable<Value>> {
         if (c == '.' || c > x.c) collect(x.right, prefix, i, pattern, queue);
     }
 
-    
     /**
      * TAREFA: delete()
      *  
@@ -336,10 +300,38 @@ public class MeuTST<Value extends Comparable<Value>> {
      * Utilize o método delete da classe TrieST como fonte de 
      * inspiração.
      */
+
+ /**
+     * Removes the key from the set if the key is present.
+     * @param key the key
+     * @throws NullPointerException if {@code key} is {@code null}
+     */
     public void delete(String key) {
-        // TAREFA
+        if (!contains(key)) return;
+        if (key == null) throw new NullPointerException();
+        root = delete(root, key, 0);
     }
 
+    private Node delete(Node x, String key, int d) {
+        if (x == null) return null;
+        if (d == key.length()-1) {
+            if (x.val != null) n--;
+            x.val = null;
+        }
+        else {
+            char c = key.charAt(d);
+            if (c < x.c) x.left = delete(x.left, key, d);
+            else if (c > x.c) x.right = delete(x.right, key, d);
+            else x.mid = delete(x.mid, key, d+1);
+        }
+
+        // remove subtrie rooted at x if it is completely empty
+        if (x.val != null) 
+            return x;
+        if(x.left != null || x.right != null || x.mid != null)
+            return x;
+        return null;
+    }
     
     /**
      * Unit tests the {@code TST} data type.
