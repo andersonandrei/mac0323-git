@@ -161,23 +161,17 @@ public class MinhaBST<Key extends Comparable<Key>, Value> {
             delete(key);
             return;
         }
-        root = put(root, key, val, 0);
+        root = put(root, key, val);
+        eagerHeight = height();
         assert check();
     }
 
-    private Node put(Node x, Key key, Value val, int count) { //int count -> ep13
-        if (x == null) {
-            //StdOut.println("Olhando pro q vai ser inserido");
-            //StdOut.println("count = " + count + " -- eagerHeight = " + eagerHeight);
-            if (count > eagerHeight) { //ep13
-                eagerHeight = count;
-            }
-            return new Node(key, val, 1);
-        }
+    private Node put(Node x, Key key, Value val) { //int count -> ep13
+        if (x == null) return new Node(key, val, 1);
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.left  = put(x.left,  key, val, count+1);
-        else if (cmp > 0) x.right = put(x.right, key, val, count+1);
-        else              x.val   = val;
+        if (cmp < 0) x.left  = put(x.left,  key, val);
+        else if (cmp > 0) x.right = put(x.right, key, val);
+        else x.val   = val;
         x.size = 1 + size(x.left) + size(x.right);
         return x;
     }
@@ -190,6 +184,7 @@ public class MinhaBST<Key extends Comparable<Key>, Value> {
     public void deleteMin() {
         if (isEmpty()) throw new NoSuchElementException("Symbol table underflow");
         root = deleteMin(root, 0, true);
+        eagerHeight = height();
         assert check();
     }
 
@@ -214,6 +209,7 @@ public class MinhaBST<Key extends Comparable<Key>, Value> {
     public void deleteMax() {
         if (isEmpty()) throw new NoSuchElementException("Symbol table underflow");
         root = deleteMax(root, 0, true);
+        eagerHeight = height();
         assert check();
     }
 
@@ -240,6 +236,7 @@ public class MinhaBST<Key extends Comparable<Key>, Value> {
     public void delete(Key key) {
         if (key == null) throw new IllegalArgumentException("called delete() with a null key");
         root = delete(root, key, 0);
+        eagerHeight = height();
         assert check();
     }
 
@@ -463,6 +460,7 @@ public class MinhaBST<Key extends Comparable<Key>, Value> {
     public int height() {
         return height(root);
     }
+
     private int height(Node x) {
         if (x == null) return -1;
         return 1 + Math.max(height(x.left), height(x.right));
@@ -564,31 +562,25 @@ public class MinhaBST<Key extends Comparable<Key>, Value> {
     /*retorna o custo médio de uma busca malsucedida (que é também o custo 
     de uma inserção).*/
     public double averageSearchMiss() {
-        int count;
-        int position;
-        int sum = 0;
-        Key a;
-        Key b;
-        double average = 0;
-        for (Key key : this.keys()) {
-            StringBuilder str = new StringBuilder();
-            position = StdRandom.uniform(100);
-            //StdOut.println("Sorteou : " + position);
-            str.append((char)position);
-            a = (Key)(str.toString());
-            count = averageSearchMiss(root, 1, a);
-            average += count;
-        }
-        return average / (double)size();
+        StdOut.println("Number null: " + countNull(root, 0));
+        StdOut.println("height Null: " + heightNull(root, 1));
+        return (double)heightNull(root, 0) / (double)countNull(root, 1);
     }
 
-    private int averageSearchMiss(Node x, int count, Key key) {
-        if (x == null) return count;
-        if (x.key.compareTo(key) < 0) 
-            count = averageSearchMiss(x.right, count+1, key);
-        else if (x.key.compareTo(key) > 0) 
-            count = averageSearchMiss(x.left, count+1, key);
-        return count;
+    private int countNull(Node x, int count) {
+        int n = 0;
+        if(x == null) return count+1;
+        n += countNull(x.left, count);
+        n += countNull(x.right, count);
+        //count += 1;
+        return n;
+    }
+
+    private int heightNull(Node x, int height) {
+        int n;
+        if(x == null) return height;
+        n = heightNull(x.left, height+1) + heightNull(x.right, height+1);
+        return n;
     }
 
 /*
