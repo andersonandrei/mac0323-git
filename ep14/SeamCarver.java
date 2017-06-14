@@ -38,7 +38,7 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Picture;
 import java.lang.NullPointerException;
-import java.lang.Color;
+import java.awt.Color;
 
 
 public class SeamCarver {
