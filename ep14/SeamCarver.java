@@ -96,14 +96,16 @@ public class SeamCarver {
    public  double energy(int x, int y) {
       //we have to take the Colo with the Picture class, after, 
       //take de coordinates (r,g,b) with Color class
+      StdOut.println("oi ");
+      StdOut.println("raiz: " + Math.sqrt(deltaSquare(x,y,0) + deltaSquare(x,y,1)));
       return Math.sqrt(deltaSquare(x,y,0) + deltaSquare(x,y,1));
    }
 
    private Node[][] energyMatrix() {
       int i, j;
       information = new Node[pic.width()][pic.height()];
-      for (j = 0; j < pic.width(); j++) {
-         for (i = 0; i < pic.height(); i++) {
+      for (j = 0; j < pic.height(); j++) {
+         for (i = 0; i < pic.width(); i++) {
             information[i][j] = new Node(j,i, energy(i, j));
          }
       }
@@ -111,19 +113,33 @@ public class SeamCarver {
    }
 
    private double deltaSquare (int x, int y, int option) {
+      StdOut.println("oi 2");
       Color c1, c2;
       double red, green, blue;
+      StdOut.println("oi 3");
       if (option == 0) {
-         c1 = pic.get(x-1, y);
-         c2 = pic.get(x+1, y);
+         StdOut.println("oi 4");
+         if(x-1 > 0 ) c1 = pic.get(x-1, y);
+         else {
+            StdOut.println("calc1: " + (x-1 + pic.width() - 1) % pic.width());
+            c1 = pic.get((x-1 + pic.width()-1) % pic.width(), y);
+         }
+         if (x+1 < pic.width()) c2 = pic.get(x+1, y);
+         else c2 = pic.get((x+1 + pic.width()) % pic.width(), y);
+
       }
       else {
-         c1 = pic.get(x, y-1);
-         c2 = pic.get(x, y+1);
+         StdOut.println("oi 5");
+         if(y-1 > 0 ) c1 = pic.get(x, y-1);
+         else c1 = pic.get(x, (y-1 + pic.width()) % pic.width());
+         if (y+1 < pic.height()) c2 = pic.get(x, y+1);
+         else c2 = pic.get(x, (y+1 + pic.width()) % pic.width());
       }
+      StdOut.println("oi 6");
       red = c2.getRed() - c1.getRed();
       green = c2.getGreen() - c1.getGreen();
       blue = c2.getBlue() - c1.getBlue();
+      StdOut.println("oi 15");
       return (red * red) + (green * green) + (blue * blue);
    }
 
@@ -147,22 +163,23 @@ public class SeamCarver {
 
    // sequence of indices for vertical seam
    public int[] findVerticalSeam() {
-      distTo = new double[pic.width()+1][pic.height()];
-      edgeTo = new Node[pic.width()][pic.height()];
+      distTo = new double[pic.height()+1][pic.width()];
+      edgeTo = new Node[pic.height()+1][pic.width()];
       Queue<Node> queue = new Queue<Node>();
       int first = pic.width() * pic.height() , last = pic.width() * pic.height() + 1; 
       int[] path;
-      for(int v = 0; v < pic.width(); v++){
-         for(int w = 0; w < pic.height(); v++){
+      for(int v = 0; v < pic.height(); v++){
+         for(int w = 0; w < pic.width(); w++){
+            //StdOut.println("olha" + w);
             distTo[v][w] = Double.POSITIVE_INFINITY;
          }
       }
       for(int v = 0; v < pic.height(); v++) {
-         distTo[v][pic.width()] = 0;
+         distTo[v][0] = 0.0;
       }
       information = energyMatrix();
-      for (int i = 0; i < pic.width(); i++) {
-         for (int j = 0; j < pic.height(); j++) {
+      for (int i = 0; i < pic.height(); i++) {
+         for (int j = 0; j < pic.width(); j++) {
             for (Node e : nextDown(information[i][j])) {
                relax(e);
             }
@@ -191,7 +208,8 @@ public class SeamCarver {
 
    private void relax(Node e) {
       for (Node w : nextDown(information[e.x][e.y])){
-         if(distTo[w.x][w.y] > distTo[e.xfather][e.yfather] + e.energy) {
+         StdOut.println("relax"+distTo[w.x][w.y]);
+         if(distTo[w.x][w.y] > distTo[e.yfather][e.xfather] + e.energy) {
             distTo[w.x][w.y] = distTo[e.xfather][e.yfather] + e.energy;
             edgeTo[w.x][w.y] = e;
          }
@@ -207,9 +225,13 @@ public class SeamCarver {
    // remove horizontal seam from current picture
    public    void removeHorizontalSeam(int[] seam) {}
 
-   // remove vertical seam from current picture
-   public    void removeVerticalSeam(int[] seam) {}*/
 
+
+   // remove vertical seam from current picture
+   public void removeVerticalSeam(int[] seam) {
+
+   }
+*/
    // do unit testing of this class
    public static void main(String[] args) {
       return ;
