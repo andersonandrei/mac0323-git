@@ -37,7 +37,10 @@ proportional to W H (or better) in the worst case.
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Picture;
+import edu.princeton.cs.algs4.Queue;
+import java.lang.Math;
 import java.lang.NullPointerException;
+
 import java.awt.Color;
 
 
@@ -46,14 +49,32 @@ public class SeamCarver {
    Picture pic, backup;
    int width; 
    int height;
+   Node[][] information;
+   double[][] distTo;
+   Node[][] edgeTo;
 
+   public class Node {
+      double energy;
+      int x;
+      int y;
+      int xfather;
+      int yfather;
+
+      private Node(int x, int y, double e) {
+         this.x = x;
+         this.y = y;
+         this.xfather = -1;
+         this.yfather = -1;
+         this.energy = e;
+      }
+   }
 
    // create a seam carver object based on the given picture
    public SeamCarver(Picture picture){
       pic = picture;
       backup = picture;
-      width = pic.width;
-      height = pic.height;
+      width = pic.width();
+      height = pic.height();
    }
 
    // current picture
@@ -75,7 +96,18 @@ public class SeamCarver {
    public  double energy(int x, int y) {
       //we have to take the Colo with the Picture class, after, 
       //take de coordinates (r,g,b) with Color class
-      return sqrt(deltaSquare(x,y,0) + deltaSquare(x,y,1));
+      return Math.sqrt(deltaSquare(x,y,0) + deltaSquare(x,y,1));
+   }
+
+   private Node[][] energyMatrix() {
+      int i, j;
+      information = new Node[pic.width()][pic.height()];
+      for (j = 0; j < pic.width(); j++) {
+         for (i = 0; i < pic.height(); i++) {
+            information[i][j] = new Node(j,i, energy(i, j));
+         }
+      }
+      return information;
    }
 
    private double deltaSquare (int x, int y, int option) {
@@ -95,19 +127,92 @@ public class SeamCarver {
       return (red * red) + (green * green) + (blue * blue);
    }
 
-   // sequence of indices for horizontal seam
-   public   int[] findHorizontalSeam() {}
+   private Iterable<Node> nextDown (Node root) {
+      int i, j;
+      Queue<Node> next = new Queue<Node>();
+      i = root.x;
+      j = root.y;
+      if(j+1 < pic.height()) {
+         if(i-1 > 0) {
+            next.enqueue(information[i-1][j+1]);
+         }
+         next.enqueue(information[i][j+1]);
+         if(i+1 > pic.width()) {
+            next.enqueue(information[i+1][j+1]);
+         }
+      }
+      return next;
+   }
+
 
    // sequence of indices for vertical seam
-   public   int[] findVerticalSeam() {}
+   public int[] findVerticalSeam() {
+      distTo = new double[pic.width()+1][pic.height()];
+      edgeTo = new Node[pic.width()][pic.height()];
+      Queue<Node> queue = new Queue<Node>();
+      int first = pic.width() * pic.height() , last = pic.width() * pic.height() + 1; 
+      int[] path;
+      for(int v = 0; v < pic.width(); v++){
+         for(int w = 0; w < pic.height(); v++){
+            distTo[v][w] = Double.POSITIVE_INFINITY;
+         }
+      }
+      for(int v = 0; v < pic.height(); v++) {
+         distTo[v][pic.width()] = 0;
+      }
+      information = energyMatrix();
+      for (int i = 0; i < pic.width(); i++) {
+         for (int j = 0; j < pic.height(); j++) {
+            for (Node e : nextDown(information[i][j])) {
+               relax(e);
+            }
+         }
+      }
+      path = writePath(edgeTo);
+      return path;
+   }
+
+   private int[] writePath(Node[][] edgeTo){
+      Queue<Integer> q = new Queue<Integer>();
+      int[] p;
+      for (int i = 0; i < pic.height(); i++){
+         for (int j = 0; j < pic.width(); j++){
+            q.enqueue(j);
+         }
+      }
+      p = new int[q.size()];
+      int i = 0;
+      while(!q.isEmpty()){
+         p[i] = q.dequeue();
+         i++;
+      }
+      return p;
+   }
+
+   private void relax(Node e) {
+      for (Node w : nextDown(information[e.x][e.y])){
+         if(distTo[w.x][w.y] > distTo[e.xfather][e.yfather] + e.energy) {
+            distTo[w.x][w.y] = distTo[e.xfather][e.yfather] + e.energy;
+            edgeTo[w.x][w.y] = e;
+         }
+      }
+   }
+
+/*   // sequence of indices for horizontal seam
+   public int[] findHorizontalSeam() {
+      
+   }
+
 
    // remove horizontal seam from current picture
    public    void removeHorizontalSeam(int[] seam) {}
 
    // remove vertical seam from current picture
-   public    void removeVerticalSeam(int[] seam) {}
+   public    void removeVerticalSeam(int[] seam) {}*/
 
    // do unit testing of this class
-   public static void main(String[] args) {}
+   public static void main(String[] args) {
+      return ;
+   }
 
 }
