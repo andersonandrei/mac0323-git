@@ -63,8 +63,8 @@ public class SeamCarver {
       private Node(int x, int y, double e) {
          this.x = x;
          this.y = y;
-         this.xfather = -1;
-         this.yfather = -1;
+         this.xfather = 0;
+         this.yfather = 0;
          this.energy = e;
       }
    }
@@ -104,9 +104,10 @@ public class SeamCarver {
    private Node[][] energyMatrix() {
       int i, j;
       information = new Node[pic.width()][pic.height()];
-      for (j = 0; j < pic.height(); j++) {
-         for (i = 0; i < pic.width(); i++) {
-            information[i][j] = new Node(j,i, energy(i, j));
+      for (i = 0; i < pic.width(); i++) {
+         for (j = 0; j < pic.height(); j++) {
+            StdOut.println("Calculando info pra: " + i + "" + j);
+            information[i][j] = new Node(i,j, energy(i, j));
          }
       }
       return information;
@@ -148,12 +149,16 @@ public class SeamCarver {
       Queue<Node> next = new Queue<Node>();
       i = root.x;
       j = root.y;
+      StdOut.println("dimensoes: " + pic.height() + "" + pic.width());
       if(j+1 < pic.height()) {
+         StdOut.println("Liberou pro j: " + (j+1));
          if(i-1 > 0) {
+            StdOut.println("Liberou pro i: " + (i-1));
             next.enqueue(information[i-1][j+1]);
          }
          next.enqueue(information[i][j+1]);
-         if(i+1 > pic.width()) {
+         if(i+1 < pic.width()) {
+            StdOut.println("Liberou pro i: " + (i+1));
             next.enqueue(information[i+1][j+1]);
          }
       }
@@ -163,24 +168,26 @@ public class SeamCarver {
 
    // sequence of indices for vertical seam
    public int[] findVerticalSeam() {
-      distTo = new double[pic.height()+1][pic.width()];
-      edgeTo = new Node[pic.height()+1][pic.width()];
+      distTo = new double[pic.width()][pic.height()];
+      edgeTo = new Node[pic.width()][pic.height()];
       Queue<Node> queue = new Queue<Node>();
-      int first = pic.width() * pic.height() , last = pic.width() * pic.height() + 1; 
+      //int first = pic.width() * pic.height() , last = pic.width() * pic.height() + 1; 
       int[] path;
-      for(int v = 0; v < pic.height(); v++){
-         for(int w = 0; w < pic.width(); w++){
+      for(int v = 0; v < pic.width(); v++){
+         for(int w = 0; w < pic.height(); w++){
             //StdOut.println("olha" + w);
+            StdOut.println("Infinitando"+v + "" +w);
             distTo[v][w] = Double.POSITIVE_INFINITY;
          }
       }
-      for(int v = 0; v < pic.height(); v++) {
+      for(int v = 0; v < pic.width(); v++) {
          distTo[v][0] = 0.0;
       }
       information = energyMatrix();
-      for (int i = 0; i < pic.height(); i++) {
-         for (int j = 0; j < pic.width(); j++) {
+      for (int i = 0; i < pic.width(); i++) {
+         for (int j = 0; j < pic.height(); j++) {
             for (Node e : nextDown(information[i][j])) {
+               StdOut.println("Mandando pro relax e"+e.x + "" +e.y);
                relax(e);
             }
          }
@@ -192,8 +199,8 @@ public class SeamCarver {
    private int[] writePath(Node[][] edgeTo){
       Queue<Integer> q = new Queue<Integer>();
       int[] p;
-      for (int i = 0; i < pic.height(); i++){
-         for (int j = 0; j < pic.width(); j++){
+      for (int i = 0; i < pic.width(); i++){
+         for (int j = 0; j < pic.height(); j++){
             q.enqueue(j);
          }
       }
@@ -207,9 +214,15 @@ public class SeamCarver {
    }
 
    private void relax(Node e) {
+      StdOut.println("relax antes" + e.x + "" + e.y);
       for (Node w : nextDown(information[e.x][e.y])){
-         StdOut.println("relax"+distTo[w.x][w.y]);
-         if(distTo[w.x][w.y] > distTo[e.yfather][e.xfather] + e.energy) {
+         StdOut.println("relax a"+distTo[w.x][w.y]);
+         StdOut.println("relax b"+distTo[0][0]);
+         StdOut.println("relax c"+e.energy);
+         StdOut.println("acessando antes "+ w.x + "" + w.y);
+         StdOut.println("acessando depois"+ e.xfather + "" + e.yfather);
+
+         if(distTo[w.x][w.y] > distTo[e.xfather][e.yfather] + e.energy) {
             distTo[w.x][w.y] = distTo[e.xfather][e.yfather] + e.energy;
             edgeTo[w.x][w.y] = e;
          }
