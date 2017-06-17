@@ -96,8 +96,8 @@ public class SeamCarver {
    public  double energy(int x, int y) {
       //we have to take the Colo with the Picture class, after, 
       //take de coordinates (r,g,b) with Color class
-      StdOut.println("oi ");
-      StdOut.println("raiz: " + Math.sqrt(deltaSquare(x,y,0) + deltaSquare(x,y,1)));
+      //StdOut.println("oi ");
+      //StdOut.println("raiz: " + Math.sqrt(deltaSquare(x,y,0) + deltaSquare(x,y,1)));
       return Math.sqrt(deltaSquare(x,y,0) + deltaSquare(x,y,1));
    }
 
@@ -106,7 +106,7 @@ public class SeamCarver {
       information = new Node[pic.width()][pic.height()];
       for (i = 0; i < pic.width(); i++) {
          for (j = 0; j < pic.height(); j++) {
-            StdOut.println("Calculando info pra: " + i + "" + j);
+            //StdOut.println("Calculando info pra: " + i + "" + j);
             information[i][j] = new Node(i,j, energy(i, j));
          }
       }
@@ -114,33 +114,33 @@ public class SeamCarver {
    }
 
    private double deltaSquare (int x, int y, int option) {
-      StdOut.println("oi 2");
+      //StdOut.println("oi 2");
       Color c1, c2;
       double red, green, blue;
-      StdOut.println("oi 3");
+      //StdOut.println("oi 3");
       if (option == 0) {
-         StdOut.println("oi 4");
+         //StdOut.println("oi 4");
          if(x-1 > 0 ) c1 = pic.get(x-1, y);
          else {
-            StdOut.println("calc1: " + (x-1 + pic.width() - 1) % pic.width());
-            c1 = pic.get((x-1 + pic.width()-1) % pic.width(), y);
+            //StdOut.println("calc1: " + (x-1 + pic.width() - 1) % pic.width());
+            c1 = pic.get((x-1 + pic.width()) % pic.width(), y);
          }
          if (x+1 < pic.width()) c2 = pic.get(x+1, y);
          else c2 = pic.get((x+1 + pic.width()) % pic.width(), y);
 
       }
       else {
-         StdOut.println("oi 5");
+         //StdOut.println("oi 5");
          if(y-1 > 0 ) c1 = pic.get(x, y-1);
-         else c1 = pic.get(x, (y-1 + pic.width()) % pic.width());
+         else c1 = pic.get(x, (y-1 + pic.height()) % pic.height());
          if (y+1 < pic.height()) c2 = pic.get(x, y+1);
-         else c2 = pic.get(x, (y+1 + pic.width()) % pic.width());
+         else c2 = pic.get(x, (y+1 + pic.height()) % pic.height());
       }
-      StdOut.println("oi 6");
+      //StdOut.println("oi 6");
       red = c2.getRed() - c1.getRed();
       green = c2.getGreen() - c1.getGreen();
       blue = c2.getBlue() - c1.getBlue();
-      StdOut.println("oi 15");
+      //StdOut.println("oi 15");
       return (red * red) + (green * green) + (blue * blue);
    }
 
@@ -149,16 +149,16 @@ public class SeamCarver {
       Queue<Node> next = new Queue<Node>();
       i = root.x;
       j = root.y;
-      StdOut.println("dimensoes: " + pic.height() + "" + pic.width());
+      //StdOut.println("dimensoes: " + pic.height() + "" + pic.width());
       if(j+1 < pic.height()) {
-         StdOut.println("Liberou pro j: " + (j+1));
-         if(i-1 > 0) {
-            StdOut.println("Liberou pro i: " + (i-1));
+         //StdOut.println("Liberou pro j: " + (j+1));
+         if(i-1 >= 0) {
+            //StdOut.println("Liberou pro i: " + (i-1));
             next.enqueue(information[i-1][j+1]);
          }
          next.enqueue(information[i][j+1]);
          if(i+1 < pic.width()) {
-            StdOut.println("Liberou pro i: " + (i+1));
+            //StdOut.println("Liberou pro i: " + (i+1));
             next.enqueue(information[i+1][j+1]);
          }
       }
@@ -168,62 +168,91 @@ public class SeamCarver {
 
    // sequence of indices for vertical seam
    public int[] findVerticalSeam() {
-      distTo = new double[pic.width()][pic.height()];
+      distTo = new double[pic.width()][pic.height()]; //the last line is to first and last node
       edgeTo = new Node[pic.width()][pic.height()];
-      Queue<Node> queue = new Queue<Node>();
+      int k;
+      Queue<Integer> queue = new Queue<Integer>();
       //int first = pic.width() * pic.height() , last = pic.width() * pic.height() + 1; 
       int[] path;
       for(int v = 0; v < pic.width(); v++){
          for(int w = 0; w < pic.height(); w++){
-            //StdOut.println("olha" + w);
-            StdOut.println("Infinitando"+v + "" +w);
             distTo[v][w] = Double.POSITIVE_INFINITY;
+            edgeTo[v][w] = new Node(v, w, 0.0);
+            edgeTo[v][w].xfather = v;
+            edgeTo[v][w].yfather = w;
          }
       }
       for(int v = 0; v < pic.width(); v++) {
          distTo[v][0] = 0.0;
       }
+/*      Node first = new Node(pic.width()-1, pic.height(), 0.0);
+      first.xfather = pic.height();
+      first.yfather = pic.height();
+      edgeTo[pic.width()-1][pic.height()] = */
+
       information = energyMatrix();
-      for (int i = 0; i < pic.width(); i++) {
-         for (int j = 0; j < pic.height(); j++) {
-            for (Node e : nextDown(information[i][j])) {
-               StdOut.println("Mandando pro relax e"+e.x + "" +e.y);
+      for (int i = 0; i < pic.height(); i++) {
+         for (int j = 0; j < pic.width(); j++) {
+            StdOut.println("---Descer a partir de " + j + "" + i);
+            for (Node e : nextDown(information[j][i])) {
+               StdOut.println("Mandando pro relax e" + e.x + "" + e.y);
                relax(e);
             }
          }
       }
-      path = writePath(edgeTo);
-      return path;
+      StdOut.println("Relaxou");
+      for (int i = 0; i < pic.width(); i++) {
+         StdOut.println("Ve caminho em " + i + "" + (pic.height() - 1));
+         if (hasPath(i,pic.height() - 1)) {
+            StdOut.println("Tem um caminho");
+            k = 0;
+            writePath(i, pic.height() - 1, queue);
+            StdOut.println("Tamanho da pilha:"+ queue.size());
+            path = new int[queue.size()];
+            StdOut.println("Criou vetor");
+            while (!queue.isEmpty()) {
+               StdOut.println("Atribuiu");
+               path[k] = queue.dequeue();
+               k++;
+            }
+            StdOut.println("Retornou path");
+            return path;
+         } 
+      }
+      StdOut.println("nao achou caminho");
+      return null;
    }
 
-   private int[] writePath(Node[][] edgeTo){
-      Queue<Integer> q = new Queue<Integer>();
-      int[] p;
-      for (int i = 0; i < pic.width(); i++){
-         for (int j = 0; j < pic.height(); j++){
-            q.enqueue(j);
-         }
-      }
-      p = new int[q.size()];
-      int i = 0;
-      while(!q.isEmpty()){
-         p[i] = q.dequeue();
-         i++;
-      }
-      return p;
+   private boolean hasPath(int m, int n) {
+      if (distTo[m][n] < Double.POSITIVE_INFINITY) return true;
+      return false;
+   }
+
+   private void writePath(int m, int n, Queue<Integer> q){
+      StdOut.println("Escrevendo path: " + m + "" + n);
+      if (edgeTo[m][n].y == 0) return;
+      q.enqueue(n);
+      StdOut.println("Pushou e vai olhar pra : " + edgeTo[m][n].xfather + "" + edgeTo[m][n].yfather);
+      writePath(edgeTo[m][n].xfather, edgeTo[m][n].yfather, q);
    }
 
    private void relax(Node e) {
-      StdOut.println("relax antes" + e.x + "" + e.y);
+      StdOut.println("relaxando" + e.x + "" + e.y);
+      StdOut.println("pai dele: "+ e.xfather + "" + e.yfather);
       for (Node w : nextDown(information[e.x][e.y])){
-         StdOut.println("relax a"+distTo[w.x][w.y]);
-         StdOut.println("relax b"+distTo[0][0]);
-         StdOut.println("relax c"+e.energy);
-         StdOut.println("acessando antes "+ w.x + "" + w.y);
-         StdOut.println("acessando depois"+ e.xfather + "" + e.yfather);
+         StdOut.print("na mão "+ w.x + "   " + w.y);
+         StdOut.println("disTO "+ distTo[w.x][w.y] + " ");
+         //StdOut.println("Na mao "+distTo[w.x][w.y]);
+         //StdOut.println("relax b"+distTo[0][0]);
+         //StdOut.println("relax c"+e.energy);
 
          if(distTo[w.x][w.y] > distTo[e.xfather][e.yfather] + e.energy) {
+            StdOut.println("Atualizou dist de : "+ w.x + "" + w.y);
+            StdOut.println("colocou : "+ distTo[e.xfather][e.yfather] + "   " + e.energy);
+
             distTo[w.x][w.y] = distTo[e.xfather][e.yfather] + e.energy;
+            w.xfather = e.x;
+            w.yfather = e.y;
             edgeTo[w.x][w.y] = e;
          }
       }
