@@ -194,10 +194,11 @@ public class SeamCarver {
       for (int i = 0; i < pic.height(); i++) {
          for (int j = 0; j < pic.width(); j++) {
             StdOut.println("---Descer a partir de " + j + "" + i);
-            for (Node e : nextDown(information[j][i])) {
+            relax(information[j][i]);
+            /*for (Node e : nextDown(information[j][i])) {
                StdOut.println("Mandando pro relax e" + e.x + "" + e.y);
                relax(e);
-            }
+            }*/
          }
       }
       StdOut.println("Relaxou");
@@ -230,17 +231,17 @@ public class SeamCarver {
 
    private void writePath(int m, int n, Queue<Integer> q){
       StdOut.println("Escrevendo path: " + m + "" + n);
-      if (edgeTo[m][n].y == 0) return;
       q.enqueue(n);
-      StdOut.println("Pushou e vai olhar pra : " + edgeTo[m][n].xfather + "" + edgeTo[m][n].yfather);
-      writePath(edgeTo[m][n].xfather, edgeTo[m][n].yfather, q);
+      if (edgeTo[m][n].y == n) return;
+      StdOut.println("Pushou e vai olhar pra : " + edgeTo[m][n].x + "" + edgeTo[m][n].y);
+      writePath(edgeTo[m][n].x, edgeTo[m][n].y, q);
    }
 
    private void relax(Node e) {
       StdOut.println("relaxando" + e.x + "" + e.y);
       StdOut.println("pai dele: "+ e.xfather + "" + e.yfather);
       for (Node w : nextDown(information[e.x][e.y])){
-         StdOut.print("na mão "+ w.x + "   " + w.y);
+         StdOut.print("na mão "+ w.x + "" + w.y);
          StdOut.println("disTO "+ distTo[w.x][w.y] + " ");
          //StdOut.println("Na mao "+distTo[w.x][w.y]);
          //StdOut.println("relax b"+distTo[0][0]);
@@ -249,6 +250,7 @@ public class SeamCarver {
          if(distTo[w.x][w.y] > distTo[e.xfather][e.yfather] + e.energy) {
             StdOut.println("Atualizou dist de : "+ w.x + "" + w.y);
             StdOut.println("colocou : "+ distTo[e.xfather][e.yfather] + "   " + e.energy);
+            StdOut.println("fathers : "+ e.x + "   " + e.y);
 
             distTo[w.x][w.y] = distTo[e.xfather][e.yfather] + e.energy;
             w.xfather = e.x;
