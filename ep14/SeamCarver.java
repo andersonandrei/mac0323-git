@@ -82,16 +82,6 @@ public class SeamCarver {
       return pic;
    }
 
-   /*// width of current picture
-   public int width() {
-      return width;
-   }
-
-   // height of current picture
-   public int height() {
-      return height;
-   }
-*/
    public int width() {
       return pic.width();
    }
@@ -99,6 +89,10 @@ public class SeamCarver {
    public int height() {
       return pic.height();
    }
+
+   //**************************************
+   //**********General*********************
+   //**************************************
 
    // energy of pixel at column x and row y
    public  double energy(int x, int y) {
@@ -140,22 +134,27 @@ public class SeamCarver {
       return (red * red) + (green * green) + (blue * blue);
    }
 
-   private Iterable<Node> nextDown (Node root) {
-      int i, j;
-      Queue<Node> next = new Queue<Node>();
-      i = root.x;
-      j = root.y;
-      if(j+1 < pic.height()) {
-         if(i-1 >= 0) {
-            next.enqueue(information[i-1][j+1]);
-         }
-         next.enqueue(information[i][j+1]);
-         if(i+1 < pic.width()) {
-            next.enqueue(information[i+1][j+1]);
-         }
-      }
-      return next;
+   private boolean hasPath(int m, int n) {
+      if (distTo[m][n] < Double.POSITIVE_INFINITY) return true;
+      return false;
    }
+
+   private void writePath(int m, int n, Queue<Integer> q, int orientation){
+      if (orientation == 0) q.enqueue(n);
+      else q.enqueue(m);
+      if (edgeTo[m][n].y == n) return;
+      writePath(information[m][n].xfather, information[m][n].yfather, q, orientation);
+   }
+
+   private void writePathEnergy(int m, int n, Queue<Double> q){
+      q.enqueue(information[m][n].energy);
+      if (edgeTo[m][n].y == n) return;
+      writePathEnergy(information[m][n].xfather, information[m][n].yfather, q);
+   }
+
+   //**************************************
+   //**********   Vertical  ***************
+   //**************************************
 
    // sequence of indices for vertical seam
    public int[] findVerticalSeam() {
@@ -177,13 +176,30 @@ public class SeamCarver {
       information = energyMatrix();
       for (int i = 0; i < pic.height(); i++) {
          for (int j = 0; j < pic.width(); j++) {
-            relax(information[j][i]);
+            relaxVertical(information[j][i]);
          }
       }
-      return minPath();
+      return minPathVertical();
    }
 
-   private int[] minPath() {
+   private Iterable<Node> nextDown (Node root) {
+      int i, j;
+      Queue<Node> next = new Queue<Node>();
+      i = root.x;
+      j = root.y;
+      if(j+1 < pic.height()) {
+         if(i-1 >= 0) {
+            next.enqueue(information[i-1][j+1]);
+         }
+         next.enqueue(information[i][j+1]);
+         if(i+1 < pic.width()) {
+            next.enqueue(information[i+1][j+1]);
+         }
+      }
+      return next;
+   }
+
+   private int[] minPathVertical() {
       int k;
       int indPath = 0;
       int minSum = 1000000000;
@@ -209,7 +225,7 @@ public class SeamCarver {
             }
          }
       }
-      writePath(indPath, pic.height() -1, queue);
+      writePath(indPath, pic.height() -1, queue, 1);
       path = new int[queue.size()];
       k = queue.size()-1;
       while (!queue.isEmpty()) {
@@ -219,45 +235,6 @@ public class SeamCarver {
       return path;
    }
 
-   private boolean hasPath(int m, int n) {
-      if (distTo[m][n] < Double.POSITIVE_INFINITY) return true;
-      return false;
-   }
-
-   private void writePath(int m, int n, Queue<Integer> q){
-      q.enqueue(m);
-      if (edgeTo[m][n].y == n) return;
-      writePath(information[m][n].xfather, information[m][n].yfather, q);
-   }
-
-   private void writePathEnergy(int m, int n, Queue<Double> q){
-      q.enqueue(information[m][n].energy);
-      if (edgeTo[m][n].y == n) return;
-      writePathEnergy(information[m][n].xfather, information[m][n].yfather, q);
-   }
-
-   private void relax(Node e) {
-      for (Node w : nextDown(information[e.x][e.y])){
-         if(distTo[w.x][w.y] > distTo[e.x][e.y] + e.energy) {
-            distTo[w.x][w.y] = distTo[e.x][e.y] + e.energy;
-            w.xfather = e.x;
-            w.yfather = e.y;
-            edgeTo[w.x][w.y] = e;
-         }
-      }
-   }
-
-/*   // sequence of indices for horizontal seam
-   public int[] findHorizontalSeam() {
-      
-   }
-
-
-   // remove horizontal seam from current picture
-   public    void removeHorizontalSeam(int[] seam) {}
-
-
-*/
    // remove vertical seam from current picture
    public void removeVerticalSeam(int[] seam) {
       int i, j, k;
@@ -279,6 +256,143 @@ public class SeamCarver {
       width -= 1;
    }
 
+   private void relaxVertical(Node e) {
+      for (Node w : nextDown(information[e.x][e.y])){
+         if(distTo[w.x][w.y] > distTo[e.x][e.y] + e.energy) {
+            distTo[w.x][w.y] = distTo[e.x][e.y] + e.energy;
+            w.xfather = e.x;
+            w.yfather = e.y;
+            edgeTo[w.x][w.y] = e;
+         }
+      }
+   }
+
+   //**************************************
+   //**********   Horizontal  *************
+   //**************************************
+
+
+   // sequence of indices for vertical seam
+   public int[] findHorizontalSeam() {
+      distTo = new double[pic.width()][pic.height()]; //the last line is to first and last node
+      edgeTo = new Node[pic.width()][pic.height()];
+      Queue<Integer> queue = new Queue<Integer>(); 
+      int[] path;
+      for(int v = 0; v < pic.width(); v++){
+         for(int w = 0; w < pic.height(); w++){
+            distTo[v][w] = Double.POSITIVE_INFINITY;
+            edgeTo[v][w] = new Node(v, w, 0.0);
+            edgeTo[v][w].xfather = v;
+            edgeTo[v][w].yfather = w;
+         }
+      }
+      for(int v = 0; v < pic.height(); v++) {
+         distTo[0][v] = 0.0;
+      }
+      information = energyMatrix();
+      for (int i = 0; i < pic.width(); i++) {
+         for (int j = 0; j < pic.height(); j++) {
+            relaxHorizontal(information[i][j]);
+         }
+      }
+      return minPathHorizontal();
+   }
+
+   private Iterable<Node> nextRight (Node root) {
+      int i, j;
+      Queue<Node> next = new Queue<Node>();
+      i = root.x;
+      j = root.y;
+      if(i+1 < pic.width()) {
+         if(j-1 >= 0) {
+            next.enqueue(information[i+1][j-1]);
+         }
+         next.enqueue(information[i+1][j]);
+         if(j+1 < pic.height()) {
+            next.enqueue(information[i+1][j+1]);
+         }
+      }
+      return next;
+   }
+
+   private int[] minPathHorizontal() {
+      int k;
+      int indPath = 0;
+      int minSum = 1000000000;
+      int auxSum = 0;
+      //int verification;
+      Queue<Double> queueEnergy = new Queue<Double>(); 
+      Queue<Integer> queue = new Queue<Integer>(); 
+      int[] path;
+      int i;
+      for (i = 0; i < pic.height(); i++) {
+         if (hasPath(pic.width() - 1, i)) {
+            k = 0;
+            writePathEnergy(pic.width() - 1, i, queueEnergy);
+            auxSum = 0;
+            while (!queueEnergy.isEmpty()) {
+               auxSum += queueEnergy.dequeue();
+            }
+            if (auxSum < minSum) {   
+               minSum = auxSum;
+               indPath = i;
+            }
+         }
+      }
+      writePath(pic.width() -1, indPath, queue, 0);
+      path = new int[queue.size()];
+      k = queue.size()-1;
+      while (!queue.isEmpty()) {
+         path[k] = queue.dequeue();
+         k--;
+      }
+      return path;
+   }
+
+   private void relaxHorizontal(Node e) {
+      for (Node w : nextRight(information[e.x][e.y])){
+         if(distTo[w.x][w.y] > distTo[e.x][e.y] + e.energy) {
+            distTo[w.x][w.y] = distTo[e.x][e.y] + e.energy;
+            w.xfather = e.x;
+            w.yfather = e.y;
+            edgeTo[w.x][w.y] = e;
+         }
+      }
+   }
+
+   // remove vertical seam from current picture
+   public void removeHorizontalSeam(int[] seam) {
+      int i, j, k;
+      boolean found = false;
+      Picture newPic = new Picture(pic.width(), pic.height()-1);
+      for(j = 0; j < pic.width(); j++) {
+         found = false;
+         for(i = 0; i < pic.height()-1; i++) {
+            if(found == true || i == seam[j]) {
+               found = true;
+               newPic.set(i, j, pic.get(i+1, j));
+            }
+            else {
+               newPic.set(i, j, pic.get(i, j));
+            }
+         }
+      }
+      pic = newPic;
+      width -= 1;
+   }
+
+/*   // sequence of indices for horizontal seam
+   public int[] findHorizontalSeam() {
+      
+   }
+
+
+   // remove horizontal seam from current picture
+   public    void removeHorizontalSeam(int[] seam) {}
+
+
+*/
+   
    // do unit testing of this class
    public static void main(String[] args) {
       return ;
