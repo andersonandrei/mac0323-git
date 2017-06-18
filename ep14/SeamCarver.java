@@ -82,7 +82,7 @@ public class SeamCarver {
       return pic;
    }
 
-   // width of current picture
+   /*// width of current picture
    public int width() {
       return width;
    }
@@ -90,6 +90,14 @@ public class SeamCarver {
    // height of current picture
    public int height() {
       return height;
+   }
+*/
+   public int width() {
+      return pic.width();
+   }
+
+   public int height() {
+      return pic.height();
    }
 
    // energy of pixel at column x and row y
@@ -219,19 +227,19 @@ public class SeamCarver {
    private void writePath(int m, int n, Queue<Integer> q){
       q.enqueue(m);
       if (edgeTo[m][n].y == n) return;
-      writePath(edgeTo[m][n].x, edgeTo[m][n].y, q);
+      writePath(information[m][n].xfather, information[m][n].yfather, q);
    }
 
    private void writePathEnergy(int m, int n, Queue<Double> q){
       q.enqueue(information[m][n].energy);
       if (edgeTo[m][n].y == n) return;
-      writePathEnergy(edgeTo[m][n].x, edgeTo[m][n].y, q);
+      writePathEnergy(information[m][n].xfather, information[m][n].yfather, q);
    }
 
    private void relax(Node e) {
       for (Node w : nextDown(information[e.x][e.y])){
-         if(distTo[w.x][w.y] > distTo[e.xfather][e.yfather] + e.energy) {
-            distTo[w.x][w.y] = distTo[e.xfather][e.yfather] + e.energy;
+         if(distTo[w.x][w.y] > distTo[e.x][e.y] + e.energy) {
+            distTo[w.x][w.y] = distTo[e.x][e.y] + e.energy;
             w.xfather = e.x;
             w.yfather = e.y;
             edgeTo[w.x][w.y] = e;
@@ -249,12 +257,28 @@ public class SeamCarver {
    public    void removeHorizontalSeam(int[] seam) {}
 
 
-
+*/
    // remove vertical seam from current picture
    public void removeVerticalSeam(int[] seam) {
-
+      int i, j, k;
+      boolean found = false;
+      Picture newPic = new Picture(pic.width()-1, pic.height());
+      for(j = 0; j < pic.height(); j++) {
+         found = false;
+         for(i = 0; i < pic.width()-1; i++) {
+            if(found == true || i == seam[j]) {
+               found = true;
+               newPic.set(i, j, pic.get(i+1, j));
+            }
+            else {
+               newPic.set(i, j, pic.get(i, j));
+            }
+         }
+      }
+      pic = newPic;
+      width -= 1;
    }
-*/
+
    // do unit testing of this class
    public static void main(String[] args) {
       return ;
