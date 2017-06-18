@@ -40,13 +40,11 @@ import edu.princeton.cs.algs4.Picture;
 import edu.princeton.cs.algs4.Queue;
 import java.lang.Math;
 import java.lang.NullPointerException;
-
+import java.lang.IllegalArgumentException;
 import java.awt.Color;
 
-
 public class SeamCarver {
-
-   Picture pic, backup;
+   Picture pic;
    int width; 
    int height;
    Node[][] information;
@@ -74,7 +72,6 @@ public class SeamCarver {
       if (picture == null) 
          throw new java.lang.NullPointerException();
       pic = picture;
-      backup = picture;
       width = pic.width();
       height = pic.height();
    }
@@ -214,8 +211,8 @@ public class SeamCarver {
    private int[] minPathVertical() {
       int k;
       int indPath = 0;
-      int minSum = 1000000000;
-      int auxSum = 0;
+      double minSum = Double.POSITIVE_INFINITY;
+      double auxSum = 0.0;
       int verification;
       Queue<Double> queueEnergy = new Queue<Double>(); 
       Queue<Integer> queue = new Queue<Integer>(); 
@@ -226,7 +223,7 @@ public class SeamCarver {
          if (hasPath(i,pic.height() - 1)) {
             k = 0;
             writePathEnergyVertical(i, pic.height() - 1, queueEnergy);
-            auxSum = 0;
+            auxSum = 0.0;
             while (!queueEnergy.isEmpty()) {
                auxSum += queueEnergy.dequeue();
             }
@@ -346,8 +343,8 @@ public class SeamCarver {
    private int[] minPathHorizontal() {
       int k;
       int indPath = 0;
-      int minSum = 1000000000;
-      int auxSum = 0;
+      Double minSum = Double.POSITIVE_INFINITY;
+      Double auxSum = 0.0;
       Queue<Double> queueEnergy = new Queue<Double>(); 
       Queue<Integer> queue = new Queue<Integer>(); 
       int[] path;
@@ -356,7 +353,7 @@ public class SeamCarver {
          if (hasPath(pic.width() - 1, i)) {
             k = 0;
             writePathEnergyHorizontal(pic.width() - 1, i, queueEnergy);
-            auxSum = 0;
+            auxSum = 0.0;
             while (!queueEnergy.isEmpty()) {
                auxSum += queueEnergy.dequeue();
             }
