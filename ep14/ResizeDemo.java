@@ -32,15 +32,15 @@ public class ResizeDemo {
 
         Stopwatch sw = new Stopwatch();
 
-        /*for (int i = 0; i < removeRows; i++) {
+        for (int i = 0; i < removeRows; i++) {
             int[] horizontalSeam = sc.findHorizontalSeam();
             sc.removeHorizontalSeam(horizontalSeam);
-        }*/
+        }
 
-        /*for (int i = 0; i < removeColumns; i++) {
+        for (int i = 0; i < removeColumns; i++) {
             int[] verticalSeam = sc.findVerticalSeam();
             sc.removeVerticalSeam(verticalSeam);
-        }*/
+        }
 
         StdOut.printf("new image size is %d columns by %d rows\n", sc.width(), sc.height());
 

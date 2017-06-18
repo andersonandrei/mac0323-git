@@ -71,6 +71,8 @@ public class SeamCarver {
 
    // create a seam carver object based on the given picture
    public SeamCarver(Picture picture){
+      if (picture == null) 
+         throw new java.lang.NullPointerException();
       pic = picture;
       backup = picture;
       width = pic.width();
@@ -96,6 +98,8 @@ public class SeamCarver {
 
    // energy of pixel at column x and row y
    public  double energy(int x, int y) {
+      if (x < 0 || x >= width() || y < 0 || y >= height()) 
+         throw new java.lang.IndexOutOfBoundsException(); 
       return Math.sqrt(deltaSquare(x,y,0) + deltaSquare(x,y,1));
    }
 
@@ -115,12 +119,9 @@ public class SeamCarver {
       double red, green, blue;
       if (option == 0) {
          if(x-1 > 0 ) c1 = pic.get(x-1, y);
-         else {
-            c1 = pic.get((x-1 + pic.width()) % pic.width(), y);
-         }
+         else c1 = pic.get((x-1 + pic.width()) % pic.width(), y);
          if (x+1 < pic.width()) c2 = pic.get(x+1, y);
          else c2 = pic.get((x+1 + pic.width()) % pic.width(), y);
-
       }
       else {
          if(y-1 > 0 ) c1 = pic.get(x, y-1);
@@ -139,17 +140,28 @@ public class SeamCarver {
       return false;
    }
 
-   private void writePath(int m, int n, Queue<Integer> q, int orientation){
-      if (orientation == 0) q.enqueue(n);
-      else q.enqueue(m);
+   private void writePathVertical(int m, int n, Queue<Integer> q){
+      q.enqueue(m);
       if (edgeTo[m][n].y == n) return;
-      writePath(information[m][n].xfather, information[m][n].yfather, q, orientation);
+      writePathVertical(information[m][n].xfather, information[m][n].yfather, q);
    }
 
-   private void writePathEnergy(int m, int n, Queue<Double> q){
+   private void writePathHorizontal(int m, int n, Queue<Integer> q){
+      q.enqueue(n);
+      if(edgeTo[m][n].x == m) return;
+      writePathHorizontal(information[m][n].xfather, information[m][n].yfather, q);
+   }
+
+   private void writePathEnergyVertical(int m, int n, Queue<Double> q){
       q.enqueue(information[m][n].energy);
       if (edgeTo[m][n].y == n) return;
-      writePathEnergy(information[m][n].xfather, information[m][n].yfather, q);
+      writePathEnergyVertical(information[m][n].xfather, information[m][n].yfather, q);
+   }
+
+   private void writePathEnergyHorizontal(int m, int n, Queue<Double> q){
+      q.enqueue(information[m][n].energy);
+      if (edgeTo[m][n].x == m) return;
+      writePathEnergyHorizontal(information[m][n].xfather, information[m][n].yfather, q);
    }
 
    //**************************************
@@ -158,7 +170,7 @@ public class SeamCarver {
 
    // sequence of indices for vertical seam
    public int[] findVerticalSeam() {
-      distTo = new double[pic.width()][pic.height()]; //the last line is to first and last node
+      distTo = new double[pic.width()][pic.height()];
       edgeTo = new Node[pic.width()][pic.height()];
       Queue<Integer> queue = new Queue<Integer>(); 
       int[] path;
@@ -213,7 +225,7 @@ public class SeamCarver {
          verification = pic.width()-1;
          if (hasPath(i,pic.height() - 1)) {
             k = 0;
-            writePathEnergy(i, pic.height() - 1, queueEnergy);
+            writePathEnergyVertical(i, pic.height() - 1, queueEnergy);
             auxSum = 0;
             while (!queueEnergy.isEmpty()) {
                auxSum += queueEnergy.dequeue();
@@ -221,11 +233,10 @@ public class SeamCarver {
             if (auxSum < minSum) {   
                minSum = auxSum;
                indPath = i;
-
             }
          }
       }
-      writePath(indPath, pic.height() -1, queue, 1);
+      writePathVertical(indPath, pic.height() -1, queue);
       path = new int[queue.size()];
       k = queue.size()-1;
       while (!queue.isEmpty()) {
@@ -237,6 +248,10 @@ public class SeamCarver {
 
    // remove vertical seam from current picture
    public void removeVerticalSeam(int[] seam) {
+      if (seam == null) 
+         throw new java.lang.NullPointerException();
+      if (height() == 1)
+         throw new java.lang.IllegalArgumentException();
       int i, j, k;
       boolean found = false;
       Picture newPic = new Picture(pic.width()-1, pic.height());
@@ -271,10 +286,9 @@ public class SeamCarver {
    //**********   Horizontal  *************
    //**************************************
 
-
    // sequence of indices for vertical seam
    public int[] findHorizontalSeam() {
-      distTo = new double[pic.width()][pic.height()]; //the last line is to first and last node
+      distTo = new double[pic.width()][pic.height()];
       edgeTo = new Node[pic.width()][pic.height()];
       Queue<Integer> queue = new Queue<Integer>(); 
       int[] path;
@@ -296,6 +310,20 @@ public class SeamCarver {
          }
       }
       return minPathHorizontal();
+   }
+
+   // sequence of indices for horizontal seam
+   private void relaxHorizontal(Node e) {
+      double sum;
+      for (Node w : nextRight(information[e.x][e.y])){
+        if(distTo[w.x][w.y] > distTo[e.x][e.y] + e.energy) {
+            sum = distTo[e.x][e.y] + e.energy;
+            distTo[w.x][w.y] = sum;
+            w.xfather = e.x;
+            w.yfather = e.y;
+            edgeTo[w.x][w.y] = e;
+         }
+      }
    }
 
    private Iterable<Node> nextRight (Node root) {
@@ -320,7 +348,6 @@ public class SeamCarver {
       int indPath = 0;
       int minSum = 1000000000;
       int auxSum = 0;
-      //int verification;
       Queue<Double> queueEnergy = new Queue<Double>(); 
       Queue<Integer> queue = new Queue<Integer>(); 
       int[] path;
@@ -328,7 +355,7 @@ public class SeamCarver {
       for (i = 0; i < pic.height(); i++) {
          if (hasPath(pic.width() - 1, i)) {
             k = 0;
-            writePathEnergy(pic.width() - 1, i, queueEnergy);
+            writePathEnergyHorizontal(pic.width() - 1, i, queueEnergy);
             auxSum = 0;
             while (!queueEnergy.isEmpty()) {
                auxSum += queueEnergy.dequeue();
@@ -339,7 +366,7 @@ public class SeamCarver {
             }
          }
       }
-      writePath(pic.width() -1, indPath, queue, 0);
+      writePathHorizontal(pic.width() -1, indPath, queue);
       path = new int[queue.size()];
       k = queue.size()-1;
       while (!queue.isEmpty()) {
@@ -348,20 +375,13 @@ public class SeamCarver {
       }
       return path;
    }
-
-   private void relaxHorizontal(Node e) {
-      for (Node w : nextRight(information[e.x][e.y])){
-         if(distTo[w.x][w.y] > distTo[e.x][e.y] + e.energy) {
-            distTo[w.x][w.y] = distTo[e.x][e.y] + e.energy;
-            w.xfather = e.x;
-            w.yfather = e.y;
-            edgeTo[w.x][w.y] = e;
-         }
-      }
-   }
-
-   // remove vertical seam from current picture
+   
+   // remove horizontal seam from current picture
    public void removeHorizontalSeam(int[] seam) {
+      if (seam == null) 
+         throw new java.lang.NullPointerException();
+      if (width() == 1)
+         throw new java.lang.IllegalArgumentException();
       int i, j, k;
       boolean found = false;
       Picture newPic = new Picture(pic.width(), pic.height()-1);
@@ -370,10 +390,10 @@ public class SeamCarver {
          for(i = 0; i < pic.height()-1; i++) {
             if(found == true || i == seam[j]) {
                found = true;
-               newPic.set(i, j, pic.get(i+1, j));
+               newPic.set(j, i, pic.get(j, i+1));
             }
             else {
-               newPic.set(i, j, pic.get(i, j));
+               newPic.set(j, i, pic.get(j, i));
             }
          }
       }
@@ -381,18 +401,6 @@ public class SeamCarver {
       width -= 1;
    }
 
-/*   // sequence of indices for horizontal seam
-   public int[] findHorizontalSeam() {
-      
-   }
-
-
-   // remove horizontal seam from current picture
-   public    void removeHorizontalSeam(int[] seam) {}
-
-
-*/
-   
    // do unit testing of this class
    public static void main(String[] args) {
       return ;
