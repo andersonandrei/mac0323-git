@@ -247,8 +247,9 @@ public class SeamCarver {
    public void removeVerticalSeam(int[] seam) {
       if (seam == null) 
          throw new java.lang.NullPointerException();
-      if (height() == 1)
+      if (height() == 1 || seam.length != height())
          throw new java.lang.IllegalArgumentException();
+
       int i, j, k;
       boolean found = false;
       Picture newPic = new Picture(pic.width()-1, pic.height());
@@ -377,7 +378,7 @@ public class SeamCarver {
    public void removeHorizontalSeam(int[] seam) {
       if (seam == null) 
          throw new java.lang.NullPointerException();
-      if (width() == 1)
+      if (width() == 1 || seam.length != width())
          throw new java.lang.IllegalArgumentException();
       int i, j, k;
       boolean found = false;
