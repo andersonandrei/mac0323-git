@@ -1,3 +1,13 @@
+/*
+	Observações interessantes.
+	Casos de busca da MF à Execs.
+	Caso 1: MF tem origem atrás de uma pos de Exec.
+		=> Todos os destinos possiveis dos exec são sucesso!
+			PS: O exemplo do paca é esse caso .
+	Caso 2: Origens nada a ver um com o outro, ai precisamos dos 
+		caminhos mínimos.
+*/
+
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import java.lang.NullPointerException;
@@ -12,6 +22,8 @@ public class CBSPaths {
 	private String[] names = new String[6];
 	private DirectedEdge[] cities;
 	private EdgeWeightedDigraph map;
+	private DijkstraSP[] dijks;
+	private DijkstraSP search;
 	private int[] begin;
 	private int beginMF;
 
@@ -79,11 +91,95 @@ public class CBSPaths {
 			StdOut.println(e.toString());
 		}
 
-		DijkstraSP search = new DijkstraSP(cbs.map, cbs.beginMF);
+		//========================================Leituras=
 
+		cbs.dijks = new DijkstraSP[k];
+		for (int i = 0; i < k; i++) {
+			cbs.dijks[i] = new DijkstraSP(cbs.map, cbs.begin[i]);
+		}
+		cbs.search = new DijkstraSP(cbs.map, cbs.beginMF);
+		Double[] dists = new Double[n];
+		Double[] distsMF = new Double[n];
+		for (int i = 0; i < n; i++){
+			dists[i] = 0.0;
+			distsMF[i] = 0.0;
+		}
 
+		for(int i = 0; i < n; i++){
+			for (int j = 0; j < k; j++){
+				if (cbs.dijks[j].distTo(i) > dists[i]){
+					dists[i] = cbs.dijks[j].distTo(i);
+				}
+			}
+			distsMF[i] = cbs.search.distTo(i);
+		}
+
+		//comparisons
+		for (int i = 0; i < n; i++) {
+			if (dists[i] < distsMF[i]) {
+				StdOut.println("aqui: " + cbs.findName(i) + " -- dist: " + dists[i]);
+			}
+		}
 
 		return ;
 	}
+
+	/*for (int i = 1; i < n; i++) {
+					//Se 
+					if (e.distTo(cbs.begin[i]) == Double.POSITIVE_INIFINITY){
+						secure = false;
+					}
+					else {
+
+					}
+				}
+				if (!search.hasPathTo(e.from()))
+					securePlace.enqueue(e);*/
+
+/*
+
+StdOut.println("Partindo inicialmente de: " + cbs.begin[0]);
+		//We have to take the incidents of execs. 
+		for (DirectedEdge e : cbs.map.adj(cbs.begin[0])) {
+		//for (DirectedEdge e : cbs.dijks[0].pathTo(0)) {
+			StdOut.println("indo de e para : " + e.to());
+			for (DirectedEdge fromE = e; fromE.to() != 0 || fromE != e; fromE = cbs.cities[e.to()]){//: cbs.map.adj(e.to())) {
+				StdOut.println("prox de prox : " + fromE.to());
+			}
+			//Take the other incidents of the others execs.
+			for (int i = 1; i < k; i++){
+				StdOut.println("Olhando pro k-esimo exec: " + i + " begin: " + cbs.begin[i]);
+				for (DirectedEdge f : cbs.map.adj(cbs.begin[i])) {
+				StdOut.println("indo de f para : " + f.to());
+				//for (DirectedEdge f : cbs.dijks[i].pathTo(i)) {
+					//Verify if we can go e -> f.
+					if (cbs.dijks[0].distTo(f.from()) == Double.POSITIVE_INFINITY){
+						dists[f.from()] = Double.POSITIVE_INFINITY;
+					}
+					else {
+						//Check the distances point to point and change in the vector.
+						if (cbs.dijks[i].distTo(f.from()) > cbs.dijks[0].distTo(f.from())){
+							if (cbs.dijks[i].distTo(f.from()) > dists[f.from()]){
+								dists[f.from()] = cbs.dijks[i].distTo(f.from());
+							}
+						}
+						else {
+							if (cbs.dijks[0].distTo(f.from()) > dists[f.from()]){
+								dists[f.from()] = cbs.dijks[0].distTo(f.from());
+							}
+						}
+					}
+				}
+				i++;
+			}
+		}
+
+
+		StdOut.println("Bostão");
+		for (int i = 0; i < n; i++){
+			StdOut.println(dists[i]);
+		}
+
+*/
 
 }
