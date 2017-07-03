@@ -1,0 +1,25 @@
+6 9 2
+
+GRU POA 1
+
+POA CNF 4
+
+CNF BSB 2
+
+GIG CNF 5
+
+GIG BSB 5
+
+BSB CWB 5
+
+CWB POA 1
+
+BSB GRU 5
+
+GRU GIG 4
+
+POA
+
+GIG
+
+GRU
