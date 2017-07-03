@@ -1,8 +1,12 @@
+/*
+Compile: javac CBSPaths.java
+Execute: java CBSPaths < arquivo
+*/
+
 import java.lang.IllegalArgumentException;
 import java.lang.NullPointerException;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.EdgeWeightedDigraph;
 import edu.princeton.cs.algs4.DirectedEdge;
 import edu.princeton.cs.algs4.DijkstraSP;
@@ -22,11 +26,10 @@ public class CBSPaths {
 	private Double[] dists;
 	private Double[] distsMF;
 
-	private CBSPaths (String str) {
-		In in = new In(str);
-		this.n = in.readInt();
-		this.m = in.readInt();
-		this.k = in.readInt();
+	private CBSPaths () {
+		this.n = StdIn.readInt();
+		this.m = StdIn.readInt();
+		this.k = StdIn.readInt();
 		this.cities = new DirectedEdge[m];
 		this.begin = new int[k];
 		names = new String[cities()];
@@ -36,16 +39,16 @@ public class CBSPaths {
 		}
 		for (int i = 0; i < connections(); i++){ //Construct connections
 			String city1, city2;
-			city1 = in.readString();
-			city2 = in.readString();
+			city1 = StdIn.readString();
+			city2 = StdIn.readString();
 			insertCity(city1);
 			insertCity(city2);
-			cities[i] = new DirectedEdge(findIndice(city1), findIndice(city2), in.readDouble());
+			cities[i] = new DirectedEdge(findIndice(city1), findIndice(city2), StdIn.readDouble());
 		}
 		for (int i = 0; i < executives(); i++){ //Where the executives begin
-			begin[i] = findIndice(in.readString());
+			begin[i] = findIndice(StdIn.readString());
 		}
-		beginMF = findIndice(in.readString());
+		beginMF = findIndice(StdIn.readString());
 		map = new EdgeWeightedDigraph(cities(), 0);
 		for (int i = 0; i < connections(); i++){ //Construct map of EdgeWeightedDigraph
 			map.addEdge(cities[i]);
@@ -146,19 +149,16 @@ public class CBSPaths {
 	}
 
 	public static void main(String[] args) {
-		CBSPaths cbs = new CBSPaths(args[0]);
-		//LinearProbingHashST<String, Integer> st = new LinearProbingHashST<String, Integer>();
+		CBSPaths cbs = new CBSPaths();
 		MinPQ<String> st = new MinPQ<String>();
 		if (cbs.hasSecurePlace()) {
 			for (int i = 0; i < cbs.cities(); i++){
 				if(cbs.secure[i])
 					st.insert(cbs.findName(i));
-					//StdOut.println(cbs.findName(i));
 			}
 			while (!st.isEmpty()) {
 				StdOut.println(st.delMin());
 			}
-			//cbs.printSecurePlace();
 		}
 		else StdOut.println("VENHA COMIGO PARA CURITIBA");
 		return;
