@@ -30,7 +30,7 @@ public class CircularSuffixArray {
 	private int size;
 	private String s;
 	private String[] originalSufixes;
-	private String[] sortedSufixes;
+	public String[] sortedSufixes;
 
 	// circular suffix array of s
    	public CircularSuffixArray(String s) {
