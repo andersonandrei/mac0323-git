@@ -17,16 +17,88 @@ form the N circular suffixes explicitly because that would take both quadratic t
 
 */
 
+import java.lang.IllegalArgumentException;
+import java.lang.NullPointerException;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+//import java.util.BinaryStdIn;
+//import java.util.BinaryStdOut;
+import java.lang.StringBuilder;
+import edu.princeton.cs.algs4.MinPQ;
+
 public class CircularSuffixArray {
+	private int size;
+	private String s;
+	private String[] originalSufixes;
+	private String[] sortedSufixes;
+
 	// circular suffix array of s
-   	public CircularSuffixArray(String s) {}
+   	public CircularSuffixArray(String s) {
+   		int aux;
+   		this.s = s;
+   		this.size = s.length();
+   		originalSufixes = new String[size];
+   		sortedSufixes = new String[size];
+   		aux = size-1;
+   		StringBuilder str = new StringBuilder();
+   		String newString;
+   		int k = 0;
+   		originalSufixes[0] = s;
+   		for(int i = 0; i < size; i++) {
+   			str = new StringBuilder();
+   			k = 0;
+   			for (int j = i+1; j < size; j++) {
+   				str.append(s.charAt(j));
+   			}
+   			while(k <= i) {
+   				str.append(s.charAt(k));
+   				k++;	
+   			}
+   			if(i < size-1)
+   				originalSufixes[i+1] = str.toString();
+   		}
+   		StdOut.println("originalSufixes ");
+   		for (int i = 0; i < size; i++)
+   			StdOut.println(originalSufixes[i]);
+
+   		MinPQ<String> st = new MinPQ<String>();
+   		for (int i = 0; i < size; i++){
+			st.insert(originalSufixes[i]);
+		}
+		for (int i = 0; !st.isEmpty(); i++) {
+			sortedSufixes[i] = st.delMin();
+		}
+
+		StdOut.println("SortedSufixes ");
+		for (int i = 0; i < size; i++)
+   			StdOut.println(i + " : " + sortedSufixes[i]);
+
+   		StdOut.println("Index ordered ");
+   		int j;
+		for (int i = 0; i < size; i++){
+   			j = index(i);
+   			StdOut.println(j + " : " + originalSufixes[j]);
+		}
+   	}
 
    	// length of s
-  	public int length() {}
+  	public int length() {
+  		return s.length();
+  	}
    	
    	// returns index of ith sorted suffix
-   	public int index(int i) {}
+   	//Search index ith String of SortedSufixes at OriginalSufixes
+   	public int index(int i) {
+   		for (int j = 0; j < size; j++){
+   			if(originalSufixes[j].equals(sortedSufixes[i]))
+   				return j;
+   		}
+   		return -1;
+   	}
 
 	// unit testing (not graded)
-	public static void main(String[] args) {}
+	public static void main(String[] args) {
+		String str = "ABRACADABRA!";
+		CircularSuffixArray csa = new CircularSuffixArray(str);
+	}
 }
