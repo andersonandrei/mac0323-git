@@ -29,7 +29,7 @@ import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.LSD;
 import java.lang.StringBuilder;
 
-public class MoveToFront {
+public class MoveToFrontOld {
 
 	private static int ascii[];
 	private static int R = 255;
@@ -37,7 +37,7 @@ public class MoveToFront {
 	private static int[] seq;
 	private static int size;
 
-	public MoveToFront(String str) {
+	public MoveToFrontOld(String str) {
 		ascii = new int[R];
 		for (int i = 0; i < R; i++) {
 			ascii[i] = i;
@@ -54,7 +54,7 @@ public class MoveToFront {
 		// ascii[4] = 69;
 	}
 
-	public MoveToFront() {
+	public MoveToFrontOld() {
 		ascii = new int[R];
 		for (int i = 0; i < R; i++) {
 			ascii[i] = i;
@@ -78,22 +78,17 @@ public class MoveToFront {
     	int aux;
     	for (int i = 0; i < size; i++) {
     		search = input[i];
-    		//StdOut.println("Na mao : " + search);
     		for (int j = 0; j < R; j++) {
-    			if (sorted[j] == search) {
-		    		//StdOut.println("Olhei pra : " + sorted[j]);
-    				BinaryStdOut.write(sorted[j]);
-    				if (j != 0) {
+    			if (sorted[j] == search && j != 0) {
+    				StdOut.println(j);
 	    				for (int k = j; k > 0; k--) {
 	    					aux = sorted[k];
 	    					sorted[k] = sorted[k-1];
 	    					sorted[k-1] = aux;
 	    				}
-	    			}
 	    		}
     		}
     	}
-    	BinaryStdOut.flush();
 
     	// StdOut.println("Arrumando saporra ----");
     	// for (int i = 0; i < R; i++) {
@@ -108,7 +103,7 @@ public class MoveToFront {
     	search = input[0];
     	for (int j = 0; j < R; j++) {
     		if (ascii[j] == search) {
-    			BinaryStdOut.write(ascii[j]);
+    			BinaryStdOut.write((char)ascii[j]);
     			if(j != 0) {
 	    			for (int k = j; k > 0; k--) {
 	    				aux = ascii[k];
@@ -118,7 +113,6 @@ public class MoveToFront {
     			}
     		}
     	}
-    	BinaryStdOut.flush();
     }
 
     public static void decode(char c) {
@@ -127,9 +121,9 @@ public class MoveToFront {
     	input[0] = c;
     	search = input[0];
     	for (int j = 0; j < R; j++) {
-    		//StdOut.println("Procurando por: " + search);
+    		StdOut.println("Procurando por: " + search);
     		if (ascii[j] == search) {
-    			BinaryStdOut.write(ascii[j]);
+    			StdOut.println((char)ascii[j]);
     			if(j != 0) {
 	    			for (int k = j; k > 0; k--) {
 	    				aux = ascii[k];
@@ -139,7 +133,6 @@ public class MoveToFront {
     			}
     		}
     	}
-    	BinaryStdOut.flush();
     }
 
     // if args[0] is '-', apply move-to-front encoding
@@ -148,29 +141,29 @@ public class MoveToFront {
     	if (args[0].equals("-")) {
     		StringBuilder str = new StringBuilder();
     		int size = 0;
-    		while (!BinaryStdIn.isEmpty()) { 
-    			str.append(BinaryStdIn.readChar());
+    		while (!StdIn.isEmpty()) { 
+    			str.append(StdIn.readChar());
     			size++;
     		}
-    		MoveToFront mvtf = new MoveToFront(str.toString());
+    		MoveToFrontOld mvtf = new MoveToFrontOld(str.toString());
     		mvtf.size = size;
     		mvtf.encode();
     	}
     	else if (args[0].equals("+")) {
-    		char c;
-    		MoveToFront mvtf = new MoveToFront();
-    		if(!BinaryStdIn.isEmpty()) {
-    			c = BinaryStdIn.readChar();
+    		int c;
+    		MoveToFrontOld mvtf = new MoveToFrontOld();
+    		if(!StdIn.isEmpty()) {
+    			c = StdIn.readInt();
     			input = new char[1];
-    			mvtf.input[0] = c;
+    			mvtf.input[0] = (char)c;
     			mvtf.decode();
     		}
-    		while (!BinaryStdIn.isEmpty()) { 
-    			c = BinaryStdIn.readChar();
-    			//StdOut.println("Leu " + c);
-    			mvtf.decode(c);
+    		while (!StdIn.isEmpty()) { 
+    			c = StdIn.readInt();
+    			StdOut.println("Leu " + c);
+    			mvtf.decode((char)c);
     		}
     	}
-    	BinaryStdOut.close();
+    	//BinaryStdOut.close();
     }
 }

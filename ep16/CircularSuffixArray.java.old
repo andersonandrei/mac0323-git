@@ -21,43 +21,50 @@ import java.lang.IllegalArgumentException;
 import java.lang.NullPointerException;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.BinaryStdIn;
-import edu.princeton.cs.algs4.BinaryStdOut;
+//import java.util.BinaryStdIn;
+//import java.util.BinaryStdOut;
 import java.lang.StringBuilder;
 import edu.princeton.cs.algs4.MinPQ;
-import java.util.*;
 
 public class CircularSuffixArray {
 	private int size;
 	private String s;
-	public String originalS;
-	public int[] originalSufixes;
-	public int [] sortedS;
-	public Integer[] sortedSufixes;
+	private String[] originalSufixes;
+	public String[] sortedSufixes;
 
 	// circular suffix array of s
    	public CircularSuffixArray(String s) {
-   		//StdOut.println("Entrou aqui");
    		int aux;
    		this.s = s;
    		this.size = s.length();
-   		sortedSufixes = new Integer[size];
-   		sortedS = new int[size];
+   		originalSufixes = new String[size];
+   		sortedSufixes = new String[size];
    		aux = size-1;
+   		StringBuilder str = new StringBuilder();
+   		String newString;
    		int k = 0;
-   		originalS = s;
-   		originalSufixes = new int[size];
-   		for (int i = 0; i < size; i++) {
-   			originalSufixes[i] = i;
-   			sortedSufixes[i] = i;
+   		originalSufixes[0] = s;
+   		for(int i = 0; i < size; i++) {
+   			str = new StringBuilder();
+   			k = 0;
+   			for (int j = i+1; j < size; j++) {
+   				str.append(s.charAt(j));
+   			}
+   			while(k <= i) {
+   				str.append(s.charAt(k));
+   				k++;	
+   			}
+   			if(i < size-1)
+   				originalSufixes[i+1] = str.toString();
    		}
-   		Arrays.sort(sortedSufixes, new CompareIndex());
-   		for (int i = 0; i < size; i++) {
-   			sortedS[i] = sortedSufixes[i];
-   		}
-   		// for (int i = 0; i < size; i++){
-   		// 	StdOut.println(sortedSufixes[i]);
-   		// }
+
+   		MinPQ<String> st = new MinPQ<String>();
+   		for (int i = 0; i < size; i++){
+			st.insert(originalSufixes[i]);
+		}
+		for (int i = 0; !st.isEmpty(); i++) {
+			sortedSufixes[i] = st.delMin();
+		}
 
    	}
 
@@ -66,38 +73,19 @@ public class CircularSuffixArray {
   		return s.length();
   	}
    	
-	private char valorOf(int a) {
-		return originalS.charAt(a);
-	}
-
-	public class CompareIndex implements Comparator<Integer> {
-		public int compare (Integer a, Integer b) {
-			if (valorOf(a) > valorOf(b)) return 1;
-			else if (valorOf(a) < valorOf(b)) return -1;
-			else {
-				return compare ((a+1)%size, (b+1)%size);
-			}
-		}
-	}
-
    	// returns index of ith sorted suffix
    	//Search index ith String of SortedSufixes at OriginalSufixes
    	public int index(int i) {
    		for (int j = 0; j < size; j++){
-   		 	if(originalS.charAt(j) == i) {
-   		 		return j;
-   		 	}
+   			if(originalSufixes[j].equals(sortedSufixes[i]))
+   				return j;
    		}
    		return -1;
    	}
 
 	// unit testing (not graded)
 	public static void main(String[] args) {
-		//String str = "ABRACADABRA!";
-		StringBuilder str = new StringBuilder();
-    	while (!BinaryStdIn.isEmpty()) { 
-    		str.append(BinaryStdIn.readChar());
-    	}
-		CircularSuffixArray csa = new CircularSuffixArray(str.toString());
+		String str = "ABRACADABRA!";
+		CircularSuffixArray csa = new CircularSuffixArray(str);
 	}
 }

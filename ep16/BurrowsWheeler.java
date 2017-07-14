@@ -40,38 +40,55 @@ public class BurrowsWheeler {
 
 	private BurrowsWheeler(String s) {
 		csa = new CircularSuffixArray(s);
+		//StdOut.println("Tamanho : " + csa.length());
 		t = new char[csa.length()];
 		next = new int[csa.length()];
-		
+		boolean equal = false;
 		//Define first
 		for (int i = 0; i < csa.length(); i++) {
-			if(csa.sortedSufixes[i].equals(s)) {
+			
+			if(generateS(i).equals(s))
+			{
 				first = i;
 				break;
 			}
 		}
-		
 		//Define t[]
+		//StdOut.println("Gerando t[] -----");
 		for (int i = 0; i < csa.length(); i++) {
-			t[i] = csa.sortedSufixes[i].charAt(csa.length()-1);
+			//StdOut.println("Gerou pra i: " + i + " = " + generateS(csa.sortedS[i]));
+			t[i] = generateS(csa.sortedS[i]).charAt(csa.length()-1);
 		}
-		StdOut.println("t - no montador ");
-		for (int i = 0; i < csa.length(); i++) {
-			StdOut.println(t[i]);
-		}
+		//StdOut.println("t - no montador ");
+		// for (int i = 0; i < csa.length(); i++) {
+		// 	StdOut.println(t[i]);
+		// }
 		firstColumn = new char[csa.length()];
 		for (int i = 0; i < csa.length(); i++) {
 			firstColumn[i] = t[i];
-			StdOut.println(firstColumn[i]);
+			//StdOut.println(firstColumn[i]);
 		}
 		Arrays.sort(firstColumn);
+	}
 
+	public static String generateS(int x) {
+		// StdOut.println("Chamou gerador com : " + x);
+		StringBuilder str = new StringBuilder((char)x);
+		int cont = 0;
+		while (cont < csa.length()) {
+			//StdOut.println("Olhando pra  : " + csa.originalS.charAt((x+cont) % csa.length()));
+			//str.append((char)(csa.originalSufixes[(x+cont)%csa.length()]));
+			str.append(csa.originalS.charAt((x+cont) % csa.length()));
+			cont++;
+		}
+		return str.toString();
 	}
 
     // apply Burrows-Wheeler transform, reading from standard input and writing to standard output
     public static void transform() {
+    	BinaryStdOut.write(first);
     	for(int i = 0; i < csa.length(); i++) {
-    		BinaryStdOut.write(t[i]);
+    		BinaryStdOut.write((char)t[i]);
     	}
     	BinaryStdOut.flush();
     	return;
@@ -121,19 +138,28 @@ public class BurrowsWheeler {
     // if args[0] is '-', apply Burrows-Wheeler transform
     // if args[0] is '+', apply Burrows-Wheeler inverse transform
     public static void main(String[] args) {
-    	String s = "ABRACADABRA!";
-    	StringBuilder str = new StringBuilder();
-    	while (!BinaryStdIn.isEmpty()) { 
-    		str.append(BinaryStdIn.readChar());
-    	}
-    	BurrowsWheeler bw = new BurrowsWheeler(str.toString());
+    	//String s = "ABRACADABRA!";
+    	
     	if (args[0].equals("-")) {
+    		StringBuilder str = new StringBuilder();
+    		while (!BinaryStdIn.isEmpty()) { 
+    			str.append(BinaryStdIn.readChar());
+    		}
+    		BurrowsWheeler bw = new BurrowsWheeler(str.toString());
     		bw.transform();
     	}
     	else if (args[0].equals("+")) {
+    		int first;
+    		StringBuilder str = new StringBuilder();
+    		first = BinaryStdIn.readInt();
+    		while (!BinaryStdIn.isEmpty()) { 
+    			str.append(BinaryStdIn.readChar());
+    		}
+    		BurrowsWheeler bw = new BurrowsWheeler(str.toString());
     		for(int i = 0; i < bw.csa.length(); i++){
     			t[i] = str.charAt(i);
     		}
+    		bw.first = first; 
     		bw.inverseTransform();
     	}
     	BinaryStdOut.close();
