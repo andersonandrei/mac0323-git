@@ -22,106 +22,120 @@ import java.lang.IllegalArgumentException;
 import java.lang.NullPointerException;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
-//import edu.princiton.cs.algs4.BinaryStdIn;
-//import edu.princiton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.BinaryStdIn;
+import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.LSD;
+import java.lang.StringBuilder;
+import java.util.Arrays;
+
 //import CircularSuffixArray.java;
 
-
 public class BurrowsWheeler {
-	private char[] t;
-	private int first;
-	private int[] next;
-	private CircularSuffixArray csa;
+	private static char[] t;
+	private static char[] firstColumn;
+	private static int first;
+	private static int[] next;
+	private static CircularSuffixArray csa;
 
 	private BurrowsWheeler(String s) {
 		csa = new CircularSuffixArray(s);
 		t = new char[csa.length()];
 		next = new int[csa.length()];
 		
+		//Define first
 		for (int i = 0; i < csa.length(); i++) {
 			if(csa.sortedSufixes[i].equals(s)) {
 				first = i;
 				break;
 			}
 		}
-		StdOut.println("Index : " + first);
-
+		
+		//Define t[]
 		for (int i = 0; i < csa.length(); i++) {
 			t[i] = csa.sortedSufixes[i].charAt(csa.length()-1);
 		}
-		
-		next[0] = first;
-		for (int i = 1; i < csa.length(); i++) {
-			next[i] = -1;
+		StdOut.println("t - no montador ");
+		for (int i = 0; i < csa.length(); i++) {
+			StdOut.println(t[i]);
 		}
-		int cont = 0;
-		char search;
-		boolean[] used = new boolean[csa.length()];
-		int ind;
-		for(int i = 1; i < csa.length(); i++) {
-			used[i] = false;
+		firstColumn = new char[csa.length()];
+		for (int i = 0; i < csa.length(); i++) {
+			firstColumn[i] = t[i];
+			StdOut.println(firstColumn[i]);
 		}
-		/*StdOut.println("Used[0]: " + used[0]);
-		StdOut.println("Next[0]: " + next[0]);
-		for(int i = 0; i < csa.length(); i++) {
-			search = csa.sortedSufixes[i].charAt(csa.length()-1);
-			for (int j = 0; j< csa.length(); j++) {
-				ind = csa.index(j);
-				StdOut.println("Search: " + search);
-				StdOut.println("Used: " + ind);
-				if ((csa.sortedSufixes[j].charAt(0) == search) && (used[ind] == false)) {
-					next[i] = j;
-					used[ind] = true;
-					break;
-				}
-			}
-		}
+		Arrays.sort(firstColumn);
 
-		*/
-		int k = first;
-		search = csa.sortedSufixes[k].charAt(csa.length()-1);
-		while (!isFull(next)) {
-			StdOut.println("Search: " + search);
-			for (int j = 0; j < csa.length(); j++) {
-				StdOut.println("Comparando : " + csa.sortedSufixes[j].charAt(0));
-				if (csa.sortedSufixes[j].charAt(0) == search && used[j] == false) {
-					StdOut.println("Achou em : " + j);
-					next[j] = k;
-					used[j] = true;
-					k = j;
-					search = csa.sortedSufixes[k].charAt(csa.length()-1);
-					StdOut.println("Search: dentro : " + search);
-					break;
-				}
-				if(used[j] == true) {
-					search = csa.sortedSufixes[k].charAt(csa.length()-1);
-				}
-			}
-		}
-
-		StdOut.println("Next");
-		for (int i = 0; i < csa.length(); i++){
-			StdOut.println(next[i]);
-		}
 	}
-    // apply Burrows-Wheeler transform, reading from standard input and writing to standard output
-    public static void transform() {}
 
-    private boolean isFull(int[] next) {
+    // apply Burrows-Wheeler transform, reading from standard input and writing to standard output
+    public static void transform() {
     	for(int i = 0; i < csa.length(); i++) {
-    		if (next[i] == -1)
-    			return false;
+    		BinaryStdOut.write(t[i]);
     	}
-    	return true;
+    	BinaryStdOut.flush();
+    	return;
     }
 
     // apply Burrows-Wheeler inverse transform, reading from standard input and writing to standard output
-    public static void inverseTransform() {}
+    public static void inverseTransform() {
+    	boolean[] used = new boolean[csa.length()];
+    	char search;
+		for(int i = 0; i < csa.length(); i++) {
+			used[i] = false;
+		}
+		for (int i = 0; i < csa.length(); i++) {
+			next[i] = -1;
+			StdOut.println(firstColumn[i]);
+		}
+		for (int i = 0; i < csa.length(); i++) {
+			search = firstColumn[i];
+			StdOut.println("Na mao" + search);
+			for (int j = 0; j < csa.length(); j++) {
+				StdOut.println("Olhando pra j: " + j + "com: " + t[j]);
+				if (search == t[j] && used[j] == false) {
+					next[i] = j;
+					used[j] = true;
+					break;
+				}
+			}
+		}
+		StdOut.println("t");
+		for (int i = 0; i < csa.length(); i++) {
+			StdOut.println(t[i]);
+		}
+		int cont = 0;
+		int indNext = next[0];
+		char c = firstColumn[indNext];
+		StdOut.println(csa.length());
+		while (cont < csa.length()) {
+			StdOut.println("escrevendo : " + c + " tava no indNext: " + indNext);
+			BinaryStdOut.write(c);
+			indNext = next[indNext];
+			c = firstColumn[indNext];
+			cont++;
+		}
+		BinaryStdOut.flush();
+    }
 
     // if args[0] is '-', apply Burrows-Wheeler transform
     // if args[0] is '+', apply Burrows-Wheeler inverse transform
     public static void main(String[] args) {
     	String s = "ABRACADABRA!";
-    	BurrowsWheeler bw = new BurrowsWheeler(s);
+    	StringBuilder str = new StringBuilder();
+    	while (!BinaryStdIn.isEmpty()) { 
+    		str.append(BinaryStdIn.readChar());
+    	}
+    	BurrowsWheeler bw = new BurrowsWheeler(str.toString());
+    	if (args[0].equals("-")) {
+    		bw.transform();
+    	}
+    	else if (args[0].equals("+")) {
+    		for(int i = 0; i < bw.csa.length(); i++){
+    			t[i] = str.charAt(i);
+    		}
+    		bw.inverseTransform();
+    	}
+    	BinaryStdOut.close();
     }
 }

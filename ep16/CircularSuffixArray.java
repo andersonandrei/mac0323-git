@@ -57,9 +57,6 @@ public class CircularSuffixArray {
    			if(i < size-1)
    				originalSufixes[i+1] = str.toString();
    		}
-   		StdOut.println("originalSufixes ");
-   		for (int i = 0; i < size; i++)
-   			StdOut.println(originalSufixes[i]);
 
    		MinPQ<String> st = new MinPQ<String>();
    		for (int i = 0; i < size; i++){
@@ -69,16 +66,6 @@ public class CircularSuffixArray {
 			sortedSufixes[i] = st.delMin();
 		}
 
-		StdOut.println("SortedSufixes ");
-		for (int i = 0; i < size; i++)
-   			StdOut.println(i + " : " + sortedSufixes[i]);
-
-   		StdOut.println("Index ordered ");
-   		int j;
-		for (int i = 0; i < size; i++){
-   			j = index(i);
-   			StdOut.println(j + " : " + originalSufixes[j]);
-		}
    	}
 
    	// length of s

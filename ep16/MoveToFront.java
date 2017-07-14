@@ -19,14 +19,155 @@ and decoding should be proportional to N + R (or better) in the worst case.
 
 */
 
+import java.lang.IllegalArgumentException;
+import java.lang.NullPointerException;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.BinaryStdIn;
+import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.LSD;
+import java.lang.StringBuilder;
+
 public class MoveToFront {
+
+	private static int ascii[];
+	private static int R = 255;
+	private static char[] input;
+	private static int[] seq;
+	private static int size;
+
+	public MoveToFront(String str) {
+		ascii = new int[R];
+		for (int i = 0; i < R; i++) {
+			ascii[i] = i;
+		}
+		input = new char[str.length()];
+		for (int i = 0; i < str.length(); i++) {
+			input[i] = str.charAt(i);
+			//StdOut.println(input[i]);
+		}
+		// ascii[0] = 65;
+		// ascii[1] = 66;
+		// ascii[2] = 67;
+		// ascii[3] = 68;
+		// ascii[4] = 69;
+	}
+
+	public MoveToFront() {
+		ascii = new int[R];
+		for (int i = 0; i < R; i++) {
+			ascii[i] = i;
+		}
+		size = 1;
+		// ascii[0] = 65;
+		// ascii[1] = 66;
+		// ascii[2] = 67;
+		// ascii[3] = 68;
+		// ascii[4] = 69;
+	}
+
     // apply move-to-front encoding, reading from standard input and writing to standard output
-    public static void encode() {}
+    public static void encode() {
+    	//String abra = "BACA";
+    	int[] sorted = new int[R];
+    	for (int i = 0; i < R; i++) {
+    		sorted[i] = ascii[i];
+    	}
+    	int search;
+    	int aux;
+    	for (int i = 0; i < size; i++) {
+    		search = input[i];
+    		for (int j = 0; j < R; j++) {
+    			if (sorted[j] == search) {
+    				StdOut.println(j);
+    				if(j != 0) {
+	    				for (int k = j; k > 0; k--) {
+	    					aux = sorted[k];
+	    					sorted[k] = sorted[k-1];
+	    					sorted[k-1] = aux;
+	    				}
+	    			}
+    			}
+    		}
+    	}
+
+    	// StdOut.println("Arrumando saporra ----");
+    	// for (int i = 0; i < R; i++) {
+    	// 	StdOut.println((char)sorted[i]);
+    	// }
+    }
 
     // apply move-to-front decoding, reading from standard input and writing to standard output
-    public static void decode() {}
+    public static void decode() {
+    	int search;
+    	int aux;
+
+
+
+    	search = input[0];
+    	for (int j = 0; j < R; j++) {
+    		if (ascii[j] == search) {
+    			StdOut.println((char)ascii[j]);
+    			if(j != 0) {
+	    			for (int k = j; k > 0; k--) {
+	    				aux = ascii[k];
+	    				ascii[k] = ascii[k-1];
+	    				ascii[k-1] = aux;
+	    			}
+    			}
+    		}
+    	}
+    }
+
+    public static void decode(char c) {
+    	int search;
+    	int aux;
+    	input[0] = c;
+    	search = input[0];
+    	for (int j = 0; j < R; j++) {
+    		StdOut.println("Procurando por: " + search);
+    		if (ascii[j] == search) {
+    			StdOut.println((char)ascii[j]);
+    			if(j != 0) {
+	    			for (int k = j; k > 0; k--) {
+	    				aux = ascii[k];
+	    				ascii[k] = ascii[k-1];
+	    				ascii[k-1] = aux;
+	    			}
+    			}
+    		}
+    	}
+    }
 
     // if args[0] is '-', apply move-to-front encoding
     // if args[0] is '+', apply move-to-front decoding
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+    	if (args[0].equals("-")) {
+    		StringBuilder str = new StringBuilder();
+    		int size = 0;
+    		while (!StdIn.isEmpty()) { 
+    			str.append(StdIn.readChar());
+    			size++;
+    		}
+    		MoveToFront mvtf = new MoveToFront(str.toString());
+    		mvtf.size = size;
+    		mvtf.encode();
+    	}
+    	else if (args[0].equals("+")) {
+    		int c;
+    		MoveToFront mvtf = new MoveToFront();
+    		if(!StdIn.isEmpty()) {
+    			c = StdIn.readInt();
+    			input = new char[1];
+    			mvtf.input[0] = (char)c;
+    			mvtf.decode();
+    		}
+    		while (!StdIn.isEmpty()) { 
+    			c = StdIn.readInt();
+    			StdOut.println("Leu " + c);
+    			mvtf.decode((char)c);
+    		}
+    	}
+    }
 }
