@@ -30,146 +30,61 @@ import edu.princeton.cs.algs4.LSD;
 import java.lang.StringBuilder;
 
 public class MoveToFront {
-
 	private static int ascii[];
-	private static int R = 255;
-	private static char[] input;
-	private static int[] seq;
-	private static int size;
+	private static int R = 256;
 
-	public MoveToFront(String str) {
-		ascii = new int[R];
-		for (int i = 0; i < R; i++) {
-			ascii[i] = i;
-		}
-		input = new char[str.length()];
-		for (int i = 0; i < str.length(); i++) {
-			input[i] = str.charAt(i);
-			//StdOut.println(input[i]);
-		}
-		// ascii[0] = 65;
-		// ascii[1] = 66;
-		// ascii[2] = 67;
-		// ascii[3] = 68;
-		// ascii[4] = 69;
+	private static void moveToFront(int k) {
+		int aux = ascii[k];
+		for (int i = k - 1; i > -1; i--) {
+			ascii[i+1] = ascii[i];
+    	}
+    	ascii[0] = aux;
 	}
 
-	public MoveToFront() {
-		ascii = new int[R];
-		for (int i = 0; i < R; i++) {
-			ascii[i] = i;
-		}
-		size = 1;
-		// ascii[0] = 65;
-		// ascii[1] = 66;
-		// ascii[2] = 67;
-		// ascii[3] = 68;
-		// ascii[4] = 69;
-	}
 
     // apply move-to-front encoding, reading from standard input and writing to standard output
     public static void encode() {
-    	//String abra = "BACA";
-    	int[] sorted = new int[R];
-    	for (int i = 0; i < R; i++) {
-    		sorted[i] = ascii[i];
-    	}
-    	int search;
-    	int aux;
-    	for (int i = 0; i < size; i++) {
-    		search = input[i];
-    		//StdOut.println("Na mao : " + search);
-    		for (int j = 0; j < R; j++) {
-    			if (sorted[j] == search) {
-		    		//StdOut.println("Olhei pra : " + sorted[j]);
-    				BinaryStdOut.write(sorted[j]);
-    				if (j != 0) {
-	    				for (int k = j; k > 0; k--) {
-	    					aux = sorted[k];
-	    					sorted[k] = sorted[k-1];
-	    					sorted[k-1] = aux;
-	    				}
-	    			}
-	    		}
-    		}
-    	}
+    	char ch;
+    	while (!BinaryStdIn.isEmpty()) { 
+       		ch = BinaryStdIn.readChar();
+       		for (int i = 0; i < R; i++) {
+       			if(ch == ascii[i]) {
+       				BinaryStdOut.write((char)i);
+       				moveToFront(i);
+       				break;
+       			}
+       		}
+   		}
     	BinaryStdOut.flush();
-
-    	// StdOut.println("Arrumando saporra ----");
-    	// for (int i = 0; i < R; i++) {
-    	// 	StdOut.println((char)sorted[i]);
-    	// }
     }
 
     // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
-    	int search;
-    	int aux;
-    	search = input[0];
-    	for (int j = 0; j < R; j++) {
-    		if (ascii[j] == search) {
-    			BinaryStdOut.write(ascii[j]);
-    			if(j != 0) {
-	    			for (int k = j; k > 0; k--) {
-	    				aux = ascii[k];
-	    				ascii[k] = ascii[k-1];
-	    				ascii[k-1] = aux;
-	    			}
-    			}
-    		}
-    	}
-    	BinaryStdOut.flush();
-    }
-
-    public static void decode(char c) {
-    	int search;
-    	int aux;
-    	input[0] = c;
-    	search = input[0];
-    	for (int j = 0; j < R; j++) {
-    		//StdOut.println("Procurando por: " + search);
-    		if (ascii[j] == search) {
-    			BinaryStdOut.write(ascii[j]);
-    			if(j != 0) {
-	    			for (int k = j; k > 0; k--) {
-	    				aux = ascii[k];
-	    				ascii[k] = ascii[k-1];
-	    				ascii[k-1] = aux;
-	    			}
-    			}
-    		}
-    	}
+    	int ind;
+    	while (!BinaryStdIn.isEmpty()) {
+       		ind = (int) BinaryStdIn.readChar();
+       		BinaryStdOut.write((char)ascii[ind]);
+       		moveToFront(ind);
+   		}
     	BinaryStdOut.flush();
     }
 
     // if args[0] is '-', apply move-to-front encoding
     // if args[0] is '+', apply move-to-front decoding
     public static void main(String[] args) {
+    	ascii = new int[R];
+    	for(int i = 0; i < R; i++){
+    		ascii[i] = i;
+    	}
     	if (args[0].equals("-")) {
-    		StringBuilder str = new StringBuilder();
-    		int size = 0;
-    		while (!BinaryStdIn.isEmpty()) { 
-    			str.append(BinaryStdIn.readChar());
-    			size++;
-    		}
-    		MoveToFront mvtf = new MoveToFront(str.toString());
-    		mvtf.size = size;
-    		mvtf.encode();
+    		encode();
     	}
     	else if (args[0].equals("+")) {
-    		char c;
-    		MoveToFront mvtf = new MoveToFront();
-    		if(!BinaryStdIn.isEmpty()) {
-    			c = BinaryStdIn.readChar();
-    			input = new char[1];
-    			mvtf.input[0] = c;
-    			mvtf.decode();
-    		}
-    		while (!BinaryStdIn.isEmpty()) { 
-    			c = BinaryStdIn.readChar();
-    			//StdOut.println("Leu " + c);
-    			mvtf.decode(c);
-    		}
+    		decode();
+    	}
+    	else {
+            StdOut.println("Action '" + args[0] + "' is not valid.");
+            return;
     	}
     	BinaryStdOut.close();
     }
